@@ -9,6 +9,7 @@ package
 	public class Player extends Entity
 	{
 		private var ident:int;
+		private var vel:Array = [0, 0];
 		[Embed(source = 'assets/P1.png')] private const PLAYER1:Class;
 		[Embed(source = 'assets/P2.png')] private const PLAYER2:Class;
 		
@@ -23,13 +24,14 @@ package
 			}
 			x = pos[0];
 			y = pos[1];
-			type = "player";
+			setHitbox(20, 40);
+			type = "player" + ident;
 		}
 		
 		override public function update():void
 		{
-			
 			super.update();
+			moveBy(vel[0], GC.gravity + vel[1], Level(world).playerTypes);
 		}
 	}
 }
