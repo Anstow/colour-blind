@@ -25,16 +25,16 @@ package Editor
 		public static function init():void
 		{			
 			// TODO: Update this function when using editor.
-			tileWidth = GameConstant.tileWidth;
-			tileHeight = GameConstant.tileHeight;
-			TILES = GameConstant.TILES;
+			tileWidth = GC.tileWidth;
+			tileHeight = GC.tileHeight;
+			TILES = GC.TILES;
 			tiles = new Image(TILES);
-			halfWidth = GameConstant.halfWidth;
-			halfHeight = GameConstant.halfHeight;
+			halfWidth = GC.halfWidth;
+			halfHeight = GC.halfHeight;
 			
 			scrollOn = true;
-			scrollSpeed = GameConstant.scrollSpeed;
-			scrollSens = GameConstant.scrollSens;
+			scrollSpeed = 0;
+			scrollSens = 0;
 		}
 		
 	}
