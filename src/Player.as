@@ -5,11 +5,19 @@ package
 	import net.flashpunk.utils.Input;
 	import net.flashpunk.utils.Key;
 	
-	public class P1 extends Entity
-	
+	public class Player extends Entity
 	{
-		public function P1():void
+		private var isPlayer1:Boolean;
+		
+		public function Player(isPlayer1:Boolean):void
 		{
+			this.isPlayer1 = isPlayer1;
+			if (isPlayer1) {
+				
+			}
+			else {
+				
+			}
 			type = "player";
 		}
 		
