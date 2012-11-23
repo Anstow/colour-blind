@@ -12,9 +12,11 @@ package
 		[Embed(source = 'assets/P1.png')] private const PLAYER1:Class;
 		[Embed(source = 'assets/P2.png')] private const PLAYER2:Class;
 		
-		public function Player(isPlayer1:Boolean):void
+		public function Player(isPlayer1:Boolean, x:Number, y:Number):void
 		{
 			this.isPlayer1 = isPlayer1;
+			this.x = x;
+			this.y = y;
 			if (isPlayer1) {
 				graphic = new Image(PLAYER1);
 			}

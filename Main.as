@@ -7,7 +7,7 @@ package
 	{
 		public function Main():void 
 		{
-			super(GameConstant.windowWidth, GameConstant.windowHeight, GameConstant.FPS, false);
+			super(GC.windowWidth, GC.windowHeight, GC.FPS, false);
 			FP.world = new Level();
 		}
 	}
