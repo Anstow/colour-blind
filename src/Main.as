@@ -1,27 +1,13 @@
 package 
 {
-	import flash.display.Sprite;
-	import flash.events.Event;
+	import net.flashpunk.Engine;
 	
-	/**
-	 * ...
-	 * @author David R. Walton
-	 */
-	public class Main extends Sprite 
+	public class Main extends Engine
 	{
-		
 		public function Main():void 
 		{
-			if (stage) init();
-			else addEventListener(Event.ADDED_TO_STAGE, init);
+			super(800, 600, 60, false);
 		}
-		
-		private function init(e:Event = null):void 
-		{
-			removeEventListener(Event.ADDED_TO_STAGE, init);
-			// entry point
-		}
-		
 	}
 	
 }
