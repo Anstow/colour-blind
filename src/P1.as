@@ -11,7 +11,6 @@ package
 		public function P1():void
 		{
 			type = "player";
-			
 		}
 		
 		override public function update():void
