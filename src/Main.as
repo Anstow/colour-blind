@@ -6,7 +6,7 @@ package
 	{
 		public function Main():void 
 		{
-			super(800, 600, 60, false);
+			super(960, 540, 60, false);
 		}
 	}
 	
