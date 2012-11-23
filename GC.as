@@ -11,7 +11,13 @@ package
 		public static var FPS:int = 60;
 		public static var tileWidth:int = 20;
 		public static var tileHeight:int = 20;
-		
+
+		public static var levels:Array = [
+			{
+				players: [[0, 30], [0, 0]]
+			}
+		];
+
 		public function GC() 
 		{
 			

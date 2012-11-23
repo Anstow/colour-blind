@@ -10,9 +10,8 @@ package
 		}
 
 		public function init ():void {
-			trace(GameConstant.levels[ident]);
 			for (var i:int = 0; i < 2; i++) {
-				add(new Player(i, GameConstant.levels[ident].players[i]));
+				add(new Player(i, GC.levels[ident].players[i]));
 			}
 		}
 	}
