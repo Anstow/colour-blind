@@ -91,13 +91,19 @@ package
 					vel[1] -= GC.littleJumpSpeed;
 				}
 				else {
-					trace(jumpCounter);
 					isJumping = false;
 				}
 			}
 			else {
-				trace(jumpCounter);
 				isJumping = false;
+			}
+			
+			//Pushing switches
+			if (Input.pressed("down"+ident)) {
+				var s:Switch = collide("switch" + ident, x, y) as Switch;
+				if (s != null) {
+					s.toggle();
+				}
 			}
 			
 			vel[1] += GC.gravity;
