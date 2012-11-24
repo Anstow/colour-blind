@@ -24,7 +24,10 @@ package {
 			for each (var wData:Object in data.walls) {
 				walls.push(new Wall(wData));
 			}
-			for each (var target:Object in data.targets){
+			for (i = 0; i < data.switches.length; i++) {
+				switches.push(new Switch(i, data.switches[i]));
+			}
+			for each (var target:Object in data.targets) {
 				targets.push(new Target(target));
 			}
 
@@ -33,6 +36,9 @@ package {
 			}
 			for (i = 0; i < 2; i++) {
 				add(new Player(i, playersStart[i]));
+			}
+			for each (var s:Switch in switches) {
+				add(s);
 			}
 			for each (var t:Target in targets) {
 				add(t);

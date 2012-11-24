@@ -49,9 +49,11 @@ package
 			}
 			if (newExists != exists) {
 				if (newExists) {
-					world.add(this);
+					visible = true;
+					collidable = true;
 				} else {
-					world.remove(this);
+					visible = false;
+					collidable = false;
 				}
 				exists = newExists;
 			}
