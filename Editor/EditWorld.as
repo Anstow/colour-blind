@@ -5,6 +5,7 @@ package Editor
 	import net.flashpunk.utils.Input;
 	import net.flashpunk.World;
 	import net.flashpunk.utils.Key;
+	import net.flashpunk.Entity;
 
 	import flash.events.KeyboardEvent;
 	
@@ -103,10 +104,24 @@ package Editor
 					tmpH = currentMap.getTileY(mouseY) - topSide + 1;
 				}
 			}
+			else
+			{
+				var ent:Entity = FP.world.collidePoint("wall" + (selected - 3), mouseX, mouseY);
+				if (ent)
+				{
+					trace(ent);
+					FP.world.remove(ent);
+					for (var i:int = 0; i < walls.length; i++)
+					{
+						if (walls[i] == ent)
+						{
+							walls.slice(i, 1);
+							return;
+						}
+					}
+				}
+			}
 
-			// TODO: Sort out putting in Lava etc....
-
-				
 			switch(selected)
 			{
 				case -1:
