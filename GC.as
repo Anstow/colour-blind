@@ -50,7 +50,8 @@ package
 		];
 		
 		public static var gravity:Number = .7;
-		public static var playerDamp:Array = [.7, .9];
+		public static var playerDamp:Array = [.7, .9]; //Damping when onGround
+		public static var playerAirDamp:Array = [.8, .9]; //Damping when !onGround
 		
 		// Editor stuff
 		// The scrolling constants

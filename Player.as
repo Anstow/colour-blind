@@ -51,14 +51,9 @@ package
 		{
 			super.update();
 
-<<<<<<< HEAD
 			//Horizontal
-			if (Input.check("left"+ident)) {
-=======
-			//Horizontal			
 			if (Input.check("left" + ident)) {
 				vel[0] -= GC.moveSpeed;
->>>>>>> L
 			}
 			if (Input.check("right"+ident)) {
 				vel[0] += GC.moveSpeed;
@@ -87,8 +82,14 @@ package
 			}
 			
 			vel[1] += GC.gravity;
-			vel[0] *= GC.playerDamp[0];
-			vel[1] *= GC.playerDamp[1];
+			if (onGround) {
+				vel[0] *= GC.playerDamp[0];
+				vel[1] *= GC.playerDamp[1];
+			}
+			else {
+				vel[0] *= GC.playerAirDamp[0];
+				vel[1] *= GC.playerAirDamp[1];
+			}
 			var types:Array = ["level"];
 			for (var i:int = 0; i < (world as Level).nPlayers; i++) {
 				if (i == ident) {
