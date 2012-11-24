@@ -21,8 +21,8 @@ package
 			for (var i:int = 0; i < 2; i++) {
 				add(new Player(i, data.players[i]));
 			}
-			for each (var wData:Array in data.walls) {
-				add(new Wall(wData[0], wData[1]));
+			for each (var wData:Object in data.walls) {
+				add(new Wall(wData));
 			}
 
 			if (!mapToLoad) {
