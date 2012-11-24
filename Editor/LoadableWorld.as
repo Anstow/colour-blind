@@ -9,6 +9,8 @@ package  Editor
 	import flash.utils.ByteArray;
 	import flash.net.FileReference;
 	
+	import com.adobe.serialization.json.JSON;
+	
 	/**
 	 * ...
 	 * @author David
@@ -103,13 +105,20 @@ package  Editor
 
 			function loadComplete (event:Event):void
 			{
-				currentMap.setLevel(file.data.toString());
+				var loaded : Array = JSON.decode(file.data.toString());
+				ident = loaded[0];
+				currentMap.setLevel(loaded[1]);
+				/*walls = loaded[2];
+				playersStart = loaded[3];
+				playersTarget = loaded[4];
+				targets = loaded[5];*/
 			}
 		}
-		
+
 		public function save():void 
 		{
-			new FileReference().save(currentMap.getSaveData());
+			var toSave : Array = [ident, currentMap.getSaveData()]; //, walls, playersStart, playersTarget, targets];
+			new FileReference().save(JSON.encode(toSave));
 		}
 	}
 }
