@@ -10,22 +10,29 @@ package
 	 * ...
 	 * @author David
 	 */
-	public class Level extends Entity 
+	public class Map extends Entity 
 	{
 		public var tiles: Tilemap;
 
 		// Level width and height code
-		public static var levelWidth : int = GC.windowHeight;
-		public static var levelHeight : int = GC.windowWidth;
-		public static var scrolling : Boolean = false;
+		public static var levelWidth : int = GC.windowWidth;
+		public static var levelHeight : int = GC.windowHeight;
+		public static var scrollable : Boolean = false;
 
 		
-		public function Level()
+		public function Map(level : String = "")
 		{
 			super();
 			tiles = new Tilemap(GC.TILES, levelWidth, levelHeight, GC.tileWidth, GC.tileHeight);
 			
-			tiles.setRect(0, 0, tiles.columns, tiles.rows);
+			if (level == "")
+			{
+				tiles.setRect(0, 0, tiles.columns, tiles.rows);
+			}
+			else
+			{
+				setLevel(level);
+			}
 			
 			addGraphic(tiles);
 			layer = 1;
@@ -41,19 +48,19 @@ package
 		
 		//{ Creating level code
 		
-		CONFIG::debug
+		//	CONFIG::debug
 		public function	setLevel(data : String):void
 		{
 			tiles.loadFromString(data);
 		}
 		
-		CONFIG::debug
+		// 	CONFIG::debug
 		public function getSaveData():String 
 		{
 			return tiles.saveToString();
 		}
 		
-		CONFIG::debug
+		// 	CONFIG::debug
 		public function setTiles(x1:int, y1:int, x2:int, y2:int, tile : int = 0):void
 		{
 			tiles.setRect(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x1 - x2) + 1, Math.abs(y1 - y2) + 1, tile);
@@ -87,63 +94,69 @@ package
 			return Math.floor(clickY / EditorConstants.tileHeight);
 		}
 	
-		//{ Level scrolling
+		//{ Level scrollable
 		public function scrollHorizontal(speed : Number, boundRight : Number):void
 		{
-			if (speed > 0) 
+			if (scrollable)
 			{
-				// Moving right
-				if (FP.camera.x + speed >= tiles.width - boundRight)
+				if (speed > 0) 
 				{
-					// If the movement would move us outside the allowed area limit it to the allowed area
-					FP.camera.x = tiles.width - boundRight;
+					// Moving right
+					if (FP.camera.x + speed >= tiles.width - boundRight)
+					{
+						// If the movement would move us outside the allowed area limit it to the allowed area
+						FP.camera.x = tiles.width - boundRight;
+					}
+					else
+					{
+						FP.camera.x += speed;
+					}
 				}
-				else
+				else if (speed < 0)
 				{
-					FP.camera.x += speed;
-				}
-			}
-			else if (speed < 0)
-			{
-				// Moving left
-				if (FP.camera.x + speed <= 0)
-				{
-					// If the movement would take us outside the left bound limmit it to 0
-					FP.camera.x = 0;
-				}
-				else
-				{
-					FP.camera.x += speed;
+					// Moving left
+					if (FP.camera.x + speed <= 0)
+					{
+						// If the movement would take us outside the left bound limmit it to 0
+						FP.camera.x = 0;
+					}
+					else
+					{
+						FP.camera.x += speed;
+					}
 				}
 			}
 		}
 		
 		public function scrollVertical(speed : Number, boundBot : Number):void
 		{
-			if (speed > 0) 
+			if (scrollable)
 			{
-				// Moving down
-				if (FP.camera.y + speed >= tiles.height - boundBot)
+				if (speed > 0) 
 				{
-					// If the movement would move us outside the allowed area limit it to the allowed area
-					FP.camera.y = tiles.height - boundBot;
+					// Moving down
+					if (FP.camera.y + speed >= tiles.height - boundBot)
+					{
+						// If the movement would move us outside the allowed area limit it to the allowed area
+						FP.camera.y = tiles.height - boundBot;
+					}
+					else
+					{
+						FP.camera.y += speed;
+					}
 				}
-				else
+				else if (speed < 0)
 				{
-					FP.camera.y += speed;
-				}
-			}
-			else if (speed < 0)
-			{
-				// Moving up
-				if (FP.camera.y + speed <= 0)
-				{
-					// If the movement would take us outside the left bound limmit it to 0
-					FP.camera.y = 0;
-				}
-				else
-				{
-					FP.camera.y += speed;
+					// Moving up
+					if (FP.camera.y + speed <= 0)
+					{
+						// If the movement would take us outside the left bound limmit it to 0
+						FP.camera.y = 0;
+					}
+					else
+					{
+						FP.camera.y += speed;
+					}
 				}
 			}
 		}

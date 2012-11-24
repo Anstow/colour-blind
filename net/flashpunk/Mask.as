@@ -78,6 +78,12 @@
 			
 		}
 		
+		/** Used to render debug information in console. */
+		public function renderDebug(g:Graphics):void
+		{
+			
+		}
+		
 		// Mask information.
 		/** @private */ private var _class:Class;
 		/** @private */ protected var _check:Dictionary = new Dictionary;

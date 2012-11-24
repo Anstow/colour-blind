@@ -131,6 +131,7 @@
 			super.assignTo(parent);
 		}
 		
+		/** @private Updates the parent's bounds for this mask. */
 		override public function update():void 
 		{
 			// find bounds of the contained masks

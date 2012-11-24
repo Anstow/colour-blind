@@ -123,7 +123,7 @@
 			FP.screen.resize();
 		}
 		
-		/**
+		/*
 		 * The currently active World object. When you set this, the World is flagged
 		 * to switch, but won't actually do so until the end of the current frame.
 		 */

@@ -16,6 +16,8 @@ package
 				add(new Player(i, GC.levels[ident].players[i]));
 				playerTypes.push("player" + i);
 			}
+
+			add(new Map());
 		}
 	}
 }
