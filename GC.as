@@ -31,6 +31,13 @@ package
 		
 		public static var gravity:Number = .7;
 		public static var playerDamp:Array = [.9, .9];
+
+		// Editor stuff
+		// The scrolling constants
+		public static var scrollOn : Boolean; // Whether the scrolling is on or not
+		public static var scrollSpeed : Number; // Pixels per frame.
+		public static var scrollSens : Number; // How close to the edge of the screen before scrolling starts.
+		
 		
 		public function GC ():void
 		{

@@ -9,12 +9,12 @@ package  Editor
 	 */
 	public class LoadableWorld extends World 
 	{
-		public var level : Map; // I also think it would be usefull to have a handle to my level
+		public var currentMap : Map; // I also think it would be usefull to have a handle to my level
 		
-		public function LoadableWorld(l : Level = null) 
+		public function LoadableWorld(l : Map = null) 
 		{
 			EditorConstants.init();
-			level = l;
+			currentMap = l;
 		}
 		
 		//{ Scroll Functions		
@@ -26,18 +26,18 @@ package  Editor
 				// Valid mouse position
 				var speed : Number;
 				
-				if (mouseX - FP.camera.x < GameConstant.scrollSens)
+				if (mouseX - FP.camera.x < GC.scrollSens)
 				{
 					// We would like to scroll left (-'ve)
-					speed = - GameConstant.scrollSpeed * (1 -(mouseX - FP.camera.x)/ GameConstant.scrollSens);
-					level.scrollHorizontal(speed, bound);
+					speed = - GC.scrollSpeed * (1 -(mouseX - FP.camera.x)/ GC.scrollSens);
+					currentMap.scrollHorizontal(speed, bound);
 					return true;
 				}
-				else if (mouseX - FP.camera.x > FP.width - GameConstant.scrollSens)
+				else if (mouseX - FP.camera.x > FP.width - GC.scrollSens)
 				{
 					// We would like to scroll right (+'ve)
-					speed = GameConstant.scrollSpeed * (1 - (FP.width - (mouseX - FP.camera.x)) / GameConstant.scrollSens);
-					level.scrollHorizontal(speed, bound);
+					speed = GC.scrollSpeed * (1 - (FP.width - (mouseX - FP.camera.x)) / GC.scrollSens);
+					currentMap.scrollHorizontal(speed, bound);
 					return true;					
 				}
 			}
@@ -54,18 +54,18 @@ package  Editor
 				// Valid mouse position
 				var speed : Number;
 				
-				if (mouseY - FP.camera.y < GameConstant.scrollSens)
+				if (mouseY - FP.camera.y < GC.scrollSens)
 				{
 					// We would like to scroll left (-'ve)
-					speed = - GameConstant.scrollSpeed * (1 -(mouseY - FP.camera.y)/ GameConstant.scrollSens);
-					level.scrollVertical(speed, bound);
+					speed = - GC.scrollSpeed * (1 -(mouseY - FP.camera.y)/ GC.scrollSens);
+					currentMap.scrollVertical(speed, bound);
 					return true;
 				}
-				else if (mouseY - FP.camera.y > FP.height - GameConstant.scrollSens)
+				else if (mouseY - FP.camera.y > FP.height - GC.scrollSens)
 				{
 					// We would like to scroll right (+'ve)
-					speed = GameConstant.scrollSpeed * (1 - (FP.height - (mouseY - FP.camera.y)) / GameConstant.scrollSens);
-					level.scrollVertical(speed, bound);
+					speed = GC.scrollSpeed * (1 - (FP.height - (mouseY - FP.camera.y)) / GC.scrollSens);
+					currentMap.scrollVertical(speed, bound);
 					return true;					
 				}
 			}			
