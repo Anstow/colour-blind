@@ -24,6 +24,9 @@ package Editor
 
 		public function EditWorld (id:int, data:Object) {
 			super(id, data);
+			for (var i:int = 0; i < 2; i++) {
+				add(new Start(i, playersStart[i]));
+			}
 		}
 		
 		override public function begin():void 
@@ -146,16 +149,25 @@ package Editor
 						y1 = currentMap.getTileY(mouseY);
 					}
 					break;
-				case 5:
-					// Player 0 start position hacked
-					break;
-				case 6:
-					// Player 1 start position hacked
-					break;
 				case 7:
+					// Player 0 start position hacked
+				case 8:
+					// Player 1 start position hacked
+					trace("Here");
+					playersStart[selected - 7] = [currentMap.getTileX(mouseX), currentMap.getTileY(mouseY)];
+
+					var tmpArray:Array = new Array();
+					trace(selected - 7);
+					FP.world.getType("startplayer" + (selected - 7),tmpArray);
+					if (tmpArray.length >=0)
+					{
+						tmpArray[0].updateXY(currentMap.getTileX(mouseX), currentMap.getTileY(mouseY));
+					}
+					break;
+				case 5:
 					// Player 0 target position hacked
 					break;
-				case 8:
+				case 6:
 					// Player 1 target position hacked
 					break;
 				default: // I.e. 0 No walls OR 1 Walls
