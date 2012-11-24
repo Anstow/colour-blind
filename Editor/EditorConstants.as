@@ -22,17 +22,17 @@ package Editor
 		public static var scrollSpeed : Number; // Pixels per frame.
 		public static var scrollSens : Number; // How close to the edge of the screen before scrolling starts.
 		
-		public static function init(w : int, h : int):void
+		public static function init():void
 		{			
 			// TODO: Update this function when using editor.
 			tileWidth = GC.tileWidth;
 			tileHeight = GC.tileHeight;
 			TILES = GC.TILES;
 			tiles = new Image(TILES);
-			halfWidth = w/2;
-			halfHeight = h/2;
+			halfWidth = GC.windowWidth/2;
+			halfHeight = GC.windowHeight/2;
 			
-			scrollOn = true;
+			scrollOn = false;
 			scrollSpeed = 0;
 			scrollSens = 0;
 		}

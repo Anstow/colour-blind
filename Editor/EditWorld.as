@@ -24,7 +24,7 @@ package Editor
 		public var x1 : int = -1;
 		public var y1 : int = -1; 
 		
-		public function EditWorld(l : Level) 
+		public function EditWorld(l : Map) 
 		{
 			super(l);
 		}
@@ -34,7 +34,7 @@ package Editor
 			super.begin();
 			EditorConstants.init();
 			
-			add(level);
+			add(currentMap);
 			tileOpts = new TileOptions();
 			add(tileOpts);
 			
@@ -62,7 +62,7 @@ package Editor
 					if (x1 != -1 && y1 != -1)
 					{						
 						// Set the tiles 
-						level.setTiles(x1, y1, level.getTileX(mouseX), level.getTileY(mouseY), selected);
+						currentMap.setTiles(x1, y1, currentMap.getTileX(mouseX), currentMap.getTileY(mouseY), selected);
 						
 						// Set the original position back to -1, -1.
 						x1 = -1;
@@ -70,8 +70,8 @@ package Editor
 					}
 					else
 					{
-						x1 = level.getTileX(mouseX);
-						y1 = level.getTileY(mouseY);
+						x1 = currentMap.getTileX(mouseX);
+						y1 = currentMap.getTileY(mouseY);
 					}
 				}
 			}
@@ -82,9 +82,9 @@ package Editor
 			}
 			else if (Input.released(Key.E))
 			{
-				remove(level);
-				level.updateCollisions();
-				FP.world = new GameWorld(level);
+				remove(currentMap);
+				currentMap.updateCollisions();
+				FP.world = new Level(currentMap);
 			}
 			
 			if (EditorConstants.scrollOn)
@@ -125,13 +125,13 @@ package Editor
 
 			function loadComplete (event:Event):void
 			{
-				level.setLevel(file.data.toString());
+				currentMap.setLevel(file.data.toString());
 			}
 		}
 		
 		public function save():void 
 		{
-			new FileReference().save(level.getSaveData());
+			new FileReference().save(currentMap.getSaveData());
 		}
 	}
 

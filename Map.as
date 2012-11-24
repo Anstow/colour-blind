@@ -26,8 +26,8 @@ package
 			tiles = new Tilemap(GC.TILES, levelWidth, levelHeight, GC.tileWidth, GC.tileHeight);
 			
 			tiles.setRect(0, 0, tiles.columns, tiles.rows);
-			tiles.setRect(0, 30, tiles.columns, 5, 1);
-			//setLevel(level);
+			tiles.setRect(5, tiles.rows - 20, 10, 5, 1);
+			//setLevel(level as String);
 			
 			addGraphic(tiles);
 			layer = 1;
@@ -44,9 +44,9 @@ package
 		//{ Creating level code
 		
 		//	CONFIG::debug
-		public function	setLevel(data : int):void
+		public function	setLevel(data : String):void
 		{
-			tiles.loadFromString(data as String);
+			tiles.loadFromString(data);
 		}
 		
 		// 	CONFIG::debug
