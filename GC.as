@@ -21,7 +21,7 @@ package
 		public static var playerColours:Array = [0x5dd368, 0x38c9d1];
 		
 		public static var littleJump:Number = 5;
-		public static var moveSpeed:Number = 4;
+		public static var moveSpeed:Number = 1.5;
 		public static var littleJumpSpeed:Number = 4;		
 		public static var jumpSpeed:Number = 8;
 		
@@ -50,7 +50,7 @@ package
 		];
 		
 		public static var gravity:Number = .7;
-		public static var playerDamp:Array = [.9, .9];
+		public static var playerDamp:Array = [.7, .9];
 		
 		public function GC ():void
 		{

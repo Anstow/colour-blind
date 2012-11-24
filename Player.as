@@ -43,10 +43,11 @@ package
 			super.update();
 
 			//Horizontal			
-			if (Input.check("left"+ident)) {
+			if (Input.check("left" + ident)) {
+				vel[0] -= GC.moveSpeed;
 			}
 			if (Input.check("right"+ident)) {
-				//add stuff
+				vel[0] += GC.moveSpeed;
 			}
 			
 			//**Jumping**
