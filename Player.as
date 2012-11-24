@@ -17,7 +17,11 @@ package
 		[Embed(source = 'assets/P2s.png')] private const PLAYER2:Class;
 		[Embed(source = 'sfx/jump1.mp3')] private const JUMP1:Class;
 		[Embed(source = 'sfx/jump2.mp3')] private const JUMP2:Class;
+		[Embed(source = 'sfx/win.mp3')] private const WIN:Class;
+		[Embed(source = 'sfx/die.mp3')] private const DIE:Class;
 		private var jump:Sfx;
+		private var win:Sfx = new Sfx(WIN);
+		private var die:Sfx = new Sfx(DIE);
 		
 		private var isJumping:Boolean = false;
 		private var jumpCounter:Number = 0;
@@ -54,6 +58,7 @@ package
 			}
 			else if (e is Wall) {
 				if ((e as Wall).ident == -1) {
+					die.play();
 					(world as Level).reset();
 					return false;
 				}
@@ -155,6 +160,23 @@ package
 					(s as Switch).toggle();
 				}
 			}
+
+			//Targets
+			var t:Entity = collide("target" + ident, x, y);
+			if (t) {
+				win.play();
+				world.remove(t);
+				// check for remaining targets
+				var nLeft:int = 0;
+				var es:Array;
+				for (i = 0; i < (world as Level).nPlayers; i++) {
+					es = [];
+					world.getType("target" + i, es);
+					nLeft += es.length;
+				}
+				if (nLeft == 1) (world as Level).win();
+			}
+
 		}	
 	}
 }
