@@ -40,12 +40,18 @@ package
 		];
 		
 		// players are arrays of velocities
-		// walls are arrays of [type, [x, y, width, height]], width and height
-		// measured in tiles
+		// wall.rect are [x, y, width, height], measured in tiles
 		public static var levels:Array = [
 			{
 				players: [[0, 5], [10, 0]],
-				walls: [[1, [0, 20, 2, 3]], [0, [0, 10, 2, 3]]]
+				walls: [{
+					type: 1,
+					rect: [0, 20, 2, 3],
+					buttons: [[0, 1], [2]]
+				}, {
+					type: 0,
+					rect: [0, 10, 2, 3]
+				}]
 			}
 		];
 		
