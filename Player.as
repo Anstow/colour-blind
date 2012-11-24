@@ -73,7 +73,6 @@ package
 			//**Jumping**
 			if(!isJumping) {
 				if (onGround && Input.pressed("up"+ident)) {
-					onGround = false;
 					jumpCounter = 0;
 					isJumping = true;
 					vel[1] -= GC.jumpSpeed;
@@ -85,10 +84,12 @@ package
 					vel[1] -= GC.littleJumpSpeed;
 				}
 				else {
+					trace(jumpCounter);
 					isJumping = false;
 				}
 			}
 			else {
+				trace(jumpCounter);
 				isJumping = false;
 			}
 			
@@ -103,6 +104,7 @@ package
 					types.push("player" + i);
 				}
 			}
+			onGround = false;
 			moveBy(vel[0], vel[1], types);
 		}	
 	}

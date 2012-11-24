@@ -20,9 +20,11 @@ package
 		[Embed(source = 'assets/tilemap.png')] public static const TILES:Class;
 		public static var playerColours:Array = [0x5dd368, 0x38c9d1];
 		
-		public static var littleJump:Number = 5;
+		public static var gravity:Number = .7;
+		public static var playerDamp:Array = [.7, .9];
+		public static var littleJump:Number = 10;
 		public static var moveSpeed:Number = 1.5;
-		public static var littleJumpSpeed:Number = 4;
+		public static var littleJumpSpeed:Number = 2;
 		public static var jumpSpeed:Number = 8;
 		
 		public static var moveKeys:Array = [
@@ -44,7 +46,13 @@ package
 		public static var levels:Array = [
 			{
 				players: [[0, 5], [10, 0]],
-				walls: [{
+				targets: [{
+					type: 0,
+					pos: [15, 10]
+				}, {
+					type: 1,
+					pos: [16, 10]
+				}], walls: [{
 					type: 1,
 					rect: [0, 20, 2, 3],
 					buttons: [[0, 1], [2]]
@@ -54,9 +62,6 @@ package
 				}]
 			}
 		];
-		
-		public static var gravity:Number = .7;
-		public static var playerDamp:Array = [.7, .9];
 		
 		// Editor stuff
 		// The scrolling constants
