@@ -2,6 +2,12 @@ package  Editor
 {
 	import net.flashpunk.FP;
 	import net.flashpunk.World;
+	import net.flashpunk.utils.Key;
+	import net.flashpunk.utils.Input;
+
+	import flash.events.Event;
+	import flash.utils.ByteArray;
+	import flash.net.FileReference;
 	
 	/**
 	 * ...
@@ -81,6 +87,29 @@ package  Editor
 		}
 		
 		//} Scroll functions 
-	}
+		
+		public function load():void 
+		{
+			var file : FileReference = new FileReference();
+			
+			file.addEventListener(Event.SELECT, fileSelect);
+			file.browse();
 
+			function fileSelect (event:Event):void
+			{
+				file.addEventListener(Event.COMPLETE, loadComplete);
+				file.load();
+			}
+
+			function loadComplete (event:Event):void
+			{
+				currentMap.setLevel(file.data.toString());
+			}
+		}
+		
+		public function save():void 
+		{
+			new FileReference().save(currentMap.getSaveData());
+		}
+	}
 }

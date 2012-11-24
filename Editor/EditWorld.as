@@ -4,12 +4,9 @@ package Editor
 	import net.flashpunk.FP;
 	import net.flashpunk.utils.Input;
 	import net.flashpunk.World;
-	
-	import flash.events.Event;
-	import flash.events.KeyboardEvent;
-	import flash.utils.ByteArray;
-	import flash.net.FileReference;
 	import net.flashpunk.utils.Key;
+
+	import flash.events.KeyboardEvent;
 	
 	/**
 	 * ...
@@ -138,30 +135,5 @@ package Editor
 				}
 			}
 		}
-		
-		public function load():void 
-		{
-			var file : FileReference = new FileReference();
-			
-			file.addEventListener(Event.SELECT, fileSelect);
-			file.browse();
-
-			function fileSelect (event:Event):void
-			{
-				file.addEventListener(Event.COMPLETE, loadComplete);
-				file.load();
-			}
-
-			function loadComplete (event:Event):void
-			{
-				currentMap.setLevel(file.data.toString());
-			}
-		}
-		
-		public function save():void 
-		{
-			new FileReference().save(currentMap.getSaveData());
-		}
 	}
-
 }
