@@ -50,14 +50,14 @@
 		 */
 		public function update():void
 		{
-			_time += FP.timeInFrames ? 1 : FP.elapsed;
+			_time += FP.fixed ? 1 : FP.elapsed;
 			_t = _time / _target;
+			if (_ease != null && _t > 0 && _t < 1) _t = _ease(_t);
 			if (_time >= _target)
 			{
 				_t = 1;
 				_finish = true;
 			}
-			if (_ease != null) _t = _ease(_t);
 		}
 		
 		/**
@@ -74,31 +74,22 @@
 			active = true;
 		}
 		
-		/**
-		 * Immediately stops the Tween and removes it from its Tweener without calling the complete callback.
-		 */
-		public function cancel():void
-		{
-			active = false;
-			if (_parent) _parent.removeTween(this);
-		}
-		
 		/** @private Called when the Tween completes. */
 		internal function finish():void
 		{
 			switch (_type)
 			{
-				case PERSIST:
+				case 0:
 					_time = _target;
 					active = false;
 					break;
-				case LOOPING:
+				case 1:
 					_time %= _target;
 					_t = _time / _target;
-					if (_ease != null) _t = _ease(_t);
+					if (_ease != null && _t > 0 && _t < 1) _t = _ease(_t);
 					start();
 					break;
-				case ONESHOT:
+				case 2:
 					_time = _target;
 					active = false;
 					_parent.removeTween(this);

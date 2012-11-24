@@ -4,10 +4,11 @@
 	import flash.geom.ColorTransform;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
-
 	import net.flashpunk.FP;
 	import net.flashpunk.Graphic;
-
+	import net.flashpunk.utils.Input;
+	import net.flashpunk.utils.Key;
+	
 	/**
 	 * Particle emitter used for emitting and rendering particle sprites.
 	 * Good rendering performance with large amounts of particles.
@@ -50,15 +51,16 @@
 			if (!_particle) return;
 			
 			// particle info
-			var e:Number = FP.timeInFrames ? 1 : FP.elapsed,
+			var e:Number = FP.fixed ? 1 : FP.elapsed,
 				p:Particle = _particle,
-				n:Particle;
+				n:Particle, t:Number;
 			
 			// loop through the particles
 			while (p)
 			{
 				// update time scale
 				p._time += e;
+				t = p._time / p._duration;
 				
 				// remove on time-out
 				if (p._time >= p._duration)
@@ -111,13 +113,6 @@
 				_p.x = _point.x + p._x + p._moveX * td;
 				_p.y = _point.y + p._y + p._moveY * td;
 				
-				// stops particles from moving when gravity is enabled
-				// and if emitter.active = false (for game pausing for example)
-				if (active)
-				{
-					p._moveY += p._gravity * td;
-				}
-				
 				// get frame
 				rect.x = rect.width * type._frames[uint(td * type._frameCount)];
 				rect.y = uint(rect.x / type._width) * rect.height;
@@ -127,8 +122,7 @@
 				if (type._buffer)
 				{
 					// get alpha
-					var alphaT:Number = (type._alphaEase == null) ? t : type._alphaEase(t);
-					_tint.alphaMultiplier = type._alpha + type._alphaRange * alphaT;
+					_tint.alphaMultiplier = type._alpha + type._alphaRange * ((type._alphaEase == null) ? t : type._alphaEase(t));
 					
 					// get color
 					td = (type._colorEase == null) ? t : type._colorEase(t);
@@ -157,7 +151,6 @@
 		 */
 		public function newType(name:String, frames:Array = null):ParticleType
 		{
-			if (! frames) frames = [0];
 			if (_types[name]) throw new Error("Cannot add multiple particle types of the same name");
 			return (_types[name] = new ParticleType(name, frames, _source, _frameWidth, _frameHeight));
 		}
@@ -177,18 +170,6 @@
 		public function setMotion(name:String, angle:Number, distance:Number, duration:Number, angleRange:Number = 0, distanceRange:Number = 0, durationRange:Number = 0, ease:Function = null):ParticleType
 		{
 			return (_types[name] as ParticleType).setMotion(angle, distance, duration, angleRange, distanceRange, durationRange, ease);
-		}
-		
-		/**
-		 * Sets the gravity range for a particle type.
-		 * @param	name			The particle type.
-		 * @param	gravity			Gravity amount to affect to the particle y velocity.
-		 * @param	gravityRange	Random amount to add to the particle's gravity.
-		 * @return	This ParticleType object.
-		 */
-		public function setGravity(name:String, gravity:Number = 0, gravityRange:Number = 0):ParticleType
-		{
-			return (_types[name] as ParticleType).setGravity(gravity, gravityRange);
 		}
 		
 		/**
@@ -248,7 +229,6 @@
 			p._moveY = Math.sin(a) * d;
 			p._x = x;
 			p._y = y;
-			p._gravity = type._gravity + type._gravityRange * FP.random;
 			_particleCount ++;
 			return (_particle = p);
 		}
@@ -258,7 +238,7 @@
 		 */
 		public function get particleCount():uint { return _particleCount; }
 		
-		// Particle information.
+		// Particle infromation.
 		/** @private */ private var _types:Object = { };
 		/** @private */ private var _particle:Particle;
 		/** @private */ private var _cache:Particle;
@@ -275,5 +255,6 @@
 		// Drawing information.
 		/** @private */ private var _p:Point = new Point;
 		/** @private */ private var _tint:ColorTransform = new ColorTransform;
+		/** @private */ private static const SIN:Number = Math.PI / 2;
 	}
 }

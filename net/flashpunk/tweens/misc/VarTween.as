@@ -36,7 +36,6 @@
 			_start = _object[property];
 			_range = to - _start;
 			_target = duration;
-			_ease = ease;
 			start();
 		}
 		

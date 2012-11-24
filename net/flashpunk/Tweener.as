@@ -101,17 +101,15 @@
 		 */
 		public function updateTweens():void
 		{
-			var t:Tween = _tween,
-				n:Tween;
+			var t:Tween = _tween;
 			while (t)
 			{
-				n = t._next;
 				if (t.active)
 				{
 					t.update();
 					if (t._finish) t.finish();
 				}
-				t = n;
+				t = t._next;
 			}
 		}
 		

@@ -1,5 +1,7 @@
 ﻿package net.flashpunk
 {
+	import flash.display.Bitmap;
+	import flash.display.BitmapData;
 	import flash.display.MovieClip;
 	import flash.display.StageAlign;
 	import flash.display.StageDisplayState;
@@ -8,12 +10,11 @@
 	import flash.events.Event;
 	import flash.events.TimerEvent;
 	import flash.geom.Rectangle;
-	import flash.utils.Timer;
 	import flash.utils.getTimer;
-
+	import flash.utils.Timer;
 	import net.flashpunk.utils.Draw;
 	import net.flashpunk.utils.Input;
-
+	
 	/**
 	 * Main game Sprite class, added to the Flash Stage. Manages the game loop.
 	 */
@@ -51,21 +52,16 @@
 			// global game properties
 			FP.width = width;
 			FP.height = height;
-			FP.halfWidth = width/2;
-			FP.halfHeight = height/2;
 			FP.assignedFrameRate = frameRate;
 			FP.fixed = fixed;
-			FP.timeInFrames = fixed;
 			
 			// global game objects
 			FP.engine = this;
 			FP.screen = new Screen;
 			FP.bounds = new Rectangle(0, 0, width, height);
 			FP._world = new World;
-			FP.camera = FP._world.camera;
-			Draw.resetTarget();
 			
-			// miscellaneous startup stuff
+			// miscellanious startup stuff
 			if (FP.randomSeed == 0) FP.randomizeSeed();
 			FP.entity = new Entity;
 			FP._time = getTimer();
@@ -87,7 +83,6 @@
 		 */
 		public function update():void
 		{
-			if (FP.tweener.active && FP.tweener._tween) FP.tweener.updateTweens();
 			if (FP._world.active)
 			{
 				if (FP._world._tween) FP._world.updateTweens();
@@ -122,22 +117,6 @@
 		}
 		
 		/**
-		 * Override this; called when game gains focus.
-		 */
-		public function focusGained():void
-		{
-			
-		}
-		
-		/**
-		 * Override this; called when game loses focus.
-		 */
-		public function focusLost():void
-		{
-			
-		}
-		
-		/**
 		 * Sets the game's stage properties. Override this to set them differently.
 		 */
 		public function setStageProperties():void
@@ -154,10 +133,6 @@
 		{
 			// remove event listener
 			removeEventListener(Event.ADDED_TO_STAGE, onStage);
-			
-			// add focus change listeners
-			stage.addEventListener(Event.ACTIVATE, onActivate);
-			stage.addEventListener(Event.DEACTIVATE, onDeactivate);
 			
 			// set stage properties
 			FP.stage = stage;
@@ -177,7 +152,7 @@
 			if (FP.fixed)
 			{
 				// fixed framerate
-				_skip = _rate * (maxFrameSkip + 1);
+				_skip = _rate * maxFrameSkip;
 				_last = _prev = getTimer();
 				_timer = new Timer(tickRate);
 				_timer.addEventListener(TimerEvent.TIMER, onTimer);
@@ -245,13 +220,14 @@
 			
 			// update loop
 			if (_delta > _skip) _delta = _skip;
-			while (_delta >= _rate)
+			while (_delta > _rate)
 			{
-				FP.elapsed = _rate * FP.rate * 0.001;
-				
 				// update timer
 				_updateTime = _time;
 				_delta -= _rate;
+				FP.elapsed = (_time - _prev) / 1000;
+				if (FP.elapsed > maxElapsed) FP.elapsed = maxElapsed;
+				FP.elapsed *= FP.rate;
 				_prev = _time;
 				
 				// update loop
@@ -290,20 +266,6 @@
 			FP._world.updateLists();
 			FP._world.begin();
 			FP._world.updateLists();
-		}
-		
-		private function onActivate (e:Event):void
-		{
-			FP.focused = true;
-			focusGained();
-			FP.world.focusGained();
-		}
-		
-		private function onDeactivate (e:Event):void
-		{
-			FP.focused = false;
-			focusLost();
-			FP.world.focusLost();
 		}
 		
 		// Timing information.

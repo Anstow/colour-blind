@@ -2,7 +2,8 @@
 {
 	import flash.geom.Point;
 	import flash.utils.Dictionary;
-
+	import net.flashpunk.utils.Input;
+	
 	/**
 	 * Updated by Engine, main game container that holds all currently active Entities.
 	 * Useful for organization, eg. "Menu", "Level1", etc.
@@ -86,27 +87,11 @@
 		}
 		
 		/**
-		 * Override this; called when game gains focus.
-		 */
-		public function focusGained():void
-		{
-			
-		}
-		
-		/**
-		 * Override this; called when game loses focus.
-		 */
-		public function focusLost():void
-		{
-			
-		}
-		
-		/**
 		 * X position of the mouse in the World.
 		 */
 		public function get mouseX():int
 		{
-			return FP.screen.mouseX + camera.x;
+			return FP.screen.mouseX + FP.camera.x;
 		}
 		
 		/**
@@ -114,7 +99,7 @@
 		 */
 		public function get mouseY():int
 		{
-			return FP.screen.mouseY + camera.y;
+			return FP.screen.mouseY + FP.camera.y;
 		}
 		
 		/**
@@ -124,7 +109,9 @@
 		 */
 		public function add(e:Entity):Entity
 		{
+			if (e._world) return e;
 			_add[_add.length] = e;
+			e._world = this;
 			return e;
 		}
 		
@@ -135,7 +122,9 @@
 		 */
 		public function remove(e:Entity):Entity
 		{
+			if (e._world !== this) return e;
 			_remove[_remove.length] = e;
+			e._world = null;
 			return e;
 		}
 		
@@ -148,13 +137,14 @@
 			while (e)
 			{
 				_remove[_remove.length] = e;
+				e._world = null;
 				e = e._updateNext;
 			}
 		}
 		
 		/**
 		 * Adds multiple Entities to the world.
-		 * @param	list		Several Entities (as arguments) or an Array/Vector of Entities.
+		 * @param	...list		Several Entities (as arguments) or an Array/Vector of Entities.
 		 */
 		public function addList(...list):void
 		{
@@ -169,7 +159,7 @@
 		
 		/**
 		 * Removes multiple Entities from the world.
-		 * @param	list		Several Entities (as arguments) or an Array/Vector of Entities.
+		 * @param	...list		Several Entities (as arguments) or an Array/Vector of Entities.
 		 */
 		public function removeList(...list):void
 		{
@@ -241,15 +231,17 @@
 		 */
 		public function recycle(e:Entity):Entity
 		{
-			_recycle[_recycle.length] = e;
+			if (e._world !== this) return e;
+			e._recycleNext = _recycled[e._class];
+			_recycled[e._class] = e;
 			return remove(e);
 		}
 		
 		/**
-		 * Clears stored recycled Entities of the Class type.
+		 * Clears stored reycled Entities of the Class type.
 		 * @param	classType		The Class type to clear.
 		 */
-		public static function clearRecycled(classType:Class):void
+		public function clearRecycled(classType:Class):void
 		{
 			var e:Entity = _recycled[classType],
 				n:Entity;
@@ -265,7 +257,7 @@
 		/**
 		 * Clears stored recycled Entities of all Class types.
 		 */
-		public static function clearRecycledAll():void
+		public function clearRecycledAll():void
 		{
 			for (var classType:Object in _recycled) clearRecycled(classType as Class);
 		}
@@ -594,23 +586,20 @@
 		 * @param	y			Y position of the rectangle.
 		 * @param	width		Width of the rectangle.
 		 * @param	height		Height of the rectangle.
-		 * @param	ignore		Ignore this entity.
 		 * @return	The nearest Entity to the rectangle.
 		 */
-		public function nearestToRect(type:String, x:Number, y:Number, width:Number, height:Number, ignore:Entity = null):Entity
+		public function nearestToRect(type:String, x:Number, y:Number, width:Number, height:Number):Entity
 		{
 			var n:Entity = _typeFirst[type],
 				nearDist:Number = Number.MAX_VALUE,
 				near:Entity, dist:Number;
 			while (n)
 			{
-				if (n != ignore) {
-					dist = squareRects(x, y, width, height, n.x - n.originX, n.y - n.originY, n.width, n.height);
-					if (dist < nearDist)
-					{
-						nearDist = dist;
-						near = n;
-					}
+				dist = squareRects(x, y, width, height, n.x - n.originX, n.y - n.originY, n.width, n.height);
+				if (dist < nearDist)
+				{
+					nearDist = dist;
+					near = n;
 				}
 				n = n._typeNext;
 			}
@@ -634,14 +623,11 @@
 				y:Number = e.y - e.originY;
 			while (n)
 			{
-				if (n != e)
+				dist = (x - n.x) * (x - n.x) + (y - n.y) * (y - n.y);
+				if (dist < nearDist)
 				{
-					dist = (x - n.x) * (x - n.x) + (y - n.y) * (y - n.y);
-					if (dist < nearDist)
-					{
-						nearDist = dist;
-						near = n;
-					}
+					nearDist = dist;
+					near = n;
 				}
 				n = n._typeNext;
 			}
@@ -884,7 +870,7 @@
 				while (e)
 				{
 					into[n ++] = e;
-					e = e._renderPrev;
+					e = e._updatePrev;
 				}
 			}
 		}
@@ -909,16 +895,6 @@
 		}
 		
 		/**
-		 * Returns the Entity with the instance name, or null if none exists.
-		 * @param	name	Instance name of the Entity.
-		 * @return	An Entity in this world.
-		 */
-		public function getInstance(name:String):*
-		{
-			return _entityNames[name];
-		}
-		
-		/**
 		 * Updates the add/remove lists at the end of the frame.
 		 */
 		public function updateLists():void
@@ -930,23 +906,16 @@
 			{
 				for each (e in _remove)
 				{
-					if (!e._world)
+					if (e._added != true && _add.indexOf(e) >= 0)
 					{
-						if(_add.indexOf(e) >= 0)
-							_add.splice(_add.indexOf(e), 1);
-						
+						_add.splice(_add.indexOf(e), 1);
 						continue;
 					}
-					if (e._world !== this)
-						continue;
-					
+					e._added = false;
 					e.removed();
-					e._world = null;
-					
 					removeUpdate(e);
 					removeRender(e);
 					if (e._type) removeType(e);
-					if (e._name) unregisterName(e);
 					if (e.autoClear && e._tween) e.clearTweens();
 				}
 				_remove.length = 0;
@@ -957,32 +926,13 @@
 			{
 				for each (e in _add)
 				{
-					if (e._world)
-						continue;
-					
+					e._added = true;
 					addUpdate(e);
 					addRender(e);
 					if (e._type) addType(e);
-					if (e._name) registerName(e);
-					
-					e._world = this;
 					e.added();
 				}
 				_add.length = 0;
-			}
-			
-			// recycle entities
-			if (_recycle.length)
-			{
-				for each (e in _recycle)
-				{
-					if (e._world || e._recycleNext)
-						continue;
-					
-					e._recycleNext = _recycled[e._class];
-					_recycled[e._class] = e;
-				}
-				_recycle.length = 0;
 			}
 			
 			// sort the depth list
@@ -1102,18 +1052,6 @@
 			_typeCount[e._type] --;
 		}
 		
-		/** @private Register's the Entity's instance name. */
-		internal function registerName(e:Entity):void
-		{
-			_entityNames[e._name] = e;
-		}
-		
-		/** @private Unregister's the Entity's instance name. */
-		internal function unregisterName(e:Entity):void
-		{
-			if (_entityNames[e._name] == e) delete _entityNames[e._name];
-		}
-		
 		/** @private Calculates the squared distance between two rectangles. */
 		private static function squareRects(x1:Number, y1:Number, w1:Number, h1:Number, x2:Number, y2:Number, w2:Number, h2:Number):Number
 		{
@@ -1169,22 +1107,22 @@
 		// Adding and removal.
 		/** @private */	private var _add:Vector.<Entity> = new Vector.<Entity>;
 		/** @private */	private var _remove:Vector.<Entity> = new Vector.<Entity>;
-		/** @private */	private var _recycle:Vector.<Entity> = new Vector.<Entity>;
 		
 		// Update information.
 		/** @private */	private var _updateFirst:Entity;
 		/** @private */	private var _count:uint;
 		
 		// Render information.
-		/** @private */	private var _renderFirst:Array = [];
-		/** @private */	private var _renderLast:Array = [];
-		/** @private */	private var _layerList:Array = [];
-		/** @private */	private var _layerCount:Array = [];
-		/** @private */	private var _layerSort:Boolean;
+		private var _renderFirst:Array = [];
+		private var _renderLast:Array = [];
+		private var _layerList:Array = [];
+		private var _layerCount:Array = [];
+		private var _layerSort:Boolean;
+		private var _tempArray:Array = [];
+		
 		/** @private */	private var _classCount:Dictionary = new Dictionary;
 		/** @private */	internal var _typeFirst:Object = { };
 		/** @private */	private var _typeCount:Object = { };
-		/** @private */	private static var _recycled:Dictionary = new Dictionary;
-		/** @private */	internal var _entityNames:Dictionary = new Dictionary;
+		/** @private */	private var _recycled:Dictionary = new Dictionary;
 	}
 }

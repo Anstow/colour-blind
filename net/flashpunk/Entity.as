@@ -3,11 +3,11 @@ package net.flashpunk
 	import flash.display.BitmapData;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
-	import flash.utils.getDefinitionByName;
 	import flash.utils.getQualifiedClassName;
-
+	import flash.utils.getDefinitionByName;
+	import net.flashpunk.masks.*;
 	import net.flashpunk.graphics.*;
-
+	
 	/**
 	 * Main game Entity class updated by World.
 	 */
@@ -113,8 +113,8 @@ package net.flashpunk
 					_point.y = y;
 				}
 				else _point.x = _point.y = 0;
-				_camera.x = _world ? _world.camera.x : FP.camera.x;
-				_camera.y = _world ? _world.camera.y : FP.camera.y;
+				_camera.x = FP.camera.x;
+				_camera.y = FP.camera.y;
 				_graphic.render(renderTarget ? renderTarget : FP.buffer, _point, _camera);
 			}
 		}
@@ -131,7 +131,7 @@ package net.flashpunk
 			if (!_world) return null;
 			
 			var e:Entity = _world._typeFirst[type];
-			if (!e) return null;
+			if (!collidable || !e) return null;
 			
 			_x = this.x; _y = this.y;
 			this.x = x; this.y = y;
@@ -140,11 +140,11 @@ package net.flashpunk
 			{
 				while (e)
 				{
-					if (e.collidable && e !== this
-					&& x - originX + width > e.x - e.originX
+					if (x - originX + width > e.x - e.originX
 					&& y - originY + height > e.y - e.originY
 					&& x - originX < e.x - e.originX + e.width
-					&& y - originY < e.y - e.originY + e.height)
+					&& y - originY < e.y - e.originY + e.height
+					&& e.collidable && e !== this)
 					{
 						if (!e._mask || e._mask.collide(HITBOX))
 						{
@@ -160,11 +160,11 @@ package net.flashpunk
 			
 			while (e)
 			{
-				if (e.collidable && e !== this
-				&& x - originX + width > e.x - e.originX
+				if (x - originX + width > e.x - e.originX
 				&& y - originY + height > e.y - e.originY
 				&& x - originX < e.x - e.originX + e.width
-				&& y - originY < e.y - e.originY + e.height)
+				&& y - originY < e.y - e.originY + e.height
+				&& e.collidable && e !== this)
 				{
 					if (_mask.collide(e._mask ? e._mask : e.HITBOX))
 					{
@@ -188,18 +188,11 @@ package net.flashpunk
 		public function collideTypes(types:Object, x:Number, y:Number):Entity
 		{
 			if (!_world) return null;
-			
 			var e:Entity;
-			
-			if (types is String) {
-				return collide(String(types), x, y);
-			} else if (types is Array || types is Vector.<String>) {
-				for each (var type:String in types)
-				{
-					if ((e = collide(type, x, y))) return e;
-				}
+			for each (var type:String in types)
+			{
+				if ((e = collide(type, x, y))) return e;
 			}
-			
 			return null;
 		}
 		
@@ -215,11 +208,11 @@ package net.flashpunk
 			_x = this.x; _y = this.y;
 			this.x = x; this.y = y;
 			
-			if (e.collidable
-			&& x - originX + width > e.x - e.originX
+			if (x - originX + width > e.x - e.originX
 			&& y - originY + height > e.y - e.originY
 			&& x - originX < e.x - e.originX + e.width
-			&& y - originY < e.y - e.originY + e.height)
+			&& y - originY < e.y - e.originY + e.height
+			&& collidable && e.collidable)
 			{
 				if (!_mask)
 				{
@@ -318,7 +311,7 @@ package net.flashpunk
 			if (!_world) return;
 			
 			var e:Entity = _world._typeFirst[type];
-			if (!e) return;
+			if (!collidable || !e) return;
 			
 			_x = this.x; _y = this.y;
 			this.x = x; this.y = y;
@@ -328,11 +321,11 @@ package net.flashpunk
 			{
 				while (e)
 				{
-					if (e.collidable && e !== this
-					&& x - originX + width > e.x - e.originX
+					if (x - originX + width > e.x - e.originX
 					&& y - originY + height > e.y - e.originY
 					&& x - originX < e.x - e.originX + e.width
-					&& y - originY < e.y - e.originY + e.height)
+					&& y - originY < e.y - e.originY + e.height
+					&& e.collidable && e !== this)
 					{
 						if (!e._mask || e._mask.collide(HITBOX)) array[n ++] = e;
 					}
@@ -344,11 +337,11 @@ package net.flashpunk
 			
 			while (e)
 			{
-				if (e.collidable && e !== this
-				&& x - originX + width > e.x - e.originX
+				if (x - originX + width > e.x - e.originX
 				&& y - originY + height > e.y - e.originY
 				&& x - originX < e.x - e.originX + e.width
-				&& y - originY < e.y - e.originY + e.height)
+				&& y - originY < e.y - e.originY + e.height
+				&& e.collidable && e !== this)
 				{
 					if (_mask.collide(e._mask ? e._mask : e.HITBOX)) array[n ++] = e;
 				}
@@ -377,7 +370,7 @@ package net.flashpunk
 		 */
 		public function get onCamera():Boolean
 		{
-			return collideRect(x, y, _world.camera.x, _world.camera.y, FP.width, FP.height);
+			return collideRect(x, y, FP.camera.x, FP.camera.y, FP.width, FP.height);
 		}
 		
 		/**
@@ -435,7 +428,7 @@ package net.flashpunk
 		public function set layer(value:int):void
 		{
 			if (_layer == value) return;
-			if (!_world)
+			if (!_added)
 			{
 				_layer = value;
 				return;
@@ -452,7 +445,7 @@ package net.flashpunk
 		public function set type(value:String):void
 		{
 			if (_type == value) return;
-			if (!_world)
+			if (!_added)
 			{
 				_type = value;
 				return;
@@ -497,7 +490,6 @@ package net.flashpunk
 			{
 				var list:Graphiclist = new Graphiclist;
 				if (graphic) list.add(graphic);
-				list.add(g);
 				graphic = list;
 			}
 			return g;
@@ -531,8 +523,8 @@ package net.flashpunk
 				if (o.hasOwnProperty("height")) height = o.height;
 				if (o.hasOwnProperty("originX") && !(o is Graphic)) originX = o.originX;
 				else if (o.hasOwnProperty("x")) originX = -o.x;
-				if (o.hasOwnProperty("originY") && !(o is Graphic)) originY = o.originY;
-				else if (o.hasOwnProperty("y")) originY = -o.y;
+				if (o.hasOwnProperty("originY") && !(o is Graphic)) originX = o.originY;
+				else if (o.hasOwnProperty("y")) originX = -o.y;
 			}
 		}
 		
@@ -572,7 +564,7 @@ package net.flashpunk
 		 * Calculates the distance from this Entity to the point.
 		 * @param	px				X position.
 		 * @param	py				Y position.
-		 * @param	useHitbox		If hitboxes should be used to determine the distance. If not, the Entities' x/y positions are used.
+		 * @param	useHitboxes		If hitboxes should be used to determine the distance. If not, the Entities' x/y positions are used.
 		 * @return	The distance.
 		 */
 		public function distanceToPoint(px:Number, py:Number, useHitbox:Boolean = false):Number
@@ -608,10 +600,10 @@ package net.flashpunk
 		 * Moves the Entity by the amount, retaining integer values for its x and y.
 		 * @param	x			Horizontal offset.
 		 * @param	y			Vertical offset.
-		 * @param	solidType	An optional collision type (or array of types) to stop flush against upon collision.
+		 * @param	solidType	An optional collision type to stop flush against upon collision.
 		 * @param	sweep		If sweeping should be used (prevents fast-moving objects from going through solidType).
 		 */
-		public function moveBy(x:Number, y:Number, solidType:Object = null, sweep:Boolean = false):void
+		public function moveBy(x:Number, y:Number, solidType:String = null, sweep:Boolean = false):void
 		{
 			_moveX += x;
 			_moveY += y;
@@ -624,36 +616,42 @@ package net.flashpunk
 				var sign:int, e:Entity;
 				if (x != 0)
 				{
-					if (sweep || collideTypes(solidType, this.x + x, this.y))
+					if (collidable && (sweep || collide(solidType, this.x + x, this.y)))
 					{
 						sign = x > 0 ? 1 : -1;
 						while (x != 0)
 						{
-							if ((e = collideTypes(solidType, this.x + sign, this.y)))
+							if ((e = collide(solidType, this.x + sign, this.y)))
 							{
-								if (moveCollideX(e)) break;
-								else this.x += sign;
+								moveCollideX(e);
+								break;
 							}
-							else this.x += sign;
-							x -= sign;
+							else
+							{
+								this.x += sign;
+								x -= sign;
+							}
 						}
 					}
 					else this.x += x;
 				}
 				if (y != 0)
 				{
-					if (sweep || collideTypes(solidType, this.x, this.y + y))
+					if (collidable && (sweep || collide(solidType, this.x, this.y + y)))
 					{
 						sign = y > 0 ? 1 : -1;
 						while (y != 0)
 						{
-							if ((e = collideTypes(solidType, this.x, this.y + sign)))
+							if ((e = collide(solidType, this.x, this.y + sign)))
 							{
-								if (moveCollideY(e)) break;
-								else this.y += sign;
+								moveCollideY(e);
+								break;
 							}
-							else this.y += sign;
-							y -= sign;
+							else
+							{
+								this.y += sign;
+								y -= sign;
+							}
 						}
 					}
 					else this.y += y;
@@ -670,10 +668,10 @@ package net.flashpunk
 		 * Moves the Entity to the position, retaining integer values for its x and y.
 		 * @param	x			X position.
 		 * @param	y			Y position.
-		 * @param	solidType	An optional collision type (or array of types) to stop flush against upon collision.
+		 * @param	solidType	An optional collision type to stop flush against upon collision.
 		 * @param	sweep		If sweeping should be used (prevents fast-moving objects from going through solidType).
 		 */
-		public function moveTo(x:Number, y:Number, solidType:Object = null, sweep:Boolean = false):void
+		public function moveTo(x:Number, y:Number, solidType:String = null, sweep:Boolean = false):void
 		{
 			moveBy(x - this.x, y - this.y, solidType, sweep);
 		}
@@ -683,18 +681,14 @@ package net.flashpunk
 		 * @param	x			X target.
 		 * @param	y			Y target.
 		 * @param	amount		Amount to move.
-		 * @param	solidType	An optional collision type (or array of types) to stop flush against upon collision.
+		 * @param	solidType	An optional collision type to stop flush against upon collision.
 		 * @param	sweep		If sweeping should be used (prevents fast-moving objects from going through solidType).
 		 */
-		public function moveTowards(x:Number, y:Number, amount:Number, solidType:Object = null, sweep:Boolean = false):void
+		public function moveTowards(x:Number, y:Number, amount:Number, solidType:String = null, sweep:Boolean = false):void
 		{
 			_point.x = x - this.x;
 			_point.y = y - this.y;
-			
-			if (_point.x*_point.x + _point.y*_point.y > amount*amount) {
-				_point.normalize(amount);
-			}
-			
+			_point.normalize(amount);
 			moveBy(_point.x, _point.y, solidType, sweep);
 		}
 		
@@ -702,18 +696,18 @@ package net.flashpunk
 		 * When you collide with an Entity on the x-axis with moveTo() or moveBy().
 		 * @param	e		The Entity you collided with.
 		 */
-		public function moveCollideX(e:Entity):Boolean
+		public function moveCollideX(e:Entity):void
 		{
-			return true;
+			
 		}
 		
 		/**
 		 * When you collide with an Entity on the y-axis with moveTo() or moveBy().
 		 * @param	e		The Entity you collided with.
 		 */
-		public function moveCollideY(e:Entity):Boolean
+		public function moveCollideY(e:Entity):void
 		{
-			return true;
+			
 		}
 		
 		/**
@@ -740,26 +734,11 @@ package net.flashpunk
 			if (y - originY + height > bottom - padding) y = bottom - height + originY - padding;
 		}
 		
-		/**
-		 * The Entity's instance name. Use this to uniquely identify single
-		 * game Entities, which can then be looked-up with World.getInstance().
-		 */
-		public function get name():String { return _name; }
-		public function set name(value:String):void
-		{
-			if (_name == value) return;
-			if (_name && _world) _world.unregisterName(this);
-			_name = value;
-			if (_name && _world) _world.registerName(this);
-		}
-		
-		public function getClass ():Class { return _class; }
-		
 		// Entity information.
 		/** @private */ internal var _class:Class;
 		/** @private */ internal var _world:World;
-		/** @private */ internal var _type:String;
-		/** @private */ internal var _name:String;
+		/** @private */ internal var _added:Boolean;
+		/** @private */ internal var _type:String = "";
 		/** @private */ internal var _layer:int;
 		/** @private */ internal var _updatePrev:Entity;
 		/** @private */ internal var _updateNext:Entity;

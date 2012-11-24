@@ -1,5 +1,7 @@
 ﻿package net.flashpunk.tweens.motion 
 {
+	import flash.geom.Point;
+	
 	/**
 	 * Determines motion along a line, from one point to another.
 	 */
