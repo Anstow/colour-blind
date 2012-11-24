@@ -17,7 +17,9 @@ package
 		[Embed(source = 'assets/P2s.png')] private const PLAYER2:Class;
 		[Embed(source = 'sfx/jump1.mp3')] private const JUMP1:Class;
 		[Embed(source = 'sfx/jump2.mp3')] private const JUMP2:Class;
+		[Embed(source = 'sfx/win.mp3')] private const WIN:Class;
 		private var jump:Sfx;
+		private var win:Sfx = new Sfx(WIN);
 		
 		private var isJumping:Boolean = false;
 		private var jumpCounter:Number = 0;
@@ -137,6 +139,7 @@ package
 			//Targets
 			var t:Entity = collide("target" + ident, x, y);
 			if (t) {
+				win.play();
 				world.remove(t);
 				// check for remaining targets
 				var nLeft:int = 0;
