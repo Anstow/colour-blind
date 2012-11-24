@@ -22,7 +22,7 @@ package {
 				playersStart.push(data.players[i]);
 			}
 			for each (var wData:Array in data.walls) {
-				walls.push(new Wall(wData[0], wData[1]));
+				walls.push(new Wall(wData));
 			}
 			for each (var target:Array in data.targets){
 				targets.push(new Target(data.targets));

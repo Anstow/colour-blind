@@ -6,16 +6,55 @@ package
 	
 	public class Wall extends Entity
 	{
-		private var ident:int;
+		private var allButtons:Array = [];
+		private var pressedButtons:Array = [];
+		private var exists:Boolean = true;
 		
-		public function Wall(ident:int, rect:Array):void
+		public function Wall(data:Object):void
 		{
-			this.ident = ident;
-			x = rect[0] * GC.tileWidth;
-			y = rect[1] * GC.tileHeight;
-			setHitbox(rect[2] * GC.tileWidth, rect[3] * GC.tileHeight);
-			graphic = Image.createRect(rect[2] * GC.tileWidth, rect[3] * GC.tileHeight, GC.playerColours[ident]);
-			type = "wall" + ident;
+			var r:Array = data.rect;
+			x = r[0] * GC.tileWidth;
+			y = r[1] * GC.tileHeight;
+			setHitbox(r[2] * GC.tileWidth, r[3] * GC.tileHeight);
+			graphic = Image.createRect(r[2] * GC.tileWidth, r[3] * GC.tileHeight, GC.playerColours[data.type]);
+			type = "wall" + data.type;
+			// buttons
+			if (data.buttons !== undefined) {
+				for each (var buttonGroup:Array in data.buttons) {
+					allButtons.push(buttonGroup);
+					var pressedButtonsGroup:Array = [];
+					pressedButtons.push(pressedButtonsGroup);
+					for each (var b:int in buttonGroup) {
+						pressedButtonsGroup.push(b);
+					}
+				}
+			}
+		}
+		
+		public function toggle(b:int):void {
+			var newExists:Boolean = true;
+			for (var i:int = 0; i < allButtons.length; i++) {
+				var bs:Array = pressedButtons[i];
+				if (allButtons[i].indexOf(b) != -1) {
+					var j:int = bs.indexOf(b);
+					if (j == -1) {
+						bs.push(b);
+					} else {
+						bs.splice(j, 1);
+					}
+				}
+				if (bs.length == 0) {
+					newExists = false;
+				}
+			}
+			if (newExists != exists) {
+				if (newExists) {
+					world.add(this);
+				} else {
+					world.remove(this);
+				}
+				exists = newExists;
+			}
 		}
 	}
 }
