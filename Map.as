@@ -15,8 +15,8 @@ package
 		public var tiles: Tilemap;
 
 		// Level width and height code
-		public static var levelWidth : int = GC.windowHeight;
-		public static var levelHeight : int = GC.windowWidth;
+		public static var levelWidth : int = GC.windowWidth;
+		public static var levelHeight : int = GC.windowHeight;
 		public static var scrollable : Boolean = false;
 
 		
@@ -25,7 +25,14 @@ package
 			super();
 			tiles = new Tilemap(GC.TILES, levelWidth, levelHeight, GC.tileWidth, GC.tileHeight);
 			
-			tiles.setRect(0, 0, tiles.columns, tiles.rows);
+			if (level == "")
+			{
+				tiles.setRect(0, 0, tiles.columns, tiles.rows);
+			}
+			else
+			{
+				setLevel(level);
+			}
 			
 			addGraphic(tiles);
 			layer = 1;
