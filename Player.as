@@ -41,9 +41,20 @@ package
 		
 		override public function moveCollideY (e:Entity):Boolean {
 			if (e is Player) {
-				// TODO: average velocity
+				var v:Number = (vel[1] + (e as Player).vel[1]) / 2;
+				vel[1] = v;
+				(e as Player).vel[1] = v;
 			}
 			if (vel[1] > 0) onGround = true;
+			return true;
+		}
+		
+		override public function moveCollideX (e:Entity):Boolean {
+			if (e is Player) {
+				var v:Number = (vel[0] + (e as Player).vel[0]) / 2;
+				vel[0] = v;
+				(e as Player).vel[0] = v;
+			}
 			return true;
 		}
 		
@@ -92,7 +103,7 @@ package
 					types.push("player" + i);
 				}
 			}
-			moveBy(vel[0], vel[1], types);				
+			moveBy(vel[0], vel[1], types);
 		}	
 	}
 }
