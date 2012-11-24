@@ -10,8 +10,12 @@ package
 	{
 		private var ident:int;
 		private var vel:Array = [0, 0];
+		private var input:Object;
 		[Embed(source = 'assets/P1.png')] private const PLAYER1:Class;
 		[Embed(source = 'assets/P2.png')] private const PLAYER2:Class;
+		
+		private var isJumping:Boolean = false;
+		private var jumpCounter:Number = 0;
 		
 		public function Player(ident:int, pos:Array):void
 		{
@@ -22,6 +26,11 @@ package
 			else { // ident == 1
 				graphic = new Image(PLAYER2);
 			}
+			input = GC.moveKeys[ident];
+			for (var key:String in input) {
+				Input.define.apply(null, [key+ident].concat(input[key]));
+			}
+			
 			x = pos[0];
 			y = pos[1];
 			setHitbox(20, 40);
@@ -32,6 +41,35 @@ package
 		override public function update():void
 		{
 			super.update();
+
+			//Horizontal			
+			if (Input.check("left"+ident)) {
+			}
+			if (Input.check("right"+ident)) {
+				//add stuff
+			}
+			
+			//**Jumping**
+			if(!isJumping) {
+				if (Input.pressed("up"+ident)) {
+					jumpCounter = 0;
+					isJumping = true;
+					vel[1] -= GC.jumpSpeed;
+				}
+			}
+			else if(Input.check("up"+ident)) {
+				jumpCounter++;
+				if (jumpCounter <= GC.littleJump) {
+					vel[1] -= GC.littleJumpSpeed;
+				}
+				else {
+					isJumping = false;
+				}
+			}
+			else {
+				isJumping = false;
+			}
+			
 			vel[1] += GC.gravity;
 			vel[0] *= GC.playerDamp[0];
 			vel[1] *= GC.playerDamp[1];
@@ -43,7 +81,8 @@ package
 					types.push("player" + i);
 				}
 			}
-			moveBy(vel[0], vel[1], types);
-		}
+			moveBy(vel[0], vel[1], types);				
+		}	
 	}
 }
+

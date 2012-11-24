@@ -1,6 +1,7 @@
 package
 {
 	import net.flashpunk.graphics.Image;
+	import net.flashpunk.utils.Key;
 
 	/**
 	 * ...
@@ -18,7 +19,26 @@ package
 		public static var tiles:Image;
 		[Embed(source = 'assets/tilemap.png')] public static const TILES:Class;
 		public static var playerColours:Array = [0x5dd368, 0x38c9d1];
-
+		
+		public static var littleJump:Number = 5;
+		public static var moveSpeed:Number = 4;
+		public static var littleJumpSpeed:Number = 4;		
+		public static var jumpSpeed:Number = 8;
+		
+		public static var moveKeys:Array = [
+			{
+				up: [Key.W, 188],
+				left: [Key.A],
+				down: [Key.S, Key.O],
+				right: [Key.D, Key.E]
+			}, {
+				up: [Key.UP],
+				left: [Key.LEFT],
+				down: [Key.DOWN],
+				right: [Key.RIGHT]
+			}
+		];
+		
 		// players are arrays of velocities
 		// walls are arrays of [type, [x, y, width, height]], width and height
 		// measured in tiles
