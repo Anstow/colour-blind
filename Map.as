@@ -28,6 +28,7 @@ package
 			if (level == "")
 			{
 				tiles.setRect(0, 0, tiles.columns, tiles.rows);
+				tiles.setRect(0, 30, tiles.columns, 5, 1);
 			}
 			else
 			{
