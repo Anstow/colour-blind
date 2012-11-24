@@ -22,7 +22,7 @@ package
 		
 		public static var littleJump:Number = 5;
 		public static var moveSpeed:Number = 1.5;
-		public static var littleJumpSpeed:Number = 4;		
+		public static var littleJumpSpeed:Number = 4;
 		public static var jumpSpeed:Number = 8;
 		
 		public static var moveKeys:Array = [
@@ -44,15 +44,14 @@ package
 		// measured in tiles
 		public static var levels:Array = [
 			{
-				players: [[0, 5], [0, 0]],
+				players: [[0, 5], [10, 0]],
 				walls: [[1, [0, 20, 2, 3]], [0, [0, 10, 2, 3]]]
 			}
 		];
 		
 		public static var gravity:Number = .7;
 		public static var playerDamp:Array = [.7, .9]; //Damping when onGround
-		public static var playerAirDamp:Array = [.8, .9]; //Damping when !onGround
-		
+		public static var playerAirDamp:Array = [.8, .9]; //Damping when !onGround		
 		// Editor stuff
 		// The scrolling constants
 		public static var scrollOn : Boolean; // Whether the scrolling is on or not
