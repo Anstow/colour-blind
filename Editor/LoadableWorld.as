@@ -87,9 +87,17 @@ package  Editor
 			return false;
 		}
 		
-		//} Scroll functions 
+		//} Scroll functions
+
+		public function loadFromData(data:Array):void {
+			currentMap.setLevel(data[0]);
+			/*walls = loaded[2];
+			playersStart = loaded[3];
+			playersTarget = loaded[4];
+			targets = loaded[5];*/
+		}
 		
-		public function load():void 
+		public function load():void
 		{
 			var file : FileReference = new FileReference();
 			
@@ -104,19 +112,13 @@ package  Editor
 
 			function loadComplete (event:Event):void
 			{
-				var loaded : Array = JSON.parse(file.data.toString()) as Array;
-				ident = loaded[0];
-				currentMap.setLevel(loaded[1]);
-				/*walls = loaded[2];
-				playersStart = loaded[3];
-				playersTarget = loaded[4];
-				targets = loaded[5];*/
+				loadFromData(JSON.parse(file.data.toString()) as Array);
 			}
 		}
 
 		public function save():void 
 		{
-			var toSave : Array = [ident, currentMap.getSaveData()]; //, walls, playersStart, playersTarget, targets];
+			var toSave : Array = [currentMap.getSaveData()]; //, walls, playersStart, playersTarget, targets];
 			new FileReference().save(JSON.stringify(toSave));
 		}
 	}

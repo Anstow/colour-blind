@@ -18,7 +18,7 @@ package
 		public static var tileHeight:int = 20;
 		public static var tiles:Image;
 		[Embed(source = 'assets/tilemap.png')] public static const TILES:Class;
-		public static var playerColours:Array = [0x5dd368, 0x38c9d1];
+		public static var wallColours:Array = [0xdd0000, 0x5dd368, 0x38c9d1];
 		
 		public static var gravity:Number = .7;
 		public static var playerDamp:Array = [.7, .9]; //Damping when onGround
@@ -41,6 +41,12 @@ package
 				right: [Key.RIGHT]
 			}
 		];
+		
+		// Editor stuff
+		// The scrolling constants
+		public static var scrollOn : Boolean; // Whether the scrolling is on or not
+		public static var scrollSpeed : Number; // Pixels per frame.
+		public static var scrollSens : Number; // How close to the edge of the screen before scrolling starts.
 		
 		// players are arrays of velocities
 		// wall.rect are [x, y, width, height], measured in tiles
@@ -71,12 +77,6 @@ package
 				}]
 			}
 		];
-		
-		// Editor stuff
-		// The scrolling constants
-		public static var scrollOn : Boolean; // Whether the scrolling is on or not
-		public static var scrollSpeed : Number; // Pixels per frame.
-		public static var scrollSens : Number; // How close to the edge of the screen before scrolling starts.
 
 		public function GC ():void
 		{
