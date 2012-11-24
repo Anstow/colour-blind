@@ -112,9 +112,7 @@ package Editor
 					if (walls.indexOf(ent) >= 0)
 					{
 						FP.world.remove(ent);
-						trace(walls.length);
 						walls.splice(walls.indexOf(ent), 1);
-						trace(walls.length);
 						return;
 					}
 				}
