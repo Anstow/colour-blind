@@ -36,7 +36,7 @@ package
 			type = "level";
 		}
 		
-		public function updateColisions() : void 
+		public function updateCollisions() : void 
 		{
 			mask = tiles.createGrid( [ 1 ], null);
 		}

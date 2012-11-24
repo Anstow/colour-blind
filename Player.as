@@ -10,6 +10,7 @@ package
 	{
 		private var ident:int;
 		private var vel:Array = [0, 0];
+		private var onGround:Boolean = false;
 		[Embed(source = 'assets/P1.png')] private const PLAYER1:Class;
 		[Embed(source = 'assets/P2.png')] private const PLAYER2:Class;
 		
@@ -27,6 +28,14 @@ package
 			setHitbox(20, 40);
 			type = "player" + ident;
 			layer = -1;
+		}
+		
+		override public function moveCollideY (e:Entity):Boolean {
+			if (e is Player) {
+				// TODO: average velocity
+			}
+			if (vel[1] > 0) onGround = true;
+			return true;
 		}
 		
 		override public function update():void

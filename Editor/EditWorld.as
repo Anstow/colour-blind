@@ -83,7 +83,7 @@ package Editor
 			else if (Input.released(Key.E))
 			{
 				remove(level);
-				level.updateColisions();
+				level.updateCollisions();
 				FP.world = new GameWorld(level);
 			}
 			
