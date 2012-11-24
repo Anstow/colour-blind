@@ -109,15 +109,13 @@ package Editor
 				var ent:Entity = FP.world.collidePoint("wall" + (selected - 3), mouseX, mouseY);
 				if (ent)
 				{
-					trace(ent);
-					FP.world.remove(ent);
-					for (var i:int = 0; i < walls.length; i++)
+					if (walls.indexOf(ent) >= 0)
 					{
-						if (walls[i] == ent)
-						{
-							walls.slice(i, 1);
-							return;
-						}
+						FP.world.remove(ent);
+						trace(walls.length);
+						walls.splice(walls.indexOf(ent), 1);
+						trace(walls.length);
+						return;
 					}
 				}
 			}
