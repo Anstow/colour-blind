@@ -20,9 +20,12 @@ package
 		[Embed(source = 'assets/tilemap.png')] public static const TILES:Class;
 		public static var playerColours:Array = [0x5dd368, 0x38c9d1];
 		
-		public static var littleJump:Number = 5;
+		public static var gravity:Number = .7;
+		public static var playerDamp:Array = [.7, .9]; //Damping when onGround
+		public static var playerAirDamp:Array = [.8, .9]; //Damping when !onGround
+		public static var littleJump:Number = 10;
 		public static var moveSpeed:Number = 1.5;
-		public static var littleJumpSpeed:Number = 4;
+		public static var littleJumpSpeed:Number = 2;
 		public static var jumpSpeed:Number = 8;
 		
 		public static var moveKeys:Array = [
@@ -40,18 +43,27 @@ package
 		];
 		
 		// players are arrays of velocities
-		// walls are arrays of [type, [x, y, width, height]], width and height
-		// measured in tiles
+		// wall.rect are [x, y, width, height], measured in tiles
 		public static var levels:Array = [
 			{
 				players: [[0, 5], [10, 0]],
-				walls: [[1, [0, 20, 2, 3]], [0, [0, 10, 2, 3]]]
+				targets: [{
+					type: 0,
+					pos: [15, 10]
+				}, {
+					type: 1,
+					pos: [16, 10]
+				}], walls: [{
+					type: 1,
+					rect: [0, 20, 2, 3],
+					buttons: [[0, 1], [2]]
+				}, {
+					type: 0,
+					rect: [0, 10, 2, 3]
+				}]
 			}
 		];
 		
-		public static var gravity:Number = .7;
-		public static var playerDamp:Array = [.7, .9]; //Damping when onGround
-		public static var playerAirDamp:Array = [.8, .9]; //Damping when !onGround		
 		// Editor stuff
 		// The scrolling constants
 		public static var scrollOn : Boolean; // Whether the scrolling is on or not
