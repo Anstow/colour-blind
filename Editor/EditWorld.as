@@ -24,9 +24,9 @@ package Editor
 		public var x1 : int = -1;
 		public var y1 : int = -1; 
 		
-		public function EditWorld(l : Map) 
+		public function EditWorld(l : Map, id:int = -1) 
 		{
-			super(l);
+			super(l, id);
 		}
 		
 		override public function begin():void 
