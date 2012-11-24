@@ -1,4 +1,4 @@
-package  Editor
+package Editor
 {
 	import net.flashpunk.FP;
 	import net.flashpunk.World;

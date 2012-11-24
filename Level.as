@@ -54,6 +54,10 @@ package {
 			add(currentMap);
 		}
 
+		public function win():void {
+			trace("yay");
+		}
+
 		override public function update():void
 		{
 			super.update();

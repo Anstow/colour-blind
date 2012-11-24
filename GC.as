@@ -28,10 +28,10 @@ package
 		
 		public static var gravity:Number = .7;
 		public static var playerDamp:Array = [.7, .9]; //Damping when onGround
-		public static var playerAirDamp:Array = [.8, .9]; //Damping when !onGround
+		public static var playerAirDamp:Array = [.9, .9]; //Damping when !onGround
 		public static var littleJump:Number = 10;
 		public static var moveSpeed:Number = 1.5;
-		public static var airSpeed:Number = 1;
+		public static var airSpeed:Number = .5;
 		public static var littleJumpSpeed:Number = 2;
 		public static var jumpSpeed:Number = 8;
 		
@@ -92,7 +92,6 @@ package
 
 		public static function loadLevelData():void {
 			if (!isLoaded) {
-				trace("LOAD");
 				levelData = com.adobe.serialization.json.JSON.decode((new LEVELDATA() as ByteArray).toString()) as Array;
 				isLoaded = true;
 			}
