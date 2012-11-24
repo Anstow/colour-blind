@@ -22,7 +22,7 @@ package
 		private var isJumping:Boolean = false;
 		private var jumpCounter:Number = 0;
 		
-		public function Player(ident:int, pos:Array):void
+		public function Player(ident:int, pos:Array)
 		{
 			this.ident = ident;
 			if (ident == 0) {

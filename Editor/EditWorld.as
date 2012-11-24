@@ -19,11 +19,10 @@ package Editor
 		// The seclected tile.
 		public var selected : int =  -1;
 		public var x1 : int = -1;
-		public var y1 : int = -1; 
-		
-		public function EditWorld(l : Map, id:int = -1) 
-		{
-			super(l, id);
+		public var y1 : int = -1;
+
+		public function EditWorld (id:int, data:Object) {
+			super(id, data);
 		}
 		
 		override public function begin():void 
@@ -62,7 +61,7 @@ package Editor
 			{
 				remove(currentMap);
 				currentMap.updateCollisions();
-				FP.world = new Level(currentMap);
+				FP.world = new Level(ident, data);
 			}
 			
 			if (EditorConstants.scrollOn)
