@@ -84,23 +84,23 @@ package Editor
 				if (x1 > currentMap.getTileX(mouseX))
 				{
 					leftSide = currentMap.getTileX(mouseX);
-					tmpW =  x1 - leftSide;
+					tmpW =  x1 - leftSide + 1;
 				}
 				else
 				{
 					leftSide = x1;
-					tmpW = currentMap.getTileX(mouseX) - leftSide;
+					tmpW = currentMap.getTileX(mouseX) - leftSide + 1;
 				}
 				
 				if (y1 > currentMap.getTileY(mouseY))
 				{
 					topSide = currentMap.getTileY(mouseY);
-					tmpH = y1 - topSide;
+					tmpH = y1 - topSide + 1;
 				}
 				else
 				{
 					topSide = y1;
-					tmpH = currentMap.getTileY(mouseY) - topSide;
+					tmpH = currentMap.getTileY(mouseY) - topSide + 1;
 				}
 			}
 
