@@ -52,27 +52,8 @@ package Editor
 					{
 						tileOpts.visible = false;
 					}
-				}
-				else if (selected == -1)
-				{
-					tileOpts.visible = true;
-				}
-				else
-				{
-					if (x1 != -1 && y1 != -1)
-					{						
-						// Set the tiles 
-						currentMap.setTiles(x1, y1, currentMap.getTileX(mouseX), currentMap.getTileY(mouseY), selected);
-						
-						// Set the original position back to -1, -1.
-						x1 = -1;
-						y1 = -1;
-					}
-					else
-					{
-						x1 = currentMap.getTileX(mouseX);
-						y1 = currentMap.getTileY(mouseY);
-					}
+				} else {
+					mousePress();
 				}
 			}
 			if (Input.released(Key.SHIFT))
@@ -93,6 +74,54 @@ package Editor
 				scrollVertical(EditorConstants.halfHeight * 2);
 			}
 			super.update();
+		}
+
+		private function mousePress():void
+		{
+			switch(selected)
+			{
+				case -1:
+					tileOpts.visible = true;
+					break;
+				case 2:
+					// Spikes hacked
+					break;
+				case 3:
+					// Color 0 hacked
+					break;
+				case 4:
+					// Color 1 hacked
+					break;
+				case 5:
+					// Player 0 start position hacked
+					break;
+				case 6:
+					// Player 1 start position hacked
+					break;
+				case 7:
+					// Player 0 target position hacked
+					break;
+				case 8:
+					// Player 1 target position hacked
+					break;
+				default: // I.e. 0 No walls OR 1 Walls
+					if (x1 != -1 && y1 != -1)
+					{						
+						// Set the tiles 
+						currentMap.setTiles(x1, y1, currentMap.getTileX(mouseX), currentMap.getTileY(mouseY), selected);
+						
+						// Set the original position back to -1, -1.
+						x1 = -1;
+						y1 = -1;
+					}
+					else
+					{
+						x1 = currentMap.getTileX(mouseX);
+						y1 = currentMap.getTileY(mouseY);
+					}
+					break;
+			}
+
 		}
 		
 		private function keyDownListener(e : KeyboardEvent):void
