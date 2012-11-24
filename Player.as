@@ -5,6 +5,7 @@ package
 	import net.flashpunk.graphics.Image;
 	import net.flashpunk.utils.Input;
 	import net.flashpunk.utils.Key;
+	import net.flashpunk.Sfx;
 	
 	public class Player extends Entity
 	{
@@ -14,6 +15,9 @@ package
 		private var input:Object;
 		[Embed(source = 'assets/P1.png')] private const PLAYER1:Class;
 		[Embed(source = 'assets/P2.png')] private const PLAYER2:Class;
+		[Embed(source = 'sfx/jump1.mp3')] private const JUMP1:Class;
+		[Embed(source = 'sfx/jump2.mp3')] private const JUMP2:Class;
+		private var jump:Sfx;
 		
 		private var isJumping:Boolean = false;
 		private var jumpCounter:Number = 0;
@@ -23,9 +27,11 @@ package
 			this.ident = ident;
 			if (ident == 0) {
 				graphic = new Image(PLAYER1);
+				jump = new Sfx(JUMP1);
 			}
 			else { // ident == 1
 				graphic = new Image(PLAYER2);
+				jump = new Sfx(JUMP2);
 			}
 			x = pos[0] * GC.tileWidth;
 			y = pos[1] * GC.tileHeight;
@@ -66,6 +72,7 @@ package
 					jumpCounter = 0;
 					isJumping = true;
 					vel[1] -= GC.jumpSpeed;
+					jump.play();
 				}
 			}
 			else if(Input.check("up"+ident)) {
