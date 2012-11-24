@@ -140,10 +140,13 @@ package Editor
 			}
 		}
 
-		public function save():void 
-		{
-			var toSave : Array = [currentMap.getSaveData()]; //, walls, playersStart, playersTarget, targets];
-			new FileReference().save(com.adobe.serialization.json.JSON.encode(toSave));
+		public function generateData():Object {
+			// TODO: walls, playersStart, playersTarget, targets
+			return {tilemap: currentMap.getSaveData()};
+		}
+
+		public function save():void {
+			FileReference().save(com.adobe.serialization.json.JSON.encode(generateData()));
 		}
 	}
 }
