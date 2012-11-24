@@ -19,20 +19,12 @@ package
 		public static var levelHeight : int = GC.windowHeight;
 		public static var scrollable : Boolean = false;
 
-		
-		public function Map(level : int)
+		public function Map()
 		{
 			super();
 			tiles = new Tilemap(GC.TILES, levelWidth, levelHeight, GC.tileWidth, GC.tileHeight);
-			
-			tiles.setRect(0, 0, tiles.columns, tiles.rows);
-			tiles.setRect(5, tiles.rows - 20, 10, 5, 1);
-			//setLevel("level" + level as String + ".lev");
-			
 			addGraphic(tiles);
 			layer = 1;
-			
-			mask = tiles.createGrid( [ 1 ], null);
 			type = "level";
 		}
 		
@@ -47,6 +39,7 @@ package
 		public function	setLevel(data : String):void
 		{
 			tiles.loadFromString(data);
+			mask = tiles.createGrid( [ 1 ], null);
 		}
 		
 		// 	CONFIG::debug

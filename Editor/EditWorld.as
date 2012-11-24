@@ -75,19 +75,64 @@ package Editor
 
 		private function mousePress():void
 		{
+			if (x1 != -1 && y1 != -1)
+			{
+				var leftSide : int;
+				var topSide : int;
+				var tmpW : int;
+				var tmpH : int;
+
+				if (x1 > currentMap.getTileX(mouseX))
+				{
+					leftSide = currentMap.getTileX(mouseX);
+					tmpW =  x1 - leftSide;
+				}
+				else
+				{
+					leftSide = x1;
+					tmpW = currentMap.getTileX(mouseX) - leftSide;
+				}
+				
+				if (y1 > currentMap.getTileY(mouseY))
+				{
+					topSide = currentMap.getTileY(mouseY);
+					tmpH = y1 - topSide;
+				}
+				else
+				{
+					topSide = y1;
+					tmpH = currentMap.getTileY(mouseY) - topSide;
+				}
+			}
+
+			// TODO: Sort out putting in Lava etc....
+
+				
 			switch(selected)
 			{
 				case -1:
 					tileOpts.visible = true;
 					break;
 				case 2:
-					// Spikes hacked
-					break;
+					// Lava hacked
 				case 3:
 					// Color 0 hacked
-					break;
 				case 4:
 					// Color 1 hacked
+					if (x1 != -1 && y1 != -1)
+					{						
+						// Set the tiles 
+						walls.push(new Wall({type: selected-3, rect: [leftSide, topSide, tmpW, tmpH]}));
+						
+						// Set the original position back to -1, -1.
+						x1 = -1;
+						y1 = -1;
+					}
+					else
+					{
+						x1 = currentMap.getTileX(mouseX);
+						y1 = currentMap.getTileY(mouseY);
+					}
 					break;
 				case 5:
 					// Player 0 start position hacked

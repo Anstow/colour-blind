@@ -16,7 +16,7 @@ package
 			x = r[0] * GC.tileWidth;
 			y = r[1] * GC.tileHeight;
 			setHitbox(r[2] * GC.tileWidth, r[3] * GC.tileHeight);
-			graphic = Image.createRect(r[2] * GC.tileWidth, r[3] * GC.tileHeight, GC.playerColours[data.type]);
+			graphic = Image.createRect(r[2] * GC.tileWidth, r[3] * GC.tileHeight, GC.wallColours[data.type + 1]);
 			type = "wall" + data.type;
 			// buttons
 			if (data.buttons !== undefined) {

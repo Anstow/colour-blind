@@ -5,13 +5,19 @@ package {
 	import net.flashpunk.FP;
 	import net.flashpunk.utils.Input;
 	import net.flashpunk.utils.Key;
+	import flash.utils.ByteArray;
 	
 	public class Level extends LoadableWorld
 	{
 		public var nPlayers:int = 2;
+		private var savedData:Array;
+		[Embed(source = 'leveldata.json', mimeType = "application/octet-stream")] private const LEVELDATA:Class;
 
 		public function Level (mapToLoad : Map = null, id : int = -1):void {
 			super(mapToLoad, id)
+// 			trace((new LEVELDATA() as ByteArray).toString());
+			savedData = JSON.parse((new LEVELDATA() as ByteArray).toString()) as Array;
+			ident = 0;
 			init(mapToLoad);
 		}
 
@@ -43,10 +49,9 @@ package {
 			for each (var t:Target in targets) {
 				add(t);
 			}
-
-			if (!mapToLoad) {
-				currentMap = new Map(ident);
-			} else {
+			currentMap = new Map();
+			loadFromData(savedData[ident]);
+			if (mapToLoad) {
 				currentMap = mapToLoad;
 			}
 			add(currentMap);
