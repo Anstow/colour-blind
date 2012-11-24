@@ -80,7 +80,7 @@ package Editor
 				selected = -1;
 				tileOpts.visible = true;
 			}
-			else if (Input.released(Key.E))
+			else if (Input.released(Key.F5))
 			{
 				remove(currentMap);
 				currentMap.updateColisions();
