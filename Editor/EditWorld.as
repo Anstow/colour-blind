@@ -61,7 +61,7 @@ package Editor
 			{
 				remove(currentMap);
 				currentMap.updateCollisions();
-				FP.world = new Level(ident, data);
+				FP.world = new Level(ident, generateData());
 			}
 			
 			if (EditorConstants.scrollOn)
@@ -162,7 +162,6 @@ package Editor
 					}
 					break;
 			}
-
 		}
 		
 		private function keyDownListener(e : KeyboardEvent):void
