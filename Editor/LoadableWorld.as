@@ -89,6 +89,14 @@ package  Editor
 		}
 		
 		//} Scroll functions 
+
+		public function loadFromData(data:Array):void {
+			currentMap.setLevel(data[0]);
+			/*walls = loaded[2];
+			playersStart = loaded[3];
+			playersTarget = loaded[4];
+			targets = loaded[5];*/
+		}
 		
 		public function load():void 
 		{
@@ -105,20 +113,14 @@ package  Editor
 
 			function loadComplete (event:Event):void
 			{
-				var loaded : Array = JSON.decode(file.data.toString()) as Array;
-				ident = loaded[0];
-				currentMap.setLevel(loaded[1]);
-				/*walls = loaded[2];
-				playersStart = loaded[3];
-				playersTarget = loaded[4];
-				targets = loaded[5];*/
+				loadFromData(com.adobe.serialization.json.JSON.decode(file.data.toString()) as Array);
 			}
 		}
 
 		public function save():void 
 		{
 			var toSave : Array = [ident, currentMap.getSaveData()]; //, walls, playersStart, playersTarget, targets];
-			new FileReference().save(JSON.encode(toSave));
+			new FileReference().save(com.adobe.serialization.json.JSON.encode(toSave));
 		}
 	}
 }

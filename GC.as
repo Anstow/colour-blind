@@ -2,6 +2,8 @@ package
 {
 	import net.flashpunk.graphics.Image;
 	import net.flashpunk.utils.Key;
+	import flash.utils.ByteArray;
+	import com.adobe.serialization.json.JSON;
 
 	/**
 	 * ...
@@ -10,6 +12,10 @@ package
 	import net.flashpunk.graphics.Image;
 	public class GC
 	{
+		[Embed(source = 'leveldata.json', mimeType = "application/octet-stream")] private static const LEVELDATA:Class;
+		public static var levelData:Array;
+		private static var isLoaded:Boolean = false;
+
 		public static var windowHeight:int = 540;
 		public static var windowWidth:int = 960;
 		public static var FPS:int = 60;
@@ -82,6 +88,14 @@ package
 		public function GC ():void
 		{
 			
+		}
+
+		public static function loadLevelData():void {
+			if (!isLoaded) {
+				trace("LOAD");
+				levelData = com.adobe.serialization.json.JSON.decode((new LEVELDATA() as ByteArray).toString()) as Array;
+				isLoaded = true;
+			}
 		}
 		
 	}
