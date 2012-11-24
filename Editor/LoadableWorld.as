@@ -8,6 +8,7 @@ package  Editor
 	import flash.events.Event;
 	import flash.utils.ByteArray;
 	import flash.net.FileReference;
+	import com.adobe.serialization.json.JSON;
 	
 	/**
 	 * ...
@@ -15,7 +16,7 @@ package  Editor
 	 */
 	public class LoadableWorld extends World 
 	{
-		public var currentMap : Map; // I also think it would be usefull to have a handle to my level
+		public var currentMap : Map; // I also think it would be useful to have a handle to my level
 		public var walls : Array = new Array();
 		public var playersStart: Array = new Array();
 		public var playersTarget: Array = new Array();
@@ -104,7 +105,7 @@ package  Editor
 
 			function loadComplete (event:Event):void
 			{
-				var loaded : Array = JSON.parse(file.data.toString()) as Array;
+				var loaded : Array = JSON.decode(file.data.toString()) as Array;
 				ident = loaded[0];
 				currentMap.setLevel(loaded[1]);
 				/*walls = loaded[2];
@@ -117,7 +118,7 @@ package  Editor
 		public function save():void 
 		{
 			var toSave : Array = [ident, currentMap.getSaveData()]; //, walls, playersStart, playersTarget, targets];
-			new FileReference().save(JSON.stringify(toSave));
+			new FileReference().save(JSON.encode(toSave));
 		}
 	}
 }
