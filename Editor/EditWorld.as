@@ -153,15 +153,13 @@ package Editor
 					// Player 0 start position hacked
 				case 8:
 					// Player 1 start position hacked
-					trace("Here");
 					playersStart[selected - 7] = [currentMap.getTileX(mouseX), currentMap.getTileY(mouseY)];
 
 					var tmpArray:Array = new Array();
-					trace(selected - 7);
 					FP.world.getType("startplayer" + (selected - 7),tmpArray);
 					if (tmpArray.length >=0)
 					{
-						tmpArray[0].updateXY(currentMap.getTileX(mouseX), currentMap.getTileY(mouseY));
+						tmpArray[0].updateXY([currentMap.getTileX(mouseX), currentMap.getTileY(mouseY)]);
 					}
 					break;
 				case 5:

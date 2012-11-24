@@ -21,13 +21,11 @@ package
 			}
 			x = pos[0] * GC.tileWidth;
 			y = pos[1] * GC.tileHeight;
-			
-			setHitbox(20, 20);
 			type = "startplayer" + ident;
 			layer = -1;
 		}
 
-		public function updatXY(pos:Array):void
+		public function updateXY(pos:Array):void
 		{
 			x = pos[0] * GC.tileWidth;
 			y = pos[1] * GC.tileHeight;
