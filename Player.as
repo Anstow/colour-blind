@@ -26,12 +26,24 @@ package
 			y = pos[1];
 			setHitbox(20, 40);
 			type = "player" + ident;
+			layer = -1;
 		}
 		
 		override public function update():void
 		{
 			super.update();
-			moveBy(vel[0], GC.gravity + vel[1], Level(world).playerTypes);
+			vel[1] += GC.gravity;
+			vel[0] *= GC.playerDamp[0];
+			vel[1] *= GC.playerDamp[1];
+			var types:Array = [];
+			for (var i:int = 0; i < (world as Level).nPlayers; i++) {
+				if (i == ident) {
+					types.push("wall" + i);
+				} else {
+					types.push("player" + i);
+				}
+			}
+			moveBy(vel[0], vel[1], types);
 		}
 	}
 }
