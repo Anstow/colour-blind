@@ -13,8 +13,8 @@ package
 		private var vel:Array = [0, 0];
 		private var onGround:Boolean = false;
 		private var input:Object;
-		[Embed(source = 'assets/P1.png')] private const PLAYER1:Class;
-		[Embed(source = 'assets/P2.png')] private const PLAYER2:Class;
+		[Embed(source = 'assets/P1s.png')] private const PLAYER1:Class;
+		[Embed(source = 'assets/P2s.png')] private const PLAYER2:Class;
 		[Embed(source = 'sfx/jump1.mp3')] private const JUMP1:Class;
 		[Embed(source = 'sfx/jump2.mp3')] private const JUMP2:Class;
 		private var jump:Sfx;
