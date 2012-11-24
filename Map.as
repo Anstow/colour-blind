@@ -27,7 +27,7 @@ package
 			
 			tiles.setRect(0, 0, tiles.columns, tiles.rows);
 			tiles.setRect(0, 30, tiles.columns, 5, 1);
-			//setLevel(level as String);
+			//setLevel("level" + level as String + ".lev");
 			
 			addGraphic(tiles);
 			layer = 1;
