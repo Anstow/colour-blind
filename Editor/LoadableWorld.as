@@ -21,6 +21,7 @@ package  Editor
 		public var walls : Array = new Array();
 		public var playersStart: Array = new Array();
 		public var playersTarget: Array = new Array();
+		public var switches:Array = new Array();
 		public var targets:Array = new Array();
 
 		public var ident:int = 0;
