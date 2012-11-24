@@ -51,14 +51,9 @@ package
 		{
 			super.update();
 
-<<<<<<< HEAD
 			//Horizontal
-			if (Input.check("left"+ident)) {
-=======
-			//Horizontal			
 			if (Input.check("left" + ident)) {
 				vel[0] -= GC.moveSpeed;
->>>>>>> L
 			}
 			if (Input.check("right"+ident)) {
 				vel[0] += GC.moveSpeed;
