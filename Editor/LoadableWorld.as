@@ -146,7 +146,7 @@ package Editor
 		}
 
 		public function save():void {
-			FileReference().save(com.adobe.serialization.json.JSON.encode(generateData()));
+			new FileReference().save(com.adobe.serialization.json.JSON.encode(generateData()));
 		}
 	}
 }

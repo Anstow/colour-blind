@@ -121,7 +121,9 @@ package Editor
 					if (x1 != -1 && y1 != -1)
 					{						
 						// Set the tiles 
-						walls.push(new Wall({type: selected-3, rect: [leftSide, topSide, tmpW, tmpH]}));
+						var tmp :Wall = new Wall({type: selected-3, rect: [leftSide, topSide, tmpW, tmpH]});
+						walls.push(tmp);
+						FP.world.add(tmp);
 						
 						// Set the original position back to -1, -1.
 						x1 = -1;
