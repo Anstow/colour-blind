@@ -92,7 +92,6 @@ package
 
 		public static function loadLevelData():void {
 			if (!isLoaded) {
-				trace((new LEVELDATA() as ByteArray).toString());
 				levelData = com.adobe.serialization.json.JSON.decode((new LEVELDATA() as ByteArray).toString()) as Array;
 				isLoaded = true;
 			}

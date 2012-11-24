@@ -18,7 +18,7 @@ package Editor
 	{
 		public var currentMap : Map; // I also think it would be useful to have a handle to my level
 		protected var data:Object;
-		public var walls : Array = new Array();
+		public var walls:Array = new Array();
 		public var playersStart: Array = new Array();
 		public var playersTarget: Array = new Array();
 		public var switches:Array = new Array();
@@ -136,13 +136,38 @@ package Editor
 
 			function loadComplete (event:Event):void
 			{
-				init(com.adobe.serialization.json.JSON.decode(file.data.toString()) as Object);
+				FP.world = new EditWorld(ident, com.adobe.serialization.json.JSON.decode(file.data.toString()) as Object);
 			}
 		}
 
 		public function generateData():Object {
-			// TODO: walls, playersStart, playersTarget, targets
-			return {tilemap: currentMap.getSaveData()};
+			var data:Object = {};
+			data.tilemap = currentMap.getSaveData();
+			data.players = playersStart;
+			var ts:Array = [];
+			for each (var t:Target in targets) {
+				ts.push({type: t.ident, pos: [t.x / GC.tileWidth, t.y / GC.tileHeight]});
+			}
+			data.targets = ts;
+			var ws:Array = [];
+			for each (var w:Wall in walls) {
+				ws.push({
+					type: w.ident,
+					rect: [w.x / GC.tileWidth, w.y / GC.tileHeight, w.width / GC.tileWidth, w.height / GC.tileHeight],
+					buttons: w.allButtons
+				});
+			}
+			data.walls = ws;
+			var ss:Array = [];
+			for each (var s:Switch in switches) {
+				ss.push({
+					type: s.player,
+					pos: [s.x / GC.tileWidth, s.y / GC.tileHeight],
+					walls: s.walls
+				});
+			}
+			data.switches = ss;
+			return data;
 		}
 
 		public function save():void {
