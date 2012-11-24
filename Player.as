@@ -18,8 +18,10 @@ package
 		[Embed(source = 'sfx/jump1.mp3')] private const JUMP1:Class;
 		[Embed(source = 'sfx/jump2.mp3')] private const JUMP2:Class;
 		[Embed(source = 'sfx/win.mp3')] private const WIN:Class;
+		[Embed(source = 'sfx/die.mp3')] private const DIE:Class;
 		private var jump:Sfx;
 		private var win:Sfx = new Sfx(WIN);
+		private var die:Sfx = new Sfx(DIE);
 		
 		private var isJumping:Boolean = false;
 		private var jumpCounter:Number = 0;
@@ -56,6 +58,7 @@ package
 			}
 			else if (e is Wall) {
 				if ((e as Wall).ident == -1) {
+					die.play();
 					(world as Level).reset();
 					return false;
 				}
@@ -157,7 +160,7 @@ package
 					(s as Switch).toggle();
 				}
 			}
-<<<<<<< HEAD
+
 			//Targets
 			var t:Entity = collide("target" + ident, x, y);
 			if (t) {
@@ -173,8 +176,7 @@ package
 				}
 				if (nLeft == 1) (world as Level).win();
 			}
-=======
->>>>>>> 38dc0969433439e9798b0ceea612b32080f6fdb8
+
 		}	
 	}
 }
