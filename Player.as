@@ -44,24 +44,47 @@ package
 			type = "player" + ident;
 			layer = -1;
 		}
+
+		public function moveCollide (e:Entity, axis:int):Boolean {
+			// other player
+			if (e is Player) {
+				var v:Number = (vel[axis] + (e as Player).vel[axis]) / 2;
+				vel[axis] = v;
+				(e as Player).vel[axis] = v;
+			}
+			else if (e is Wall) {
+				if ((e as Wall).ident == -1) {
+					(world as Level).reset();
+					return false;
+				}
+			}
+			// targets
+			else if (e is Target) {
+				world.remove(e);
+				// check for remaining targets
+				var nLeft:int = 0;
+				var es:Array;
+				for (var i:int = 0; i < (world as Level).nPlayers; i++) {
+					es = [];
+					world.getType("target" + i, es);
+					nLeft += es.length;
+				}
+				if (nLeft == 1) (world as Level).win();
+				return false;
+			}
+			return true;
+		}
 		
 		override public function moveCollideY (e:Entity):Boolean {
-			if (e is Player) {
-				var v:Number = (vel[1] + (e as Player).vel[1]) / 2;
-				vel[1] = v;
-				(e as Player).vel[1] = v;
+			if (!moveCollide(e, 1)) {
+				return false;
 			}
 			if (vel[1] > 0) onGround = true;
 			return true;
 		}
 		
 		override public function moveCollideX (e:Entity):Boolean {
-			if (e is Player) {
-				var v:Number = (vel[0] + (e as Player).vel[0]) / 2;
-				vel[0] = v;
-				(e as Player).vel[0] = v;
-			}
-			return true;
+			return moveCollide(e, 0);
 		}
 		
 		override public function update():void
@@ -115,17 +138,15 @@ package
 				vel[0] *= GC.playerAirDamp[0];
 				vel[1] *= GC.playerAirDamp[1];
 			}
-			var types:Array = ["level"];
+			var types:Array = ["level", "wall" + ident, "target" + ident, "wall-1"];
 			for (var i:int = 0; i < (world as Level).nPlayers; i++) {
-				if (i == ident) {
-					types.push("wall" + i);
-				} else {
+				if (i != ident) {
 					types.push("player" + i);
 				}
 			}
 			onGround = false;
 			moveBy(vel[0], vel[1], types);
-			
+
 			//Pushing switches
 			if (Input.pressed("down"+ident)) {
 				var ss:Array = [];
@@ -133,20 +154,6 @@ package
 				for each (var s:Entity in ss) {
 					(s as Switch).toggle();
 				}
-			}
-			//Targets
-			var t:Entity = collide("target" + ident, x, y);
-			if (t) {
-				world.remove(t);
-				// check for remaining targets
-				var nLeft:int = 0;
-				var es:Array;
-				for (i = 0; i < (world as Level).nPlayers; i++) {
-					es = [];
-					world.getType("target" + i, es);
-					nLeft += es.length;
-				}
-				if (nLeft == 1) (world as Level).win();
 			}
 		}	
 	}

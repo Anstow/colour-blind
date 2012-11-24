@@ -22,6 +22,10 @@ package {
 			trace("yay");
 		}
 
+		public function reset():void {
+			FP.world = new Level(ident, data);
+		}
+
 		override public function update():void
 		{
 			super.update();
