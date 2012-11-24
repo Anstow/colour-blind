@@ -21,19 +21,18 @@ package {
 			for (var i:int = 0; i < 2; i++) {
 				playersStart.push(data.players[i]);
 			}
-			for each (var wData:Array in data.walls) {
+			for each (var wData:Object in data.walls) {
 				walls.push(new Wall(wData));
 			}
-			for each (var target:Array in data.targets){
-				targets.push(new Target(data.targets));
+			for each (var target:Object in data.targets){
+				targets.push(new Target(target));
 			}
-
 
 			for each (var w:Wall in walls){
 				add(w);
 			}
-			for each (var p:Array in playersStart) {
-				add(new Player(i, p));
+			for (i = 0; i < 2; i++) {
+				add(new Player(i, playersStart[i]));
 			}
 			for each (var t:Target in targets) {
 				add(t);
