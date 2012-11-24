@@ -9,8 +9,6 @@ package  Editor
 	import flash.utils.ByteArray;
 	import flash.net.FileReference;
 	
-	import com.adobe.serialization.json.JSON;
-	
 	/**
 	 * ...
 	 * @author David
@@ -82,9 +80,9 @@ package  Editor
 					// We would like to scroll right (+'ve)
 					speed = GC.scrollSpeed * (1 - (FP.height - (mouseY - FP.camera.y)) / GC.scrollSens);
 					currentMap.scrollVertical(speed, bound);
-					return true;					
+					return true;
 				}
-			}			
+			}
 			
 			return false;
 		}
@@ -106,7 +104,7 @@ package  Editor
 
 			function loadComplete (event:Event):void
 			{
-				var loaded : Array = JSON.decode(file.data.toString());
+				var loaded : Array = JSON.parse(file.data.toString()) as Array;
 				ident = loaded[0];
 				currentMap.setLevel(loaded[1]);
 				/*walls = loaded[2];
@@ -119,7 +117,7 @@ package  Editor
 		public function save():void 
 		{
 			var toSave : Array = [ident, currentMap.getSaveData()]; //, walls, playersStart, playersTarget, targets];
-			new FileReference().save(JSON.encode(toSave));
+			new FileReference().save(JSON.stringify(toSave));
 		}
 	}
 }

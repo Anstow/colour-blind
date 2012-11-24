@@ -100,9 +100,10 @@ package
 			
 			//Pushing switches
 			if (Input.pressed("down"+ident)) {
-				var s:Switch = collide("switch" + ident, x, y) as Switch;
-				if (s != null) {
-					s.toggle();
+				var ss:Array = [];
+				collideTypesInto(["switch" + ident], x, y, ss);
+				for each (var s:Entity in ss) {
+					(s as Switch).toggle();
 				}
 			}
 			
