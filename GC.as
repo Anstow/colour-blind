@@ -22,7 +22,7 @@ package
 		
 		public static var littleJump:Number = 5;
 		public static var moveSpeed:Number = 1.5;
-		public static var littleJumpSpeed:Number = 4;		
+		public static var littleJumpSpeed:Number = 4;
 		public static var jumpSpeed:Number = 8;
 		
 		public static var moveKeys:Array = [
@@ -44,7 +44,7 @@ package
 		// measured in tiles
 		public static var levels:Array = [
 			{
-				players: [[0, 5], [0, 0]],
+				players: [[0, 5], [10, 0]],
 				walls: [[1, [0, 20, 2, 3]], [0, [0, 10, 2, 3]]]
 			}
 		];
