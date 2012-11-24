@@ -10,10 +10,17 @@ package  Editor
 	public class LoadableWorld extends World 
 	{
 		public var currentMap : Map; // I also think it would be usefull to have a handle to my level
+		public var walls : Array = new Array();
+		public var playersStart: Array = new Array();
+		public var playersTarget: Array = new Array();
+		public var targets:Array = new Array();
+
+		public var ident:int = 0;
 		
-		public function LoadableWorld(l : Map = null) 
+		public function LoadableWorld(l : Map = null, id : int = -1) 
 		{
 			EditorConstants.init();
+			ident = id;
 			currentMap = l;
 		}
 		

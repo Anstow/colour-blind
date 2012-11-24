@@ -1,5 +1,4 @@
-package
-{
+package {
 	import net.flashpunk.World;
 	import Editor.LoadableWorld;
 	import Editor.EditWorld;
@@ -9,20 +8,35 @@ package
 	
 	public class Level extends LoadableWorld
 	{
-		private var ident:int = 0;
 		public var nPlayers:int = 2;
 
-		public function Level (mapToLoad : Map = null):void {
+		public function Level (mapToLoad : Map = null, id : int = -1):void {
+			super(mapToLoad, id)
 			init(mapToLoad);
 		}
 
 		public function init (mapToLoad : Map = null):void {
-			var data:Object = GC.levels[ident];
+			var data:Object = GC.levels[0];
+
 			for (var i:int = 0; i < 2; i++) {
-				add(new Player(i, data.players[i]));
+				playersStart.push(data.players[i]);
 			}
 			for each (var wData:Array in data.walls) {
-				add(new Wall(wData[0], wData[1]));
+				walls.push(new Wall(wData));
+			}
+			for each (var target:Array in data.targets){
+				targets.push(new Target(data.targets));
+			}
+
+
+			for each (var w:Wall in walls){
+				add(w);
+			}
+			for each (var p:Array in playersStart) {
+				add(new Player(i, p));
+			}
+			for each (var t:Target in targets) {
+				add(t);
 			}
 
 			if (!mapToLoad) {
