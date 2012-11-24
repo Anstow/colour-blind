@@ -82,6 +82,7 @@ package
 					jumpCounter = 0;
 					isJumping = true;
 					vel[1] -= GC.jumpSpeed;
+					jump.play();
 				}
 			}
 			else if(Input.check("up"+ident)) {
