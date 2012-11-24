@@ -51,11 +51,17 @@ package
 		{
 			super.update();
 
+<<<<<<< HEAD
 			//Horizontal
 			if (Input.check("left"+ident)) {
+=======
+			//Horizontal			
+			if (Input.check("left" + ident)) {
+				vel[0] -= GC.moveSpeed;
+>>>>>>> L
 			}
 			if (Input.check("right"+ident)) {
-				//add stuff
+				vel[0] += GC.moveSpeed;
 			}
 			
 			//**Jumping**
