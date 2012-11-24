@@ -22,7 +22,7 @@ package
 		
 		public static var littleJump:Number = 5;
 		public static var moveSpeed:Number = 1.5;
-		public static var littleJumpSpeed:Number = 4;		
+		public static var littleJumpSpeed:Number = 4;
 		public static var jumpSpeed:Number = 8;
 		
 		public static var moveKeys:Array = [
