@@ -1,5 +1,7 @@
 package  
 {
+	import net.flashpunk.graphics.Image;
+
 	/**
 	 * ...
 	 * @author David R. Walton
@@ -12,6 +14,9 @@ package
 
 		public static var tileWidth:int = 20;
 		public static var tileHeight:int = 20;
+		public static var tiles : Image;
+		[Embed(source = 'assets/tilemap.png')] public static const TILES: Class;
+		
 
 		public static var levels:Array = [
 			{
@@ -19,9 +24,6 @@ package
 			}
 		];
 
-		public static var tiles : Image;
-		[Embed(source = 'assets/tilemap.png')] public static const TILES: Class;
-		
 		public function GC() 
 		{
 			

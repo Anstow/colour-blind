@@ -13,24 +13,30 @@ package
 	public class Level extends Entity 
 	{
 		public var tiles: Tilemap;
+
+		// Level width and height code
+		public static var levelWidth : int = GC.windowHeight;
+		public static var levelHeight : int = GC.windowWidth;
+		public static var scrolling : Boolean = false;
+
 		
 		public function Level()
 		{
 			super();
-			tiles = new Tilemap(GameConstant.TILES, GameConstant.levelWidth, GameConstant.levelHeight, GameConstant.tileWidth, GameConstant.tileHeight);
+			tiles = new Tilemap(GC.TILES, levelWidth, levelHeight, GC.tileWidth, GC.tileHeight);
 			
 			tiles.setRect(0, 0, tiles.columns, tiles.rows);
 			
 			addGraphic(tiles);
 			layer = 1;
 			
-			mask = tiles.createGrid( [ 1, 2, 3, 4 ], null);
+			mask = tiles.createGrid( [ 1 ], null);
 			type = "Level";
 		}
 		
 		public function updateColisions() : void 
 		{
-			mask = tiles.createGrid( [ 1, 2, 3, 4 ], null);
+			mask = tiles.createGrid( [ 1 ], null);
 		}
 		
 		//{ Creating level code
