@@ -24,7 +24,7 @@ package Editor
 		public var x1 : int = -1;
 		public var y1 : int = -1; 
 		
-		public function EditWorld(l : Level) 
+		public function EditWorld(l : Map) 
 		{
 			super(l);
 		}

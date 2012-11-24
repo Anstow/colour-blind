@@ -1,8 +1,9 @@
 package
 {
 	import net.flashpunk.World;
+	import Editor.LoadableWorld;
 	
-	public class Level extends World
+	public class Level extends LoadableWorld
 	{
 		private var ident:int = 0;
 		public var nPlayers:int = 2;
@@ -20,7 +21,18 @@ package
 				add(new Wall(wData[0], wData[1]));
 			}
 
-			add(new Map(ident));
+			currentMap = new Map(ident);
+			add(currentMap);
+		}
+
+		override public function update():void
+		{
+			// This enables the editor it should be removed in the final version
+			if (Input.released(Key.F5))
+			{
+				remove(currentMap);
+				FP.world = new EditorWorld(currentMap);
+			}
 		}
 	}
 }

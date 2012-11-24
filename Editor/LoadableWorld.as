@@ -9,13 +9,12 @@ package  Editor
 	 */
 	public class LoadableWorld extends World 
 	{
-		public var level : Level; // I also think it would be usefull to have a handle to my level
+		public var level : Map; // I also think it would be usefull to have a handle to my level
 		
 		public function LoadableWorld(l : Level = null) 
 		{
 			EditorConstants.init();
 			level = l;
-			FP.screen.color = 0x00ffff;			
 		}
 		
 		//{ Scroll Functions		
