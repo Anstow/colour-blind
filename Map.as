@@ -1,4 +1,4 @@
-package  
+package
 {
 	import Editor.EditorConstants;
 	import net.flashpunk.Entity;
@@ -20,26 +20,20 @@ package
 		public static var scrollable : Boolean = false;
 
 		
-		public function Map(level : String = "")
+		public function Map(level : int)
 		{
 			super();
 			tiles = new Tilemap(GC.TILES, levelWidth, levelHeight, GC.tileWidth, GC.tileHeight);
 			
-			if (level == "")
-			{
-				tiles.setRect(0, 0, tiles.columns, tiles.rows);
-				tiles.setRect(0, 30, tiles.columns, 5, 1);
-			}
-			else
-			{
-				setLevel(level);
-			}
+			tiles.setRect(0, 0, tiles.columns, tiles.rows);
+			tiles.setRect(0, 30, tiles.columns, 5, 1);
+			//setLevel(level);
 			
 			addGraphic(tiles);
 			layer = 1;
 			
 			mask = tiles.createGrid( [ 1 ], null);
-			type = "Level";
+			type = "level";
 		}
 		
 		public function updateColisions() : void 
@@ -50,13 +44,13 @@ package
 		//{ Creating level code
 		
 		//	CONFIG::debug
-		public function	setLevel(data : String):void
+		public function	setLevel(data : int):void
 		{
-			tiles.loadFromString(data);
+			tiles.loadFromString(data as String);
 		}
 		
 		// 	CONFIG::debug
-		public function getSaveData():String 
+		public function getSaveData():String
 		{
 			return tiles.saveToString();
 		}

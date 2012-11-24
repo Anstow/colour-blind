@@ -22,8 +22,8 @@ package
 			else { // ident == 1
 				graphic = new Image(PLAYER2);
 			}
-			x = pos[0];
-			y = pos[1];
+			x = pos[0] * GC.tileWidth;
+			y = pos[1] * GC.tileHeight;
 			setHitbox(20, 40);
 			type = "player" + ident;
 			layer = -1;
@@ -35,7 +35,7 @@ package
 			vel[1] += GC.gravity;
 			vel[0] *= GC.playerDamp[0];
 			vel[1] *= GC.playerDamp[1];
-			var types:Array = [];
+			var types:Array = ["level"];
 			for (var i:int = 0; i < (world as Level).nPlayers; i++) {
 				if (i == ident) {
 					types.push("wall" + i);

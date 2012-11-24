@@ -20,7 +20,7 @@ package
 				add(new Wall(wData[0], wData[1]));
 			}
 
-			add(new Map());
+			add(new Map(ident));
 		}
 	}
 }

@@ -24,7 +24,7 @@ package
 		// measured in tiles
 		public static var levels:Array = [
 			{
-				players: [[0, 0], [0, 100]],
+				players: [[0, 0], [0, 5]],
 				walls: [[1, [0, 20, 2, 3]], [0, [0, 10, 2, 3]]]
 			}
 		];
