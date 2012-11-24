@@ -21,7 +21,7 @@ package
 		public static var playerColours:Array = [0x5dd368, 0x38c9d1];
 		
 		public static var littleJump:Number = 5;
-		public static var moveSpeed:Number = 4;
+		public static var moveSpeed:Number = 1.5;
 		public static var littleJumpSpeed:Number = 4;		
 		public static var jumpSpeed:Number = 8;
 		
@@ -50,15 +50,14 @@ package
 		];
 		
 		public static var gravity:Number = .7;
-		public static var playerDamp:Array = [.9, .9];
-
+		public static var playerDamp:Array = [.7, .9];
+		
 		// Editor stuff
 		// The scrolling constants
 		public static var scrollOn : Boolean; // Whether the scrolling is on or not
 		public static var scrollSpeed : Number; // Pixels per frame.
 		public static var scrollSens : Number; // How close to the edge of the screen before scrolling starts.
-		
-		
+
 		public function GC ():void
 		{
 			
