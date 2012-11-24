@@ -6,9 +6,10 @@ package
 	
 	public class Wall extends Entity
 	{
-		private var allButtons:Array = [];
+		public var allButtons:Array = [];
 		private var pressedButtons:Array = [];
 		private var exists:Boolean = true;
+		public var ident:int;
 		
 		public function Wall(data:Object):void
 		{
@@ -16,8 +17,9 @@ package
 			x = r[0] * GC.tileWidth;
 			y = r[1] * GC.tileHeight;
 			setHitbox(r[2] * GC.tileWidth, r[3] * GC.tileHeight);
-			graphic = Image.createRect(r[2] * GC.tileWidth, r[3] * GC.tileHeight, GC.wallColours[data.type + 1]);
-			type = "wall" + data.type;
+			ident = data.type;
+			graphic = Image.createRect(r[2] * GC.tileWidth, r[3] * GC.tileHeight, GC.wallColours[ident + 1]);
+			type = "wall" + ident;
 			// buttons
 			if (data.buttons !== undefined) {
 				for each (var buttonGroup:Array in data.buttons) {

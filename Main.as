@@ -10,9 +10,10 @@ package
 	var music = new Sfx(MUSIC);
 		public function Main():void
 		{
+			GC.loadLevelData();
 			super(GC.windowWidth, GC.windowHeight, GC.FPS, true);
 			music.loop();
-			FP.world = new Level();
+			FP.world = new Level(0, GC.levelData[0]);
 		}
 	}
 	

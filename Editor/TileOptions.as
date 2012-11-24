@@ -36,7 +36,7 @@ package Editor
 				tiles.setTile(i % EditorConstants.tilesAcross, int(i / EditorConstants.tilesAcross), i);
 			}
 			
-			layer = 0;
+			layer = -5;
 			
 			x = EditorConstants.halfWidth - halfWidth - 5;
 			y = EditorConstants.halfHeight - halfHeight - 5;

@@ -5,6 +5,7 @@ package Editor
 	import net.flashpunk.utils.Input;
 	import net.flashpunk.World;
 	import net.flashpunk.utils.Key;
+	import net.flashpunk.Entity;
 
 	import flash.events.KeyboardEvent;
 	
@@ -19,11 +20,13 @@ package Editor
 		// The seclected tile.
 		public var selected : int =  -1;
 		public var x1 : int = -1;
-		public var y1 : int = -1; 
-		
-		public function EditWorld(l : Map, id:int = -1) 
-		{
-			super(l, id);
+		public var y1 : int = -1;
+
+		public function EditWorld (id:int, data:Object) {
+			super(id, data);
+			for (var i:int = 0; i < 2; i++) {
+				add(new Start(i, playersStart[i]));
+			}
 		}
 		
 		override public function begin():void 
@@ -62,7 +65,7 @@ package Editor
 			{
 				remove(currentMap);
 				currentMap.updateCollisions();
-				FP.world = new Level(currentMap);
+				FP.world = new Level(ident, generateData());
 			}
 			
 			if (EditorConstants.scrollOn)
@@ -85,29 +88,39 @@ package Editor
 				if (x1 > currentMap.getTileX(mouseX))
 				{
 					leftSide = currentMap.getTileX(mouseX);
-					tmpW =  x1 - leftSide;
+					tmpW =  x1 - leftSide + 1;
 				}
 				else
 				{
 					leftSide = x1;
-					tmpW = currentMap.getTileX(mouseX) - leftSide;
+					tmpW = currentMap.getTileX(mouseX) - leftSide + 1;
 				}
 				
 				if (y1 > currentMap.getTileY(mouseY))
 				{
 					topSide = currentMap.getTileY(mouseY);
-					tmpH = y1 - topSide;
+					tmpH = y1 - topSide + 1;
 				}
 				else
 				{
 					topSide = y1;
-					tmpH = currentMap.getTileY(mouseY) - topSide;
+					tmpH = currentMap.getTileY(mouseY) - topSide + 1;
+				}
+			}
+			else
+			{
+				var ent:Entity = FP.world.collidePoint("wall" + (selected - 3), mouseX, mouseY);
+				if (ent)
+				{
+					if (walls.indexOf(ent) >= 0)
+					{
+						FP.world.remove(ent);
+						walls.splice(walls.indexOf(ent), 1);
+						return;
+					}
 				}
 			}
 
-			// TODO: Sort out putting in Lava etc....
-
-				
 			switch(selected)
 			{
 				case -1:
@@ -122,7 +135,9 @@ package Editor
 					if (x1 != -1 && y1 != -1)
 					{						
 						// Set the tiles 
-						walls.push(new Wall({type: selected-3, rect: [leftSide, topSide, tmpW, tmpH]}));
+						var tmp :Wall = new Wall({type: selected-3, rect: [leftSide, topSide, tmpW, tmpH]});
+						walls.push(tmp);
+						FP.world.add(tmp);
 						
 						// Set the original position back to -1, -1.
 						x1 = -1;
@@ -134,16 +149,25 @@ package Editor
 						y1 = currentMap.getTileY(mouseY);
 					}
 					break;
-				case 5:
-					// Player 0 start position hacked
-					break;
-				case 6:
-					// Player 1 start position hacked
-					break;
 				case 7:
+					// Player 0 start position hacked
+				case 8:
+					// Player 1 start position hacked
+					trace("Here");
+					playersStart[selected - 7] = [currentMap.getTileX(mouseX), currentMap.getTileY(mouseY)];
+
+					var tmpArray:Array = new Array();
+					trace(selected - 7);
+					FP.world.getType("startplayer" + (selected - 7),tmpArray);
+					if (tmpArray.length >=0)
+					{
+						tmpArray[0].updateXY(currentMap.getTileX(mouseX), currentMap.getTileY(mouseY));
+					}
+					break;
+				case 5:
 					// Player 0 target position hacked
 					break;
-				case 8:
+				case 6:
 					// Player 1 target position hacked
 					break;
 				default: // I.e. 0 No walls OR 1 Walls
@@ -163,7 +187,6 @@ package Editor
 					}
 					break;
 			}
-
 		}
 		
 		private function keyDownListener(e : KeyboardEvent):void
