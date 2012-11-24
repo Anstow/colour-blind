@@ -70,10 +70,18 @@ package
 
 			//Horizontal
 			if (Input.check("left" + ident)) {
-				vel[0] -= GC.moveSpeed;
+				if (onGround) {
+					vel[0] -= GC.moveSpeed;
+				} else {
+					vel[0] -= GC.airSpeed;
+				}
 			}
 			if (Input.check("right"+ident)) {
-				vel[0] += GC.moveSpeed;
+				if (onGround) {
+					vel[0] += GC.moveSpeed;
+				} else {
+					vel[0] += GC.airSpeed;
+				}
 			}
 			
 			//**Jumping**
