@@ -12,6 +12,7 @@ package {
 		public var nPlayers:int = 2;
 		private var players:Array = [];
 		private var savedData:Array;
+		private var winning:Boolean = false;
 
 		public function Level (id:int, data:Object) {
 			super(id, data);
@@ -24,12 +25,16 @@ package {
 		}
 
 		public function win():void {
+			if (winning) return;
+			winning = true;
+			var i:int;
 			if (ident < GC.levelData.length - 1) {
-				FP.world = new Level(ident + 1, data);
+				i = ident + 1;
 			} else {
 				//**Make last level win screen :)**
-				FP.world = new Level(0, data);
+				i = 0;
 			}
+			FP.world = new Level(i, GC.levelData[i]);
 		}
 
 		public function reset():void {

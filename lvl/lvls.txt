@@ -1,0 +1,10 @@
+l/lv0_openscreen_smile.level
+Joe/1.json
+Joe/2.json
+Joe/3.json
+l/lv2_ledge-climb.level
+l/lv3_step_stone.level
+l/lv4_switch_train.level
+l/lv5_pit_swap.level
+l/timeswitch.level
+l/closescreen_fall.level

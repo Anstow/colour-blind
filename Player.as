@@ -190,23 +190,7 @@ package
 					(s as Switch).toggle();
 				}
 			}
-
-			//Targets
-			var t:Entity = collide("target" + ident, x, y);
-			if (t) {
-				win.play();
-				world.remove(t);
-				// check for remaining targets
-				var nLeft:int = 0;
-				var es:Array;
-				for (i = 0; i < (world as Level).nPlayers; i++) {
-					es = [];
-					world.getType("target" + i, es);
-					nLeft += es.length;
-				}
-				if (nLeft == 1) (world as Level).win();
-			}
-		}	
+		}
 
 		public function blink():void
 		{
