@@ -3,6 +3,7 @@ package
 	import net.flashpunk.Entity;
 	import net.flashpunk.FP;
 	import net.flashpunk.graphics.Image;
+	import Editor.LoadableWorld;
 	
 	public class Wall extends Entity
 	{
@@ -59,6 +60,27 @@ package
 				}
 				exists = newExists;
 			}
+		}
+
+		public override function removed():void
+		{
+			super.removed();
+			if ((world as LoadableWorld).editting)
+			{
+				for each (var s:Switch in allButtons)
+				{
+					s.removeLink(this);
+				}
+				trace("links removed");
+			}
+		}
+
+		public function removeLink(s: Switch):void
+		{
+			if (allButtons.indexOf(s) >= 0)
+			{
+				allButtons.splice(allButtons.indexOf(s),1);
+			}			
 		}
 	}
 }
