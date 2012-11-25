@@ -41,6 +41,8 @@ package
 			} else {
 				walls = data.walls.slice();
 			}
+
+			layer = -1;
 		}
 
 		public function toggle ():void {
