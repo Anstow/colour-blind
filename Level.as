@@ -27,8 +27,8 @@ package {
 			if (ident < GC.levelData.length - 1) {
 				FP.world = new Level(ident + 1, data);
 			} else {
-				//**Eventually should point to win screen :)**
-				FP.world = new Level(ident, data);
+				//**Make last level win screen :)**
+				FP.world = new Level(0, data);
 			}
 		}
 
