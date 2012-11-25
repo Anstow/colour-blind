@@ -78,10 +78,6 @@ package
 					type: 0,
 					pos: [8, 6],
 					walls: [0]
-				}, {
-					type: 0,
-					pos: [9, 6],
-					walls: [0]
 				}]
 			}
 		];

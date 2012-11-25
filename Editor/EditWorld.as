@@ -71,9 +71,9 @@ package Editor
 			}
 			else if (Input.released(Key.F5))
 			{
-				removeAll();
 				currentMap.updateCollisions();
 				FP.world = new Level(ident, generateData());
+				removeAll();
 			}
 			
 			if (EditorConstants.scrollOn)

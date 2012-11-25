@@ -42,17 +42,30 @@ package Editor
 				walls.push(new Wall(wData));
 			}
 			for (i = 0; i < data.switches.length; i++) {
+				trace("c", data.switches[i].walls);
 				switches.push(new Switch(i, data.switches[i]));
 			}
 			for each (var target:Object in data.targets) {
 				targets.push(new Target(target));
 			}
 
-			for each (var w:Wall in walls){
+			for each (var w:Wall in walls) {
 				add(w);
+				for each (var bgs:Array in [w.allButtons, w.pressedButtons]) {
+					for each (var bs:Array in bgs) {
+						for (i = 0; i < bs.length; i++) {
+							bs[i] = switches[bs[i]];
+						}
+					}
+				}
 			}
 			for each (var s:Switch in switches) {
 				add(s);
+				trace("a", this is EditWorld, s.ident, s.walls.length, s.walls[0]);
+				for (i = 0; i < s.walls.length; i++) {
+					s.walls[i] = walls[s.walls[i]];
+				}
+				trace(" ", this is EditWorld, s.ident, s.walls.length, s.walls[0]);
 			}
 			for each (var t:Target in targets) {
 				add(t);
@@ -62,7 +75,7 @@ package Editor
 			add(currentMap);
 		}
 		
-		//{ Scroll Functions		
+		//{ Scroll Functions
 		public function scrollHorizontal(bound : Number):Boolean
 		{
 			// The extra FP.camera.x terms are becase mouseX is based on the camera location 
@@ -120,7 +133,7 @@ package Editor
 		
 		//} Scroll functions
 		
-		public function load():void 
+		public function load():void
 		{
 			var file : FileReference = new FileReference();
 			
@@ -149,7 +162,13 @@ package Editor
 			}
 			data.targets = ts;
 			var ws:Array = [];
+			var ss:Array;
 			for each (var w:Wall in walls) {
+				for each (var bs:Array in w.allButtons) {
+					for (var i:int = 0; i < bs.length; i++) {
+						bs[i] = switches.indexOf(bs[i]);
+					}
+				}
 				ws.push({
 					type: w.ident,
 					rect: [w.x / GC.tileWidth, w.y / GC.tileHeight, w.width / GC.tileWidth, w.height / GC.tileHeight],
@@ -157,8 +176,13 @@ package Editor
 				});
 			}
 			data.walls = ws;
-			var ss:Array = [];
+			ss = [];
+			ws = [];
 			for each (var s:Switch in switches) {
+				trace("b", s.ident, s.walls.length, s.walls[0], walls.indexOf(s.walls[0]));
+				for (i = 0; i < s.walls.length; i++) {
+					s.walls[i] = walls.indexOf(s.walls[i]);
+				}
 				ss.push({
 					type: s.player,
 					pos: [s.x / GC.tileWidth, s.y / GC.tileHeight],

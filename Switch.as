@@ -34,12 +34,12 @@ package
 			y = data.pos[1] * GC.tileHeight;
 			setHitbox(GC.tileWidth, GC.tileHeight);
 			type = "switch" + player;
-			walls = data.walls;
+			walls = data.walls.slice();
 		}
 
 		public function toggle ():void {
-			for each (var i:int in walls) {
-				(world as Level).walls[i].toggle(ident);
+			for each (var w:Wall in walls) {
+				w.toggle(this);
 			}
 			if (isOn) {
 				off.play();
