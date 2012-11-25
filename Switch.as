@@ -82,9 +82,7 @@ package
 				for each (var w:Wall in walls)
 				{
 					w.removeLink(this);
-					trace("link r");
 				}
-				trace("links removed");
 			}
 		}
 

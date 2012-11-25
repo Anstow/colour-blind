@@ -67,11 +67,13 @@ package
 			super.removed();
 			if ((world as LoadableWorld).editting)
 			{
-				for each (var s:Switch in allButtons)
+				for each (var ss:Array in allButtons)
 				{
-					s.removeLink(this);
+					for each (var s:Switch in ss)
+					{
+						s.removeLink(this);
+					}
 				}
-				trace("links removed");
 			}
 		}
 
