@@ -7,7 +7,7 @@ package
 	public class Wall extends Entity
 	{
 		public var allButtons:Array = [];
-		private var pressedButtons:Array = [];
+		public var pressedButtons:Array = [];
 		private var exists:Boolean = true;
 		public var ident:int;
 		
@@ -23,7 +23,7 @@ package
 			// buttons
 			if (data.buttons !== undefined) {
 				for each (var buttonGroup:Array in data.buttons) {
-					allButtons.push(buttonGroup);
+					allButtons.push(buttonGroup.slice());
 					var pressedButtonsGroup:Array = [];
 					pressedButtons.push(pressedButtonsGroup);
 					for each (var b:int in buttonGroup) {
@@ -33,7 +33,7 @@ package
 			}
 		}
 		
-		public function toggle(b:int):void {
+		public function toggle(b:Switch):void {
 			var newExists:Boolean = true;
 			for (var i:int = 0; i < allButtons.length; i++) {
 				var bs:Array = pressedButtons[i];
