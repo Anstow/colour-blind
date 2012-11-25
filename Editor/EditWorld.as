@@ -59,11 +59,13 @@ package Editor
 			if (Input.released(Key.SHIFT))
 			{
 				selected = -1;
+				x1 = -1;
+				y1 = -1;
 				tileOpts.visible = true;
 			}
 			else if (Input.released(Key.F5))
 			{
-				remove(currentMap);
+				removeAll();
 				currentMap.updateCollisions();
 				FP.world = new Level(ident, generateData());
 			}
@@ -121,6 +123,8 @@ package Editor
 				}
 			}
 
+			var tmpArray:Array = new Array();
+
 			switch(selected)
 			{
 				case -1:
@@ -149,32 +153,39 @@ package Editor
 						y1 = currentMap.getTileY(mouseY);
 					}
 					break;
-				case 7:
-					// Player 0 start position hacked
-				case 8:
-					// Player 1 start position hacked
-					playersStart[selected - 7] = [currentMap.getTileX(mouseX), currentMap.getTileY(mouseY)];
-
-					var tmpArray:Array = new Array();
-					FP.world.getType("startplayer" + (selected - 7),tmpArray);
-					if (tmpArray.length >=0)
-					{
-						tmpArray[0].updateXY([currentMap.getTileX(mouseX), currentMap.getTileY(mouseY)]);
-					}
-					break;
 				case 5:
 					// Player 0 target position hacked
 				case 6:
 					// Player 1 target position hacked
-					playersStart[selected - 5] = [currentMap.getTileX(mouseX), currentMap.getTileY(mouseY)];
-
-					tmpArray = new Array();
 					FP.world.getType("target" + (selected - 5),tmpArray);
 					if (tmpArray.length >=0)
 					{
 						tmpArray[0].updateXY([currentMap.getTileX(mouseX), currentMap.getTileY(mouseY)]);
 					}
 					break;
+				case 7:
+					// Player 0 start position hacked
+				case 8:
+					// Player 1 start position hacked
+					playersStart[selected - 7] = [currentMap.getTileX(mouseX), currentMap.getTileY(mouseY)];
+
+					tmpArray;
+					FP.world.getType("startplayer" + (selected - 7),tmpArray);
+					if (tmpArray.length >=0)
+					{
+						tmpArray[0].updateXY([currentMap.getTileX(mouseX), currentMap.getTileY(mouseY)]);
+					}
+					break;
+				case 9:
+				case 10:
+					// Player 0 switch hacked
+					// Player 1 switch hacked
+					var tmpSwitch:Switch = new Switch(GC.highestSwitchId + 1, {type:(selected - 9), pos:[currentMap.getTileX(mouseX), currentMap.getTileY(mouseY)]});
+					switches.push(tmpSwitch);
+					FP.world.add(tmpSwitch);
+					break;
+				case 11:
+					// Switch-wall conection hacked
 				default: // I.e. 0 No walls OR 1 Walls
 					if (x1 != -1 && y1 != -1)
 					{						
