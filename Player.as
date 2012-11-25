@@ -3,6 +3,7 @@ package
 	import net.flashpunk.Entity;
 	import net.flashpunk.FP;
 	import net.flashpunk.graphics.Image;
+	import net.flashpunk.graphics.Spritemap;
 	import net.flashpunk.utils.Input;
 	import net.flashpunk.utils.Key;
 	import net.flashpunk.Sfx;
@@ -13,8 +14,12 @@ package
 		private var vel:Array = [0, 0];
 		private var onGround:Boolean = false;
 		private var input:Object;
-		[Embed(source = 'assets/P1s.png')] private const PLAYER1:Class;
-		[Embed(source = 'assets/P2s.png')] private const PLAYER2:Class;
+		[Embed(source = 'assets/P1.png')] private const PLAYER1:Class;
+		[Embed(source = 'assets/P2.png')] private const PLAYER2:Class;
+		[Embed(source = 'assets/P1_smile_spritemap.png')] private const MOUTH1:Class;
+		[Embed(source = 'assets/P2_smile_spritemap.png')] private const MOUTH2:Class;
+		[Embed(source = 'assets/P1_wink_spritemap.png')] private const EYES1:Class;
+		[Embed(source = 'assets/P2_wink_spritemap.png')] private const EYES2:Class;
 		[Embed(source = 'sfx/jump1.mp3')] private const JUMP1:Class;
 		[Embed(source = 'sfx/jump2.mp3')] private const JUMP2:Class;
 		[Embed(source = 'sfx/win.mp3')] private const WIN:Class;
@@ -22,6 +27,8 @@ package
 		private var jump:Sfx;
 		private var win:Sfx = new Sfx(WIN);
 		private var die:Sfx = new Sfx(DIE);
+		public var mouth:Spritemap;
+		public var eyes:Spritemap;
 		
 		private var isJumping:Boolean = false;
 		private var jumpCounter:Number = 0;
@@ -30,13 +37,27 @@ package
 		{
 			this.ident = ident;
 			if (ident == 0) {
-				graphic = new Image(PLAYER1);
+				addGraphic(new Image(PLAYER1));
+				mouth = new Spritemap(MOUTH1, 16, 5);
+				eyes = new Spritemap(EYES1, 12, 3);
 				jump = new Sfx(JUMP1);
 			}
 			else { // ident == 1
-				graphic = new Image(PLAYER2);
+				addGraphic(new Image(PLAYER2));
+				mouth = new Spritemap(MOUTH2, 16, 5);
+				eyes = new Spritemap(EYES2, 12, 3);
 				jump = new Sfx(JUMP2);
 			}
+			mouth.add("anim", [0, 1, 2, 3, 4, 5, 6, 7, 8]);
+			mouth.setAnimFrame("anim", 0);
+			mouth.x = 2;
+			mouth.y = 14;
+			addGraphic(mouth);
+			eyes.add("anim", [0, 1, 2, 3]);
+			eyes.setAnimFrame("anim", 0);
+			eyes.x = 4;
+			eyes.y = 5;
+			addGraphic(eyes);
 			x = pos[0] * GC.tileWidth;
 			y = pos[1] * GC.tileHeight;
 			input = GC.moveKeys[ident];
