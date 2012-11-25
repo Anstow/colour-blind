@@ -90,6 +90,17 @@ package
 			
 		}
 
+		// Stores the highestSwtichId of all the switches in the game sofar.
+		public static var highestSwitchId : int = 0;
+		// Checks the switch id and set highestSwtichId if higher.
+		public static function checkSwitchId(id:int):void
+		{
+			if (highestSwitchId < id)
+			{
+				highestSwitchId = id;
+			}
+		}
+
 		public static function loadLevelData():void {
 			if (!isLoaded) {
 				levelData = com.adobe.serialization.json.JSON.decode((new LEVELDATA() as ByteArray).toString()) as Array;

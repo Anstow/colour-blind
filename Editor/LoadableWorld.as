@@ -20,7 +20,6 @@ package Editor
 		protected var data:Object;
 		public var walls:Array = new Array();
 		public var playersStart: Array = new Array();
-		public var playersTarget: Array = new Array();
 		public var switches:Array = new Array();
 		public var targets:Array = new Array();
 

@@ -21,7 +21,11 @@ package
 
 		public function Switch (ident:int, data:Object):void {
 			this.ident = ident;
-			player = data.type
+			GC.checkSwitchId(ident);
+			player = data.type;
+
+			trace(player);
+
 			if (player == 0) {
 				graphic = new Image(SWITCH1);
 			} else {
