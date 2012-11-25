@@ -162,31 +162,35 @@ package Editor
 			}
 			data.targets = ts;
 			var ws:Array = [];
-			var ss:Array;
+			var destBgs:Array;
+			var destBs:Array;
 			for each (var w:Wall in walls) {
+				destBgs = [];
 				for each (var bs:Array in w.allButtons) {
+					destBs = [];
+					destBgs.push(destBs);
 					for (var i:int = 0; i < bs.length; i++) {
-						bs[i] = switches.indexOf(bs[i]);
+						destBs.push(switches.indexOf(bs[i]));
 					}
 				}
 				ws.push({
 					type: w.ident,
 					rect: [w.x / GC.tileWidth, w.y / GC.tileHeight, w.width / GC.tileWidth, w.height / GC.tileHeight],
-					buttons: w.allButtons
+					buttons: destBgs
 				});
 			}
 			data.walls = ws;
-			ss = [];
-			ws = [];
+			var ss:Array = [];
 			for each (var s:Switch in switches) {
+				ws = [];
 				trace("b", s.ident, s.walls.length, s.walls[0], walls.indexOf(s.walls[0]));
 				for (i = 0; i < s.walls.length; i++) {
-					s.walls[i] = walls.indexOf(s.walls[i]);
+					ws.push(walls.indexOf(s.walls[i]));
 				}
 				ss.push({
 					type: s.player,
 					pos: [s.x / GC.tileWidth, s.y / GC.tileHeight],
-					walls: s.walls
+					walls: ws
 				});
 			}
 			data.switches = ss;
@@ -194,6 +198,7 @@ package Editor
 		}
 
 		public function save():void {
+			trace(com.adobe.serialization.json.JSON.encode(generateData()));
 			new FileReference().save(com.adobe.serialization.json.JSON.encode(generateData()));
 		}
 	}
