@@ -13,8 +13,8 @@ package
 		private var exists:Boolean = true;
 		public var ident:int;
 		[Embed(source = 'assets/wall0.png')] private const WALL0:Class;
-		[Embed(source = 'assets/GreenStripe.png')] private const WALL1:Class;
-		[Embed(source = 'assets/BlueStripe.png')] private const WALL2:Class;
+		[Embed(source = 'assets/GreenCheck.png')] private const WALL1:Class;
+		[Embed(source = 'assets/BlueCheck.png')] private const WALL2:Class;
 		
 		public function Wall(data:Object):void
 		{
