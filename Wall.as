@@ -3,6 +3,7 @@ package
 	import net.flashpunk.Entity;
 	import net.flashpunk.FP;
 	import net.flashpunk.graphics.Image;
+	import net.flashpunk.graphics.TiledImage;
 	import Editor.LoadableWorld;
 	
 	public class Wall extends Entity
@@ -11,6 +12,9 @@ package
 		public var pressedButtons:Array = [];
 		private var exists:Boolean = true;
 		public var ident:int;
+		[Embed(source = 'assets/wall0.png')] private const WALL0:Class;
+		[Embed(source = 'assets/GreenStripe.png')] private const WALL1:Class;
+		[Embed(source = 'assets/BlueStripe.png')] private const WALL2:Class;
 		
 		public function Wall(data:Object):void
 		{
@@ -19,8 +23,13 @@ package
 			y = r[1] * GC.tileHeight;
 			setHitbox(r[2] * GC.tileWidth, r[3] * GC.tileHeight);
 			ident = data.type;
-			graphic = Image.createRect(r[2] * GC.tileWidth, r[3] * GC.tileHeight, GC.wallColours[ident + 1]);
-			(graphic as Image).alpha = 0.7411764;
+			if (ident == -1) {
+				graphic = new TiledImage(WALL0, r[2] * GC.tileWidth, r[3] * GC.tileHeight);
+			} else if (ident == 0) {
+				graphic = new TiledImage(WALL1, r[2] * GC.tileWidth, r[3] * GC.tileHeight);
+			} else {
+				graphic = new TiledImage(WALL2, r[2] * GC.tileWidth, r[3] * GC.tileHeight);
+			}
 			type = "wall" + ident;
 			// buttons
 			if (data.buttons !== undefined) {

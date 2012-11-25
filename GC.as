@@ -25,7 +25,7 @@ package
 		public static var tiles:Image;
 		[Embed(source = 'assets/tilemap.png')] public static const TILES:Class;
 		[Embed(source = 'assets/gridpic.png')] public static const GRID:Class;
-		public static var wallColours:Array = [0xcf4759, 0x60ff6f, 0x2ef2fc];
+		public static var wallColours:Array = [0xcf4759, 0x5dd368, 0x38c9d1];
 		
 		public static var gravity:Number = .7;
 		public static var playerDamp:Array = [.7, .9]; //Damping when onGround
