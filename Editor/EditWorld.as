@@ -9,6 +9,7 @@ package Editor
 	import net.flashpunk.Entity;
 	import net.flashpunk.graphics.Image;
 	import flash.events.KeyboardEvent;
+	import com.adobe.serialization.json.JSON;
 	
 	/**
 	 * ...
@@ -208,7 +209,7 @@ package Editor
 					// Switch-wall conection hacked
 				default: // I.e. 0 No walls OR 1 Walls
 					if (x1 != -1 && y1 != -1)
-					{						
+					{
 						// Set the tiles 
 						currentMap.setTiles(x1, y1, currentMap.getTileX(mouseX), currentMap.getTileY(mouseY), selected);
 						
@@ -231,11 +232,17 @@ package Editor
 			{
 				if (e.keyCode == Key.S)
 				{
+// 					trace("call save");
 					save();
 				}
 				else if (e.keyCode == Key.L)
 				{
+// 					trace("call load");
 					load();
+					if (tempLevel != null) {
+						FP.world = new EditWorld(ident, com.adobe.serialization.json.JSON.decode(tempLevel) as Object);
+						tempLevel = null;
+					}
 				}
 			}
 		}

@@ -22,6 +22,7 @@ package Editor
 		public var playersStart: Array = new Array();
 		public var switches:Array = new Array();
 		public var targets:Array = new Array();
+		protected var tempLevel:String = null;
 
 		public var ident:int = 0;
 		
@@ -42,7 +43,6 @@ package Editor
 				walls.push(new Wall(wData));
 			}
 			for (i = 0; i < data.switches.length; i++) {
-				trace("c", data.switches[i].walls);
 				switches.push(new Switch(i, data.switches[i]));
 			}
 			for each (var target:Object in data.targets) {
@@ -61,11 +61,9 @@ package Editor
 			}
 			for each (var s:Switch in switches) {
 				add(s);
-				trace("a", this is EditWorld, s.ident, s.walls.length, s.walls[0]);
 				for (i = 0; i < s.walls.length; i++) {
 					s.walls[i] = walls[s.walls[i]];
 				}
-				trace(" ", this is EditWorld, s.ident, s.walls.length, s.walls[0]);
 			}
 			for each (var t:Target in targets) {
 				add(t);
@@ -135,6 +133,7 @@ package Editor
 		
 		public function load():void
 		{
+// 			trace("load");
 			var file : FileReference = new FileReference();
 			
 			file.addEventListener(Event.SELECT, fileSelect);
@@ -148,7 +147,7 @@ package Editor
 
 			function loadComplete (event:Event):void
 			{
-				FP.world = new EditWorld(ident, com.adobe.serialization.json.JSON.decode(file.data.toString()) as Object);
+				tempLevel = file.data.toString();
 			}
 		}
 
@@ -183,7 +182,6 @@ package Editor
 			var ss:Array = [];
 			for each (var s:Switch in switches) {
 				ws = [];
-				trace("b", s.ident, s.walls.length, s.walls[0], walls.indexOf(s.walls[0]));
 				for (i = 0; i < s.walls.length; i++) {
 					ws.push(walls.indexOf(s.walls[i]));
 				}
@@ -198,8 +196,9 @@ package Editor
 		}
 
 		public function save():void {
-			trace(com.adobe.serialization.json.JSON.encode(generateData()));
-			new FileReference().save(com.adobe.serialization.json.JSON.encode(generateData()));
+			var s:String = com.adobe.serialization.json.JSON.encode(generateData());
+// 			trace("save");
+			new FileReference().save(s);
 		}
 	}
 }
