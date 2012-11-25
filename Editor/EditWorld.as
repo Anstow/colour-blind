@@ -25,12 +25,14 @@ package Editor
 		public var selected : int =  -1;
 		public var x1 : int = -1;
 		public var y1 : int = -1;
+		public var currentSwitch:Switch;
 
 		public function EditWorld (id:int, data:Object) {
 			super(id, data);
 			for (var i:int = 0; i < 2; i++) {
 				add(new Start(i, playersStart[i]));
 			}
+			editting = true;
 		}
 		
 		override public function begin():void 
@@ -71,6 +73,7 @@ package Editor
 			}
 			else if (Input.released(Key.F5))
 			{
+				editting = false;
 				currentMap.updateCollisions();
 				FP.world = new Level(ident, generateData());
 				removeAll();
@@ -187,7 +190,6 @@ package Editor
 					// Player 0 switch hacked
 					// Player 1 switch hacked
 					ent = FP.world.collidePoint("switch" + (selected - 9), mouseX, mouseY);
-					trace(ent);
 					if (ent) // Clicked on a switch
 					{
 						// Removes the switches 
@@ -206,6 +208,20 @@ package Editor
 					break;
 				case 11:
 					// Switch-wall conection hacked
+					if (currentSwitch)
+					{
+						ent = FP.world.collidePoint("switch" + 0, mouseX, mouseY);
+						if (!ent)
+						{
+							ent = FP.world.collidePoint("switch" + 1, mouseX, mouseY);
+						}
+
+						if (ent) // Clicked on a switch
+						{
+							(ent as Switch).renderingLinks = true;
+						}
+					}
+					break;
 				default: // I.e. 0 No walls OR 1 Walls
 					if (x1 != -1 && y1 != -1)
 					{						

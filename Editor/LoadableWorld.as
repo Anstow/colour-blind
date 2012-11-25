@@ -22,6 +22,7 @@ package Editor
 		public var playersStart: Array = new Array();
 		public var switches:Array = new Array();
 		public var targets:Array = new Array();
+		public var editting :Boolean = false;
 
 		public var ident:int = 0;
 		
