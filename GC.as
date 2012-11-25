@@ -30,7 +30,7 @@ package
 		public static var gravity:Number = .7;
 		public static var playerDamp:Array = [.7, .9]; //Damping when onGround
 		public static var playerAirDamp:Array = [.9, .9]; //Damping when !onGround
-		public static var littleJump:Number = 10;
+		public static var littleJump:Number = 9;
 		public static var moveSpeed:Number = 1.5;
 		public static var airSpeed:Number = .5;
 		public static var littleJumpSpeed:Number = 2;

@@ -112,7 +112,9 @@ package
 			if (!moveCollide(e, 1)) {
 				return false;
 			}
-			if (vel[1] > 0) onGround = true;
+			if (vel[1] > 0 && (!(e is Player) || (e as Player).onGround)) {
+				onGround = true;
+			}
 			return true;
 		}
 		
