@@ -36,7 +36,5 @@ package Editor
 			scrollSpeed = 0;
 			scrollSens = 0;
 		}
-		
 	}
-
 }
