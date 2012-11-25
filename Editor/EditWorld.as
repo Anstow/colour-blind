@@ -1,12 +1,13 @@
 package Editor
 {
 	import Editor.EditorConstants;
+	import flash.text.GridFitType;
 	import net.flashpunk.FP;
 	import net.flashpunk.utils.Input;
 	import net.flashpunk.World;
 	import net.flashpunk.utils.Key;
 	import net.flashpunk.Entity;
-
+	import net.flashpunk.graphics.Image;
 	import flash.events.KeyboardEvent;
 	
 	/**
@@ -15,6 +16,9 @@ package Editor
 	 */
 	public class EditWorld extends LoadableWorld 
 	{
+		
+		private var grid:Image = new Image(GC.GRID);
+		
 		public var tileOpts : TileOptions;
 		
 		// The seclected tile.
@@ -37,6 +41,8 @@ package Editor
 			add(currentMap);
 			tileOpts = new TileOptions();
 			add(tileOpts);
+			
+			addGraphic(grid);
 			
 			FP.stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDownListener);
 		}
