@@ -180,9 +180,23 @@ package Editor
 				case 10:
 					// Player 0 switch hacked
 					// Player 1 switch hacked
-					var tmpSwitch:Switch = new Switch(GC.highestSwitchId + 1, {type:(selected - 9), pos:[currentMap.getTileX(mouseX), currentMap.getTileY(mouseY)]});
-					switches.push(tmpSwitch);
-					FP.world.add(tmpSwitch);
+					ent = FP.world.collidePoint("switch" + (selected - 9), mouseX, mouseY);
+					trace(ent);
+					if (ent) // Clicked on a switch
+					{
+						// Removes the switches 
+						if (switches.indexOf(ent) >= 0)
+						{
+							FP.world.remove(ent);
+							switches.splice(switches.indexOf(ent),1);
+						}
+					}
+					else // Not clicked on a switch
+					{
+						var tmpSwitch:Switch = new Switch(GC.highestSwitchId + 1, {type:(selected - 9), pos:[currentMap.getTileX(mouseX), currentMap.getTileY(mouseY)]});
+						switches.push(tmpSwitch);
+						FP.world.add(tmpSwitch);
+					}
 					break;
 				case 11:
 					// Switch-wall conection hacked
