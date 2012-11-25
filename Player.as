@@ -29,6 +29,10 @@ package
 		private var die:Sfx = new Sfx(DIE);
 		public var mouth:Spritemap;
 		public var eyes:Spritemap;
+
+		// Blinking and winking variables
+		private var blinked:Boolean;
+		private var winked:Boolean;
 		
 		private var isJumping:Boolean = false;
 		private var jumpCounter:Number = 0;
@@ -68,6 +72,9 @@ package
 			setHitbox(20, 40);
 			type = "player" + ident;
 			layer = -1;
+
+			// Start blinking
+			FP.alarm(Math.pow(Math.random() * 12.1,3), blink);
 		}
 
 		public function moveCollide (e:Entity, axis:int):Boolean {
@@ -197,7 +204,41 @@ package
 				}
 				if (nLeft == 1) (world as Level).win();
 			}
-
 		}	
+
+		public function blink():void
+		{
+			if (blinked)
+			{
+				eyes.setAnimFrame("anim", 0);
+				FP.alarm(Math.pow(Math.random() * 12.1,3), blink);
+			}
+			else
+			{
+				winked = false;
+
+				eyes.setAnimFrame("anim", 1);
+				FP.alarm(10,blink);
+			}
+
+			blinked = !blinked;
+		}
+
+		public function wink():void
+		{
+			if (winked)
+			{
+				eyes.setAnimFrame("anim",0);
+			}
+			else
+			{
+				blinked = false;
+
+				eyes.setAnimFrame("anim", FP.rand(2));
+				FP.alarm(0.5,blink);
+			}
+
+			winked = !winked;
+		}
 	}
 }
