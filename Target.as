@@ -21,5 +21,11 @@ package
 			}
 			setHitbox(GC.tileWidth, GC.tileHeight);
 		}
+
+		public function updateXY(pos:Array):void
+		{
+			x = pos[0] * GC.tileWidth;
+			y = pos[1] * GC.tileHeight;
+		}
 	}
 }

@@ -164,9 +164,16 @@ package Editor
 					break;
 				case 5:
 					// Player 0 target position hacked
-					break;
 				case 6:
 					// Player 1 target position hacked
+					playersStart[selected - 5] = [currentMap.getTileX(mouseX), currentMap.getTileY(mouseY)];
+
+					tmpArray = new Array();
+					FP.world.getType("target" + (selected - 5),tmpArray);
+					if (tmpArray.length >=0)
+					{
+						tmpArray[0].updateXY([currentMap.getTileX(mouseX), currentMap.getTileY(mouseY)]);
+					}
 					break;
 				default: // I.e. 0 No walls OR 1 Walls
 					if (x1 != -1 && y1 != -1)
