@@ -11,6 +11,7 @@ package
 
 		public function Main():void
 		{
+			trace('----');
 			GC.loadLevelData();
 			super(GC.windowWidth, GC.windowHeight, GC.FPS, true);
 			music = new Sfx(MUSIC);
