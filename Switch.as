@@ -20,7 +20,6 @@ package
 		[Embed(source = 'sfx/switchOff.mp3')] private const SWITCHOFF:Class;
 		private var on:Sfx;
 		private var off:Sfx;
-		public var renderingLinks:Boolean = false;
 
 		public function Switch (ident:int, data:Object):void {
 			this.ident = ident;
@@ -65,7 +64,7 @@ package
 		public override function render():void
 		{
 			super.render();
-			if (renderingLinks)
+			if ((world as LoadableWorld).editting)
 			{
 				for each (var w :Wall in walls)
 				{

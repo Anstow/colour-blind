@@ -227,7 +227,6 @@ package Editor
 					}
 					if (ent) // Clicked on a switch
 					{
-						(ent as Switch).renderingLinks = true;
 						currentSwitchs.push(ent);
 					}
 
@@ -242,7 +241,6 @@ package Editor
 						for each (var s :Switch in currentSwitchs)
 						{
 							s.walls.push(ent as Wall);
-							s.renderingLinks = false;
 						}
 						currentSwitchs = new Array();
 					}
