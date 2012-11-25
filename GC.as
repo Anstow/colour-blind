@@ -24,6 +24,7 @@ package
 		public static var tileHeight:int = 20;
 		public static var tiles:Image;
 		[Embed(source = 'assets/tilemap.png')] public static const TILES:Class;
+		[Embed(source = 'assets/gridpic.png')] public static const GRID:Class;
 		public static var wallColours:Array = [0xdd0000, 0x5dd368, 0x38c9d1];
 		
 		public static var gravity:Number = .7;
