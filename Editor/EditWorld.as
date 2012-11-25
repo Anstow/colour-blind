@@ -26,7 +26,7 @@ package Editor
 		public var selected : int =  -1;
 		public var x1 : int = -1;
 		public var y1 : int = -1;
-		public var currentSwitch:Switch;
+		public var currentSwitchs:Array = new Array();
 
 		public function EditWorld (id:int, data:Object) {
 			super(id, data);
@@ -220,18 +220,31 @@ package Editor
 					break;
 				case 11:
 					// Switch-wall conection hacked
-					if (currentSwitch)
+					ent = FP.world.collidePoint("switch" + 0, mouseX, mouseY);
+					if (!ent) // Try other colored switch
 					{
-						ent = FP.world.collidePoint("switch" + 0, mouseX, mouseY);
-						if (!ent)
-						{
-							ent = FP.world.collidePoint("switch" + 1, mouseX, mouseY);
-						}
+						ent = FP.world.collidePoint("switch" + 1, mouseX, mouseY);
+					}
+					if (ent) // Clicked on a switch
+					{
+						(ent as Switch).renderingLinks = true;
+						currentSwitchs.push(ent);
+					}
 
-						if (ent) // Clicked on a switch
+					ent = FP.world.collidePoint("wall" + 0, mouseX, mouseY);
+					if (!ent)
+					{
+						ent = FP.world.collidePoint("wall" + 1, mouseX, mouseY);
+					}
+					if (ent) // Clicked on a switch
+					{
+						(ent as Wall).allButtons.push(currentSwitchs.slice());
+						for each (var s :Switch in currentSwitchs)
 						{
-							(ent as Switch).renderingLinks = true;
+							s.walls.push(ent as Wall);
+							s.renderingLinks = false;
 						}
+						currentSwitchs = new Array();
 					}
 					break;
 				default: // I.e. 0 No walls OR 1 Walls
