@@ -20,6 +20,7 @@ package
 			setHitbox(r[2] * GC.tileWidth, r[3] * GC.tileHeight);
 			ident = data.type;
 			graphic = Image.createRect(r[2] * GC.tileWidth, r[3] * GC.tileHeight, GC.wallColours[ident + 1]);
+			(graphic as Image).alpha = 0.7411764;
 			type = "wall" + ident;
 			// buttons
 			if (data.buttons !== undefined) {
