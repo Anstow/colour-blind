@@ -71,7 +71,7 @@ package
 			
 			setHitbox(20, 40);
 			type = "player" + ident;
-			layer = -1;
+			layer = -2;
 
 			// Start blinking
 			FP.alarm(Math.pow(Math.random() * 12.1,3), blink);
