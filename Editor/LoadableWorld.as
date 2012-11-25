@@ -133,7 +133,6 @@ package Editor
 		
 		public function load():void
 		{
-// 			trace("load");
 			var file : FileReference = new FileReference();
 			
 			file.addEventListener(Event.SELECT, fileSelect);
@@ -197,7 +196,6 @@ package Editor
 
 		public function save():void {
 			var s:String = com.adobe.serialization.json.JSON.encode(generateData());
-// 			trace("save");
 			new FileReference().save(s);
 		}
 	}

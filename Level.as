@@ -46,7 +46,7 @@ package {
 				(p.mouth as Spritemap).setAnimFrame("anim", i);
 			}
 			// This enables the editor it should be removed in the final version
-			if (Input.released(Key.F5))
+			if (Input.released(Key.F2))
 			{
 				removeAll();
 				FP.world = new EditWorld(ident, data);

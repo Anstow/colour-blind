@@ -44,12 +44,15 @@ package Editor
 			add(tileOpts);
 			
 			addGraphic(grid);
-			
-			FP.stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDownListener);
 		}
 		
-		override public function update():void 
+		override public function update():void
 		{
+			if (tempLevel != null) {
+				FP.world = new EditWorld(ident, com.adobe.serialization.json.JSON.decode(tempLevel) as Object);
+				tempLevel = null;
+				return;
+			}
 			if (Input.mousePressed)
 			{
 				if (tileOpts.visible)
@@ -70,11 +73,19 @@ package Editor
 				y1 = -1;
 				tileOpts.visible = true;
 			}
-			else if (Input.released(Key.F5))
+			else if (Input.released(Key.F2))
 			{
 				currentMap.updateCollisions();
 				FP.world = new Level(ident, generateData());
 				removeAll();
+			}
+			else if (Input.released(Key.F3))
+			{
+				save();
+			}
+			else if (Input.released(Key.F4))
+			{
+				load();
 			}
 			
 			if (EditorConstants.scrollOn)
@@ -223,27 +234,6 @@ package Editor
 						y1 = currentMap.getTileY(mouseY);
 					}
 					break;
-			}
-		}
-		
-		private function keyDownListener(e : KeyboardEvent):void
-		{
-			if (e.ctrlKey || e.shiftKey)
-			{
-				if (e.keyCode == Key.S)
-				{
-// 					trace("call save");
-					save();
-				}
-				else if (e.keyCode == Key.L)
-				{
-// 					trace("call load");
-					load();
-					if (tempLevel != null) {
-						FP.world = new EditWorld(ident, com.adobe.serialization.json.JSON.decode(tempLevel) as Object);
-						tempLevel = null;
-					}
-				}
 			}
 		}
 	}
