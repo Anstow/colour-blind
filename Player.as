@@ -54,22 +54,22 @@ package
 			}
 			mouth.add("anim", [0, 1, 2, 3, 4, 5, 6, 7, 8]);
 			mouth.setAnimFrame("anim", 0);
-			mouth.x = 2;
-			mouth.y = 14;
+			mouth.x = 1;
+			mouth.y = 13;
 			addGraphic(mouth);
 			eyes.add("anim", [0, 1, 2, 3]);
 			eyes.setAnimFrame("anim", 0);
-			eyes.x = 4;
-			eyes.y = 5;
+			eyes.x = 3;
+			eyes.y = 4;
 			addGraphic(eyes);
-			x = pos[0] * GC.tileWidth;
-			y = pos[1] * GC.tileHeight;
+			x = pos[0] * GC.tileWidth + 1;
+			y = pos[1] * GC.tileHeight + 1;
 			input = GC.moveKeys[ident];
 			for (var key:String in input) {
 				Input.define.apply(null, [key+ident].concat(input[key]));
 			}
 			
-			setHitbox(20, 40);
+			setHitbox(18, 38);
 			type = "player" + ident;
 			layer = -2;
 
