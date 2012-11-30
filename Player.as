@@ -97,6 +97,7 @@ package
 			// targets
 			else if (e is Target) {
 				world.remove(e);
+				win.play();
 				// check for remaining targets
 				var nLeft:int = 0;
 				var es:Array;
