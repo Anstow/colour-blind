@@ -14,6 +14,7 @@ package
 		private var vel:Array = [0, 0];
 		private var onGround:Boolean = false;
 		private var input:Object;
+		private var colTypes:Array;
 		[Embed(source = 'assets/P1.png')] private const PLAYER1:Class;
 		[Embed(source = 'assets/P2.png')] private const PLAYER2:Class;
 		[Embed(source = 'assets/P1_smile_spritemap.png')] private const MOUTH1:Class;
@@ -72,19 +73,21 @@ package
 			setHitbox(18, 38);
 			type = "player" + ident;
 			layer = -2;
+			
+			colTypes = ["level", "wall" + ident, "target" + ident, "wall-1"];
+			for (var i:int = 0; i < 2; i++) {
+				if (i != ident) {
+					colTypes.push("player" + i);
+				}
+			}
 
 			// Start blinking
 			FP.alarm(Math.pow(Math.random() * 12.1,3), blink);
 		}
 
 		public function moveCollide (e:Entity, axis:int):Boolean {
-			// other player
-			if (e is Player) {
-				var v:Number = (vel[axis] + (e as Player).vel[axis]) / 2;
-				vel[axis] = v;
-				(e as Player).vel[axis] = v;
-			}
-			else if (e is Wall) {
+			// red wall
+			if (e is Wall) {
 				if ((e as Wall).ident == -1) {
 					die.play();
 					(world as Level).reset();
@@ -103,7 +106,6 @@ package
 					nLeft += es.length;
 				}
 				if (nLeft == 1) (world as Level).win();
-				return false;
 			}
 			return true;
 		}
@@ -112,16 +114,37 @@ package
 			if (!moveCollide(e, 1)) {
 				return false;
 			}
-			if (vel[1] <= 0) {
+// 			// friction
+// 			if (e is Player) {
+// 				if (vel[1] > 0) {
+// 					var dv:Number = (e as Player).vel[0] - vel[0];
+// 					vel[0] += .3 * dv;
+// 					(e as Player).vel[0] -= .3 * dv;
+// 				}
+// 			}
+			// bounce off ceilings
+			else if (vel[1] <= 0) {
 				vel[1] = Math.max(1, -vel[1]);
-			} else if ((!(e is Player) || (e as Player).onGround)) {
+				isJumping = false;
+			}
+			// on ground check
+			if (vel[1] > 0 && (!(e is Player) || (e as Player).onGround)) {
 				onGround = true;
 			}
 			return true;
 		}
 		
 		override public function moveCollideX (e:Entity):Boolean {
-			return moveCollide(e, 0);
+			if (!moveCollide(e, 0)) {
+				return false;
+			}
+			// other player
+			if (e is Player) {
+				var v:Number = (vel[0] + (e as Player).vel[0]) / 2;
+				vel[0] = v;
+				(e as Player).vel[0] = v;
+			}
+			return true;
 		}
 		
 		override public function update():void
@@ -175,14 +198,8 @@ package
 				vel[0] *= GC.playerAirDamp[0];
 				vel[1] *= GC.playerAirDamp[1];
 			}
-			var types:Array = ["level", "wall" + ident, "target" + ident, "wall-1"];
-			for (var i:int = 0; i < (world as Level).nPlayers; i++) {
-				if (i != ident) {
-					types.push("player" + i);
-				}
-			}
 			onGround = false;
-			moveBy(vel[0], vel[1], types);
+			moveBy(vel[0], vel[1], colTypes);
 
 			//Pushing switches
 			if (Input.pressed("down"+ident)) {
