@@ -107,13 +107,14 @@ package
 					nLeft += es.length;
 				}
 				if (nLeft == 1) (world as Level).win();
+				return false;
 			}
 			return true;
 		}
 		
 		override public function moveCollideY (e:Entity):Boolean {
 			if (!moveCollide(e, 1)) {
-				return false;
+				return true;
 			}
 // 			// friction
 // 			if (e is Player) {
@@ -137,7 +138,7 @@ package
 		
 		override public function moveCollideX (e:Entity):Boolean {
 			if (!moveCollide(e, 0)) {
-				return false;
+				return true;
 			}
 			// other player
 			if (e is Player) {
