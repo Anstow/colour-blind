@@ -7,6 +7,7 @@ package
 	import net.flashpunk.utils.Input;
 	import net.flashpunk.utils.Key;
 	import net.flashpunk.Sfx;
+	import flash.utils.getQualifiedClassName;
 	
 	public class Player extends Entity
 	{
@@ -15,6 +16,7 @@ package
 		private var onGround:Boolean = false;
 		private var input:Object;
 		private var colTypes:Array;
+		private var wasOnTop:Number = 0;
 		[Embed(source = 'assets/P1.png')] private const PLAYER1:Class;
 		[Embed(source = 'assets/P2.png')] private const PLAYER2:Class;
 		[Embed(source = 'assets/P1_smile_spritemap.png')] private const MOUTH1:Class;
@@ -74,7 +76,7 @@ package
 			type = "player" + ident;
 			layer = -2;
 			
-			colTypes = ["level", "wall" + ident, "target" + ident, "wall-1"];
+			colTypes = ["level", "wall" + ident];
 			for (var i:int = 0; i < 2; i++) {
 				if (i != ident) {
 					colTypes.push("player" + i);
@@ -84,46 +86,12 @@ package
 			// Start blinking
 			FP.alarm(Math.pow(Math.random() * 12.1,3), blink);
 		}
-
-		public function moveCollide (e:Entity, axis:int):Boolean {
-			// red wall
-			if (e is Wall) {
-				if ((e as Wall).ident == -1) {
-					die.play();
-					(world as Level).reset();
-					return false;
-				}
-			}
-			// targets
-			else if (e is Target) {
-				world.remove(e);
-				win.play();
-				// check for remaining targets
-				var nLeft:int = 0;
-				var es:Array;
-				for (var i:int = 0; i < (world as Level).nPlayers; i++) {
-					es = [];
-					world.getType("target" + i, es);
-					nLeft += es.length;
-				}
-				if (nLeft == 1) (world as Level).win();
-				return false;
-			}
-			return true;
-		}
 		
 		override public function moveCollideY (e:Entity):Boolean {
-			if (!moveCollide(e, 1)) {
-				return true;
+			// friction
+			if (e is Player && y < e.y) {
+				wasOnTop = (e as Player).vel[0];
 			}
-// 			// friction
-// 			if (e is Player) {
-// 				if (vel[1] > 0) {
-// 					var dv:Number = (e as Player).vel[0] - vel[0];
-// 					vel[0] += .3 * dv;
-// 					(e as Player).vel[0] -= .3 * dv;
-// 				}
-// 			}
 			// bounce off ceilings
 			else if (vel[1] <= 0) {
 				vel[1] = Math.max(1, -vel[1]);
@@ -137,9 +105,6 @@ package
 		}
 		
 		override public function moveCollideX (e:Entity):Boolean {
-			if (!moveCollide(e, 0)) {
-				return true;
-			}
 			// other player
 			if (e is Player) {
 				var v:Number = (vel[0] + (e as Player).vel[0]) / 2;
@@ -200,14 +165,42 @@ package
 				vel[0] *= GC.playerAirDamp[0];
 				vel[1] *= GC.playerAirDamp[1];
 			}
+
+			// move
 			onGround = false;
 			moveBy(vel[0], vel[1], colTypes);
-
-			//Pushing switches
+			if (wasOnTop != 0) {
+				moveBy(wasOnTop, 0, colTypes);
+				wasOnTop = 0;
+			}
+			var cols:Array = [];
+			// target
+			collideTypesInto(["target" + ident], x, y, cols);
+			for each (var t:Target in cols) {
+				world.remove(t);
+				win.play();
+				// check for remaining targets
+				var nLeft:int = 0;
+				var ts:Array;
+				for (var i:int = 0; i < (world as Level).nPlayers; i++) {
+					ts = [];
+					world.getType("target" + i, ts);
+					nLeft += ts.length;
+				}
+				if (nLeft == 1) (world as Level).win();
+			}
+			// red wall
+			cols = [];
+			collideTypesInto(["wall-1"], x, y, cols);
+			for each (var w:Wall in cols) {
+				die.play();
+				(world as Level).reset();
+			}
+			// pushing switches
+			cols = [];
 			if (Input.pressed("down"+ident)) {
-				var ss:Array = [];
-				collideTypesInto(["switch" + ident], x, y, ss);
-				for each (var s:Entity in ss) {
+				collideTypesInto(["switch" + ident], x, y, cols);
+				for each (var s:Entity in cols) {
 					(s as Switch).toggle();
 				}
 			}

@@ -10,7 +10,7 @@ package {
 	public class Level extends LoadableWorld
 	{
 		public var nPlayers:int = 2;
-		private var players:Array = [];
+		public var players:Array = [];
 		private var savedData:Array;
 		private var winning:Boolean = false;
 
