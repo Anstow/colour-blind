@@ -152,18 +152,19 @@ package Editor
 		}
 
 		public function generateData():Object {
-			var data:Object = {};
-			data.tilemap = currentMap.getSaveData();
-			data.players = playersStart;
-			var ts:Array = [];
+			var data:Object = {}; // The data
+			data.tilemap = currentMap.getSaveData(); // Add the tile map
+			data.players = playersStart; // Put the players start positions in
+			var ts:Array = []; // An array to put the targets in
 			for each (var t:Target in targets) {
 				ts.push({type: t.ident, pos: [t.x / GC.tileWidth, t.y / GC.tileHeight]});
 			}
-			data.targets = ts;
-			var ws:Array = [];
-			var destBgs:Array;
-			var destBs:Array;
+			data.targets = ts; // Add the targets
+			var ws:Array = []; // An array to put the walls in
+			var destBgs:Array; // An array to put the button groups in 
+			var destBs:Array;  // An array to put the buttons in a group in
 			for each (var w:Wall in walls) {
+				// Add the walls
 				destBgs = [];
 				for each (var bs:Array in w.allButtons) {
 					destBs = [];
