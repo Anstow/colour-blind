@@ -178,10 +178,21 @@ package Editor
 					// Player 0 target position hacked
 				case 6:
 					// Player 1 target position hacked
-					FP.world.getType("target" + (selected - 5),tmpArray);
-					if (tmpArray.length >=0)
+					ent = FP.world.collidePoint("target" + (selected - 5), mouseX, mouseY);
+					if (ent) // Clicked on a target
 					{
-						tmpArray[0].updateXY([currentMap.getTileX(mouseX), currentMap.getTileY(mouseY)]);
+						FP.world.remove(ent);
+						// Removes the target 
+						if (targets.indexOf(ent) >= 0)
+						{
+							targets.splice(targets.indexOf(ent),1);
+						}
+					}
+					else // Not clicked on a target
+					{
+						var tmpTarget:Target = new Target({type:(selected - 5), pos:[currentMap.getTileX(mouseX), currentMap.getTileY(mouseY)]});
+						targets.push(tmpTarget);
+						FP.world.add(tmpTarget);
 					}
 					break;
 				case 7:

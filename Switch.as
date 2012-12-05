@@ -11,6 +11,7 @@ package
 		public var ident : int;
 		public var walls:Array;
 		public var player:int;
+		public var inverted:Boolean;
 		private var isOn:Boolean = false;
 		[Embed(source = 'assets/switch1.png')] private const SWITCH1:Class;
 		[Embed(source = 'assets/switch2.png')] private const SWITCH2:Class;
@@ -22,26 +23,42 @@ package
 		private var off:Sfx;
 
 		public function Switch (ident:int, data:Object):void {
+			// Set the identity of the switch and player to affect
 			this.ident = ident;
 			GC.checkSwitchId(ident);
 			player = data.type;
+			// Graphics
 			if (player == 0) {
 				graphic = new Image(SWITCH1);
 			} else {
 				graphic = new Image(SWITCH2);
 			}
+			// Music
 			on = new Sfx(SWITCHON);
 			off = new Sfx(SWITCHOFF);
+			// Set the position hitbox and collision type
 			x = data.pos[0] * GC.tileWidth;
 			y = data.pos[1] * GC.tileHeight;
 			setHitbox(GC.tileWidth, GC.tileHeight);
 			type = "switch" + player;
+			// See if the switch has any walls
 			if (data.walls == undefined){
 				walls = new Array();
+				trace("switch" + ident + " has no walls");
 			} else {
+				// add the walls
 				walls = data.walls.slice();
 			}
-
+			// If the inverted property of a switch is undefined the switch isn't inverted
+			if(data.inverted == undefined){
+				trace("not inverted");
+				inverted = false;
+			} else {
+				// Set the inverted property
+				inverted = (data.inverted as Boolean);
+				trace("inverted: ", inverted);
+			}
+			// Set the graphics layer
 			layer = -1;
 		}
 
