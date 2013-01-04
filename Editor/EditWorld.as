@@ -17,7 +17,6 @@ package Editor
 	 */
 	public class EditWorld extends LoadableWorld 
 	{
-		
 		private var grid:Image = new Image(GC.GRID);
 		
 		public var tileOpts : TileOptions;
@@ -26,7 +25,7 @@ package Editor
 		public var selected : int =  -1;
 		public var x1 : int = -1;
 		public var y1 : int = -1;
-		public var currentSwitchs:Array = new Array();
+		public var eventBox : EditEventBox;
 
 		public function EditWorld (id:int, data:Object) {
 			super(id, data);
@@ -46,6 +45,9 @@ package Editor
 			add(tileOpts);
 			
 			addGraphic(grid);
+			eventBox = new EditEventBox(events);
+			eventBox.setVisibility(false);
+			add(eventBox);
 		}
 		
 		override public function update():void
@@ -55,25 +57,42 @@ package Editor
 				tempLevel = null;
 				return;
 			}
-			if (Input.mousePressed)
-			{
-				if (tileOpts.visible)
-				{
+			if (Input.mousePressed) {
+				if (tileOpts.visible) {
 					selected = tileOpts.getTile(mouseX, mouseY);
-					if (selected != -1)
-					{
+					if (selected != -1) {
 						tileOpts.visible = false;
+						tileOpts.collidable = false;
+						if (selected == 11) {
+							eventBox.setVisibility(true);
+						}
 					}
 				} else {
 					mousePress();
 				}
 			}
+			if (Input.mouseDown) {
+				// If we're in event mode
+				if (selected == 11) {
+					if (collidePoint("EventBox",mouseX,mouseY)) {
+						eventBox.moving(mouseX, mouseY);
+					} else {
+						eventBox.stopped();
+					}
+
+				}
+			}
 			if (Input.released(Key.SHIFT))
 			{
+				if (selected == 11) {
+					eventBox.stopped();
+					eventBox.setVisibility(false);
+				}
 				selected = -1;
 				x1 = -1;
 				y1 = -1;
 				tileOpts.visible = true;
+				tileOpts.collidable = true;
 			}
 			else if (Input.released(Key.F2))
 			{
@@ -150,6 +169,7 @@ package Editor
 			{
 				case -1:
 					tileOpts.visible = true;
+					tileOpts.collidable = true;
 					break;
 				case 2:
 					// Lava hacked
@@ -231,32 +251,6 @@ package Editor
 					break;
 				case 11:
 					// Switch-wall conection hacked
-					/* Depricated
-					ent = FP.world.collidePoint("switch" + 0, mouseX, mouseY);
-					if (!ent) // Try other colored switch
-					{
-						ent = FP.world.collidePoint("switch" + 1, mouseX, mouseY);
-					}
-					if (ent) // Clicked on a switch
-					{
-						currentSwitchs.push(ent);
-					}
-
-					ent = FP.world.collidePoint("wall" + 0, mouseX, mouseY);
-					if (!ent)
-					{
-						ent = FP.world.collidePoint("wall" + 1, mouseX, mouseY);
-					}
-					if (ent) // Clicked on a switch
-					{
-						(ent as Wall).allButtons.push(currentSwitchs.slice());
-						for each (var s :Switch in currentSwitchs)
-						{
-							s.walls.push(ent as Wall);
-						}
-						currentSwitchs = new Array();
-					}
-					//*/
 					break;
 				default: // I.e. 0 No walls OR 1 Walls
 					if (x1 != -1 && y1 != -1)

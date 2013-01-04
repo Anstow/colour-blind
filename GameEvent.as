@@ -107,9 +107,32 @@ package
 			return state;
 		}
 
-		// Gets the String
-		public function getData(world:LoadableWorld):Object
-		{
+		// Gets the data as a String
+		public function toString(world:LoadableWorld):String {
+			if (logicBlock) {
+				var eA : String = "";
+				for each (var e:Array in effects) {
+					switch (e[0]) {
+						case W_TOGGLE:
+						case W_TOGGLE_INVENT:
+							var index : int = world.walls.indexOf(e[1]);
+							if (index >= 0) {
+								eA += "[" + e[0] + ", " +  index  + "]";
+							}
+							break;
+					}
+				}
+				if (eA.length > 0) {
+					return "effects: " + eA + ", logicBlock: " + logicBlock.toString();
+				}
+			} 
+			return "";
+		}
+
+		
+
+		// Gets the data
+		public function getData(world:LoadableWorld):Object {
 			if (logicBlock) {
 				var eA : Array = [];
 				for each (var e:Array in effects) {
