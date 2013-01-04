@@ -107,3 +107,5 @@ package
 		
 	}
 }
+
+// vim: foldmethod=indent:cindent

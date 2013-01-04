@@ -35,21 +35,62 @@ package Editor
 		}
 
 		public function init(data:Object):void {
+			trace("Loading Level");
 			this.data = data;
 			
 			for (var i:int = 0; i < 2; i++) {
 				playersStart.push(data.players[i]);
 			}
-			for each (var wData:Object in data.walls) {
-				walls.push(new Wall(wData));
-			}
 			for (i = 0; i < data.switches.length; i++) {
 				switches.push(new Switch(i, data.switches[i]));
+			}
+			for each (var wData:Object in data.walls) {
+				walls.push(new Wall(wData));
 			}
 			for each (var target:Object in data.targets) {
 				targets.push(new Target(target));
 			}
 
+			var mainStr:String = "";
+			var subStr:String = "";
+
+			for each (var s:Switch in switches) {
+				add(s);
+				/* Depricated
+				for (i = 0; i < s.walls.length; i++) {
+					s.walls[i] = walls[s.walls[i]];
+				}
+				//*/
+			}
+			for each (var w:Wall in walls) {
+				add(w);
+				if (w.allButtons.length > 0)
+				{
+					mainStr = "";
+					for each (var bs:Array in w.allButtons) {
+						subStr = "";
+						for (i = 0; i < bs.length; i++) {
+							if (bs[i] != -1) {
+								if (subStr != "") {
+									subStr = "AND " + subStr + "NOT b" + bs[i] + " ";
+								} else {
+									subStr = "NOT b" + bs[i] + " ";
+								}
+							}
+						}
+						if (mainStr != "") {
+							mainStr = "OR " + mainStr + subStr;
+						} else {
+							mainStr = subStr;
+						}
+					}
+					if (mainStr == "") {
+						mainStr = "NOT "
+					}
+					w.loadStr(mainStr);
+				}
+			}
+			/* Depricated
 			for each (var w:Wall in walls) {
 				add(w);
 				for each (var bgs:Array in [w.allButtons, w.pressedButtons]) {
@@ -60,12 +101,7 @@ package Editor
 					}
 				}
 			}
-			for each (var s:Switch in switches) {
-				add(s);
-				for (i = 0; i < s.walls.length; i++) {
-					s.walls[i] = walls[s.walls[i]];
-				}
-			}
+			//*/
 			for each (var t:Target in targets) {
 				add(t);
 			}
@@ -163,6 +199,7 @@ package Editor
 			var ws:Array = []; // An array to put the walls in
 			var destBgs:Array; // An array to put the button groups in 
 			var destBs:Array;  // An array to put the buttons in a group in
+			var logicBlockStr: String = "";
 			for each (var w:Wall in walls) {
 				// Add the walls
 				destBgs = [];
@@ -173,23 +210,30 @@ package Editor
 						destBs.push(switches.indexOf(bs[i]));
 					}
 				}
+				logicBlockStr = w.getLogicString();
+				trace("logicBlockStr:", logicBlockStr);
 				ws.push({
 					type: w.ident,
 					rect: [w.x / GC.tileWidth, w.y / GC.tileHeight, w.width / GC.tileWidth, w.height / GC.tileHeight],
-					buttons: destBgs
+					buttons: destBgs,
+					logicBlock: logicBlockStr 
 				});
 			}
 			data.walls = ws;
 			var ss:Array = [];
 			for each (var s:Switch in switches) {
+				/* Depricated
 				ws = [];
 				for (i = 0; i < s.walls.length; i++) {
 					ws.push(walls.indexOf(s.walls[i]));
 				}
+				//*/
 				ss.push({
 					type: s.player,
-					pos: [s.x / GC.tileWidth, s.y / GC.tileHeight],
-					walls: ws
+					pos: [s.x / GC.tileWidth, s.y / GC.tileHeight]
+					/* Depricated
+					,walls: ws
+					//*/
 				});
 			}
 			data.switches = ss;
@@ -202,3 +246,5 @@ package Editor
 		}
 	}
 }
+
+// vim: foldmethod=indent:cindent

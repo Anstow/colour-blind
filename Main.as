@@ -14,9 +14,10 @@ package
 			GC.loadLevelData();
 			super(GC.windowWidth, GC.windowHeight, GC.FPS, true);
 			music = new Sfx(MUSIC);
-			music.loop();
+			//music.loop();
 			FP.world = new Level(0, GC.levelData[0]);
 		}
 	}
-	
 }
+
+// vim: foldmethod=indent:cindent

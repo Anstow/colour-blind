@@ -231,6 +231,7 @@ package Editor
 					break;
 				case 11:
 					// Switch-wall conection hacked
+					/* Depricated
 					ent = FP.world.collidePoint("switch" + 0, mouseX, mouseY);
 					if (!ent) // Try other colored switch
 					{
@@ -255,6 +256,7 @@ package Editor
 						}
 						currentSwitchs = new Array();
 					}
+					//*/
 					break;
 				default: // I.e. 0 No walls OR 1 Walls
 					if (x1 != -1 && y1 != -1)
@@ -276,3 +278,5 @@ package Editor
 		}
 	}
 }
+
+// vim: foldmethod=indent:cindent

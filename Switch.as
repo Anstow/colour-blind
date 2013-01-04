@@ -9,10 +9,11 @@ package
 	public class Switch extends Entity
 	{
 		public var ident : int;
-		public var walls:Array;
+		public var parentsAffected:Array = []; 
+		/*public var walls:Array;//*/
 		public var player:int;
 		public var inverted:Boolean;
-		private var isOn:Boolean = false;
+		public var isOn:Boolean = false;
 		[Embed(source = 'assets/switch1.png')] private const SWITCH1:Class;
 		[Embed(source = 'assets/switch2.png')] private const SWITCH2:Class;
 		[Embed(source = 'assets/switch1on.png')] private const SWITCH1ON:Class;
@@ -41,6 +42,7 @@ package
 			y = data.pos[1] * GC.tileHeight;
 			setHitbox(GC.tileWidth, GC.tileHeight);
 			type = "switch" + player;
+			/* Depricated Now changing this to be done via blocks these will be changed in the block
 			// See if the switch has any walls
 			if (data.walls == undefined){
 				walls = new Array();
@@ -49,6 +51,8 @@ package
 				// add the walls
 				walls = data.walls.slice();
 			}
+			//*/
+			/* We're not using this anymore either
 			// If the inverted property of a switch is undefined the switch isn't inverted
 			if(data.inverted == undefined){
 				trace("not inverted");
@@ -58,14 +62,12 @@ package
 				inverted = (data.inverted as Boolean);
 				trace("inverted: ", inverted);
 			}
+			//*/
 			// Set the graphics layer
 			layer = -1;
 		}
 
 		public function toggle ():void {
-			for each (var w:Wall in walls) {
-				w.toggle(this);
-			}
 			if (isOn) {
 				off.play();
 				if (player == 0) graphic = new Image(SWITCH1);
@@ -78,11 +80,20 @@ package
 				else             graphic = new Image(SWITCH2ON);
 				isOn = true;
 			}
+			/* I've introduced a new way of doing this
+			for each (var w:Wall in walls) {
+				w.toggle(this);
+			}
+			//*/
+			for each (var p:Parent in parentsAffected) {
+				p.toggled();
+			}
 		}
 
 		public override function render():void
 		{
 			super.render();
+			/* Depricated
 			if ((world as LoadableWorld).editting)
 			{
 				for each (var w :Wall in walls)
@@ -90,11 +101,13 @@ package
 					Draw.line(x,y, w.x, w.y);
 				}
 			}
+			//*/
 		}
 
 		public override function removed():void
 		{
 			super.removed();
+			/* Depricated
 			if ((world as LoadableWorld).editting)
 			{
 				for each (var w:Wall in walls)
@@ -102,8 +115,10 @@ package
 					w.removeLink(this);
 				}
 			}
+			//*/
 		}
 
+		/* Depricated
 		public function removeLink(w: Wall):void
 		{
 			if (walls.indexOf(w) >= 0)
@@ -111,5 +126,8 @@ package
 				walls.splice(walls.indexOf(w),1);
 			}			
 		}
+		//*/
 	}
 }
+
+// vim: foldmethod=indent:cindent
