@@ -98,15 +98,11 @@ package
 					currentState = !left;
 					break;
 				default: // NORMAL
-					trace(world.switches.length);
-					trace(button);
 					if (world.switches[button]) {
 						currentState = world.switches[button].isOn;
 						world.switches[button].parentsAffected.push(this);
-						trace("added");
 					} else {
 						currentState = false;
-						trace("failed");
 					}
 			}
 			return currentState;
@@ -114,26 +110,27 @@ package
 
 		// Toggles the block
 		public function toggled():void {
+			var newState : Boolean = currentState;
 			switch (operation)
 			{
 				case AND:
-					currentState = (leftChild ? leftChild.currentState : false) && (rightChild ? rightChild.currentState : false);
-					trace("toggled, AND", currentState);
+					newState = (leftChild ? leftChild.currentState : false) && (rightChild ? rightChild.currentState : false);
 					break;
 				case OR:
-					currentState = (leftChild ? leftChild.currentState : false) || (rightChild ? rightChild.currentState : false);
-					trace("toggled, OR", currentState);
+					newState = (leftChild ? leftChild.currentState : false) || (rightChild ? rightChild.currentState : false);
 					break;
 				case NOT:
-					currentState = !leftChild.currentState;
-					trace("toggled, NOT", currentState);
+					newState = !leftChild.currentState;
 					break;
 				default: // NORMAL
 					// Toggle the button
-					currentState = !currentState;
-					trace("toggled", button);
+					newState = !currentState;
 			}
-			parentBlock.toggled();
+
+			if (newState != currentState) {
+				currentState = newState;
+				parentBlock.toggled();
+			}
 		}
 
 		// Converts the logic block into a string

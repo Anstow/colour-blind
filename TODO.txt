@@ -11,8 +11,6 @@ Features:
 
 3 Update the levels to contain the logicBlock statement, this should be a simple matter of loading the level and resaving it. (Perhaps checking they still work would be useful)
 
-4 Change the wall toggling to be contained in a new class called an event, (this should let us do more stuff, I hope)
-
 5 Add a title screen.
 
 6 Add a level select (we should probably think about a way of naming the levels).
@@ -23,6 +21,8 @@ Features:
 
 9 Implement timing, should be doable using the LogicBlock class 
 
+10 Graphics
+
 Done:
 
-Nothing yet
+4 Change the wall toggling to be contained in a new class called an event, (this should let us do more stuff, I hope)

@@ -22,11 +22,6 @@ package {
 				add(p);
 				players.push(p);
 			}
-			for each (var w:Wall in walls) {
-				trace("attachSwitches:", walls.indexOf(w));
-				trace(w.getLogicString());
-				w.attachSwitches(this);
-			}
 		}
 
 		public function win():void {

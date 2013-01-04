@@ -22,6 +22,7 @@ package Editor
 		public var playersStart: Array = new Array();
 		public var switches:Array = new Array();
 		public var targets:Array = new Array();
+		public var events:Array = new Array();
 		protected var tempLevel:String = null;
 		public var editting :Boolean = false;
 
@@ -45,10 +46,47 @@ package Editor
 				switches.push(new Switch(i, data.switches[i]));
 			}
 			for each (var wData:Object in data.walls) {
-				walls.push(new Wall(wData));
+				var tempWall:Wall = new Wall(wData);
+				walls.push(tempWall);
+				if (wData.buttons)
+				{
+					mainStr = "";
+					if (wData.buttons !== undefined) {
+						for each (var bs:Array in wData.buttons) {
+							subStr = "";
+							for (i = 0; i < bs.length; i++) {
+								if (bs[i] != -1) {
+									if (subStr != "") {
+										subStr = "AND " + subStr + "NOT b" + bs[i] + " ";
+									} else {
+										subStr = "NOT b" + bs[i] + " ";
+									}
+								}
+							}
+							if (mainStr != "") {
+								mainStr = "OR " + mainStr + subStr;
+							} else {
+								mainStr = subStr;
+							}
+						}
+					}
+					if (mainStr != "") {
+						var tempEvent : GameEvent = new GameEvent({logicBlock: mainStr});
+						tempEvent.attachSwitches(this);
+						tempEvent.newWallEffect(tempWall,GameEvent.W_TOGGLE);
+						events.push(tempEvent);
+					}
+				}
 			}
 			for each (var target:Object in data.targets) {
 				targets.push(new Target(target));
+			}
+			if (data.events !== undefined) {
+				for each (var event:Object in data.events) {
+					var e:GameEvent=new GameEvent(event);
+					e.attachSwitches(this);
+					events.push(e);
+				}
 			}
 
 			var mainStr:String = "";
@@ -56,52 +94,10 @@ package Editor
 
 			for each (var s:Switch in switches) {
 				add(s);
-				/* Depricated
-				for (i = 0; i < s.walls.length; i++) {
-					s.walls[i] = walls[s.walls[i]];
-				}
-				//*/
 			}
 			for each (var w:Wall in walls) {
 				add(w);
-				if (w.allButtons.length > 0)
-				{
-					mainStr = "";
-					for each (var bs:Array in w.allButtons) {
-						subStr = "";
-						for (i = 0; i < bs.length; i++) {
-							if (bs[i] != -1) {
-								if (subStr != "") {
-									subStr = "AND " + subStr + "NOT b" + bs[i] + " ";
-								} else {
-									subStr = "NOT b" + bs[i] + " ";
-								}
-							}
-						}
-						if (mainStr != "") {
-							mainStr = "OR " + mainStr + subStr;
-						} else {
-							mainStr = subStr;
-						}
-					}
-					if (mainStr == "") {
-						mainStr = "NOT "
-					}
-					w.loadStr(mainStr);
-				}
 			}
-			/* Depricated
-			for each (var w:Wall in walls) {
-				add(w);
-				for each (var bgs:Array in [w.allButtons, w.pressedButtons]) {
-					for each (var bs:Array in bgs) {
-						for (i = 0; i < bs.length; i++) {
-							bs[i] = switches[bs[i]];
-						}
-					}
-				}
-			}
-			//*/
 			for each (var t:Target in targets) {
 				add(t);
 			}
@@ -202,24 +198,17 @@ package Editor
 			var logicBlockStr: String = "";
 			for each (var w:Wall in walls) {
 				// Add the walls
-				destBgs = [];
-				for each (var bs:Array in w.allButtons) {
-					destBs = [];
-					destBgs.push(destBs);
-					for (var i:int = 0; i < bs.length; i++) {
-						destBs.push(switches.indexOf(bs[i]));
-					}
-				}
-				logicBlockStr = w.getLogicString();
-				trace("logicBlockStr:", logicBlockStr);
 				ws.push({
 					type: w.ident,
-					rect: [w.x / GC.tileWidth, w.y / GC.tileHeight, w.width / GC.tileWidth, w.height / GC.tileHeight],
-					buttons: destBgs,
-					logicBlock: logicBlockStr 
+					rect: [w.x / GC.tileWidth, w.y / GC.tileHeight, w.width / GC.tileWidth, w.height / GC.tileHeight]
 				});
 			}
 			data.walls = ws;
+			var es:Array = []; // An array to put the events in
+			for each (var e:GameEvent in events) {
+				es.push(e.getData(this));
+			}
+			data.events = es;
 			var ss:Array = [];
 			for each (var s:Switch in switches) {
 				/* Depricated

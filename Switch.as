@@ -42,27 +42,6 @@ package
 			y = data.pos[1] * GC.tileHeight;
 			setHitbox(GC.tileWidth, GC.tileHeight);
 			type = "switch" + player;
-			/* Depricated Now changing this to be done via blocks these will be changed in the block
-			// See if the switch has any walls
-			if (data.walls == undefined){
-				walls = new Array();
-				trace("switch" + ident + " has no walls");
-			} else {
-				// add the walls
-				walls = data.walls.slice();
-			}
-			//*/
-			/* We're not using this anymore either
-			// If the inverted property of a switch is undefined the switch isn't inverted
-			if(data.inverted == undefined){
-				trace("not inverted");
-				inverted = false;
-			} else {
-				// Set the inverted property
-				inverted = (data.inverted as Boolean);
-				trace("inverted: ", inverted);
-			}
-			//*/
 			// Set the graphics layer
 			layer = -1;
 		}
