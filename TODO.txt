@@ -1,0 +1,28 @@
+This is a todo list for the game. If anyone else is working on it that is.
+
+Bugs:
+
+1 Switch editing doesn't work:
+Make the editor work again in the new way
+
+Features:
+
+2 Remove deprecated wall code, we'll only every needed it if we decide that the new way isn't good, in which case well need to make a lot of changes
+
+3 Update the levels to contain the logicBlock statement, this should be a simple matter of loading the level and resaving it. (Perhaps checking they still work would be useful)
+
+4 Change the wall toggling to be contained in a new class called an event, (this should let us do more stuff, I hope)
+
+5 Add a title screen.
+
+6 Add a level select (we should probably think about a way of naming the levels).
+
+7 Add a restart button (I don't think this is done yet)
+
+8 Add a disable music/sound button
+
+9 Implement timing, should be doable using the LogicBlock class 
+
+Done:
+
+Nothing yet
