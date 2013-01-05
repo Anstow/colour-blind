@@ -2,6 +2,8 @@ package Editor
 {
 	import net.flashpunk.Entity;
 	import net.flashpunk.graphics.Image;
+	import net.flashpunk.utils.Input;
+	import net.flashpunk.utils.Key;
 
 	/**
 	 * ...
@@ -12,17 +14,18 @@ package Editor
 		public var events:Array = [];
 		private var lastX:int;
 		private var lastY:int;
+		public var currentEvent:EditEvent;
 
 		public function EditEventBox(events:Array) {
 			super();
-			setHitbox(200,20);
+			setHitbox(400,20);
 			for (var i:int = 0; i < events.length; i++)
 			{
 				this.events.push(new EditEvent(events[i],x,y+20+i*20));
 			}
 			
-			addGraphic(Image.createRect(200, 20 + events.length * 20, 0x4b4b40));
-			addGraphic(Image.createRect(200, 20, 0x000040));
+			addGraphic(Image.createRect(400, 20 + events.length * 20, 0x4b4b40));
+			addGraphic(Image.createRect(400, 20, 0x000040));
 			type="EventBox";
 			layer=-20;
 		}
@@ -31,6 +34,35 @@ package Editor
 			super.added();
 			for each (var event:EditEvent in events) {
 				world.add(event);
+			}
+		}
+
+		public override function update():void {
+			super.update();
+			if (currentEvent) {
+				if (Input.released(Key.LEFT)) {
+					currentEvent.moveSelection(LogicBlock.LEFT);
+				} else if (Input.released(Key.RIGHT)) {
+					currentEvent.moveSelection(LogicBlock.RIGHT);
+				} else if (Input.released(Key.DOWN)) {
+					currentEvent.moveSelection(LogicBlock.DESCEND);
+				} else if (Input.released(Key.UP)) {
+					currentEvent.moveSelection(LogicBlock.ASSCEND);
+				}
+			}
+		}
+
+		public function clickedOn(e:EditEvent):void {
+			if (currentEvent && currentEvent) {
+				currentEvent.setClickedOn(false);
+			}
+			if (currentEvent != e) {
+				currentEvent = e;
+			} else { 
+				currentEvent = null;
+			}
+			if (currentEvent && currentEvent) {
+				currentEvent.setClickedOn(true);
 			}
 		}
 		

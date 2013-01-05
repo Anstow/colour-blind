@@ -77,6 +77,10 @@ package Editor
 					if (collidePoint("EventBox",mouseX,mouseY)) {
 						eventBox.moving(mouseX, mouseY);
 					} else {
+						var tempEvent:EditEvent = collidePoint("Event",mouseX,mouseY) as EditEvent;
+						if (tempEvent) {
+							eventBox.clickedOn(tempEvent);
+						}
 						eventBox.stopped();
 					}
 

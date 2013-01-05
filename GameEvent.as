@@ -11,6 +11,7 @@ package
 		public var logicBlock:LogicBlock;
 		private var effects:Array = [];
 		public var state:Boolean = false;
+		private var section:int = 0;
 
 		public function GameEvent(data:Object) {
 			// logicBlock
@@ -107,29 +108,72 @@ package
 			return state;
 		}
 
+		public function moveSelection(d:int):Parent {
+			switch (d) {
+				case LogicBlock.DESCEND:
+					if (section == 0 && logicBlock) {
+						return logicBlock;
+					}
+					break;
+				case LogicBlock.ASSCEND:
+					break;
+				case LogicBlock.LEFT:
+					if (section > 0) {
+						section--;
+					}
+					break;
+				case LogicBlock.RIGHT:
+					if (section < effects.length * 2) {
+						section++;
+					}
+					break;
+			}
+
+			return this;
+		}
+
 		// Gets the data as a String
-		public function toString(world:LoadableWorld):String {
+		public function toString(world:LoadableWorld = null, l:Parent = null):String {
 			if (logicBlock) {
 				var eA : String = "";
-				for each (var e:Array in effects) {
-					switch (e[0]) {
-						case W_TOGGLE:
-						case W_TOGGLE_INVENT:
-							var index : int = world.walls.indexOf(e[1]);
-							if (index >= 0) {
-								eA += "[" + e[0] + ", " +  index  + "]";
-							}
-							break;
+				if (world) {
+					for (var i:int = 0; i < effects.length; i++) {
+						switch (effects[i][0]) {
+							case W_TOGGLE:
+							case W_TOGGLE_INVENT:
+								var index : int = world.walls.indexOf(effects[i][1]);
+								if (index >= 0) {
+									if (l == this) {
+										if (2*i + 1 == section) {
+											eA += "[{" + effects[i][0] + "}, (" +  index  + ")]";
+										} else if (2*i + 2 == section) {
+											eA += "[(" + effects[i][0] + "), {" +  index  + "}]";
+										} else {
+											eA += "[(" + effects[i][0] + "), (" +  index  + ")]";
+										}
+									} else {
+										eA += "[" + effects[i][0] + ", " +  index  + "]";
+									}
+								}
+								break;
+						}
 					}
 				}
 				if (eA.length > 0) {
-					return "effects: " + eA + ", logicBlock: " + logicBlock.toString();
+					if (l == this) {
+						if (section == 0) {
+							return  "logicBlock: {" + logicBlock.toString(l) + "}, effects: " + eA;
+						} else {
+							return  "logicBlock: (" + logicBlock.toString(l) + "), effects: " + eA;
+						}
+					}
+					return  "logicBlock: " + logicBlock.toString(l) + ", effects: " + eA;
+				} else {
+					return logicBlock.toString(l);
 				}
 			} 
 			return "";
 		}
-
-		
 
 		// Gets the data
 		public function getData(world:LoadableWorld):Object {
@@ -155,7 +199,6 @@ package
 			} 
 			return {};
 		}
-
 	}
 }
 

@@ -15,11 +15,17 @@ package Editor
 		public var selected:Boolean;
 		public var cursorPosition:int;
 
+		private var currentBlock:Parent;
+		private var clickedOn:Boolean = false;
+
 		public function EditEvent(event:GameEvent,x:int,y:int) {
 			super(x,y);
 			this.event = event;
+			currentBlock = event;
 			layer=-21;
 			cursorPosition = -1;
+			type = "Event";
+			setHitbox(400,20);
 		}
 
 		public override function added():void {
@@ -32,10 +38,30 @@ package Editor
 			y += y_diff;
 		}
 
-		public function setVisibility(visibility:Boolean):void{
+		public function setVisibility(visibility:Boolean):void {
 			visible = visibility;
 			collidable = visibility;
 		}
+		
+		// Select this Event to edit
+		public function setClickedOn(clickedOn:Boolean):void {
+			this.clickedOn = clickedOn;
+			if (clickedOn) {
+				text.text = event.toString(world as LoadableWorld, currentBlock);
+			} else {
+				text.text = event.toString(world as LoadableWorld);
+			}
+		}
+
+		// Move the selected block
+		public function moveSelection(d:int):void {
+			if (clickedOn) {
+				currentBlock = currentBlock.moveSelection(d);
+				trace(currentBlock);
+				text.text = event.toString(world as LoadableWorld, currentBlock);
+			}
+		}
+
 	}
 }
 
