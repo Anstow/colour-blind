@@ -33,6 +33,45 @@ package
 			this.parentBlock = parentBlock;
 		}
 
+		public function changeString(str:String):void {
+			switch (section) {
+				case 0:
+					switch(str) {
+						case AND_S:
+							operation= AND;
+							break;
+						case OR_S:
+							operation= OR;
+							break;
+						case NOT_S:
+							operation= NOT;
+							break;
+						default:
+							// If the element is a button number we add the button
+							var tempStr : String = str.slice(1);
+							if (tempStr) { // Check if there is an element to add
+								var switchIndex : int = Number(tempStr);
+								if (tempStr == "0" || switchIndex > 0) {
+									button = switchIndex;
+								}
+							}
+							operation = NORMAL;
+					}
+					break;
+				case 1:
+					if (leftChild) {
+						leftChild.removed();
+					}
+					leftChild = new LogicBlock(str.split(" "), this);
+				case 2:
+					if (rightChild) {
+						rightChild.removed();
+					}
+					rightChild = new LogicBlock(str.split(" "), this);
+			}
+		}
+					
+
 		// Checks whether this is currently true or false and attaches the switches
 		public function attachSwitches(world:LoadableWorld):Boolean {
 			this.world = world;
@@ -230,38 +269,17 @@ package
 				default:
 					removed();
 					section = 0;
-					var operationType : int;
 					if (!data || data.length <= 0) {
 						operation = NORMAL;
+						return;
 					}
-					switch(data[0]) {
-						case AND_S:
-							operationType = AND;
-							break;
-						case OR_S:
-							operationType = OR;
-							break;
-						case NOT_S:
-							operationType = NOT;
-							break;
-						default:
-							// If the element is a button number we add the button
-							var tempStr : String= data[0].slice(1);
-							if (tempStr) { // Check if there is an element to add
-								var switchIndex : int = Number(tempStr);
-								if (tempStr == "0" || switchIndex > 0) {
-									button = switchIndex;
-								}
-							}
-					}
+					changeString(data[0]);
 					// Add the data
 					data = data.slice(1);
-					operation = operationType;
-
 					if (operation != 0 && data.length > 0) {
 						// Add left child
-						leftChild = new LogicBlock( data, this);
-						if (operationType != 1 && data.length > 0) {
+						leftChild = new LogicBlock(data, this);
+						if (operation != 1 && data.length > 0) {
 							rightChild = new LogicBlock(data, this);
 						}
 					}

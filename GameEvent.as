@@ -12,9 +12,11 @@ package
 		private var effects:Array = [];
 		public var state:Boolean = false;
 		private var section:int = 0;
+		private var world:LoadableWorld;
 
 		public function GameEvent(data:Object) {
 			// logicBlock
+			section = 0;
 			if (data.logicBlock !== undefined && data.logicBlock != "") {
 				addData(data.logicBlock.split(" "));
 			}
@@ -38,10 +40,16 @@ package
 				logicBlock.removed();
 			}
 			logicBlock = new LogicBlock(data, this);
+			if (world) {
+				logicBlock.attachSwitches(world);
+			}
 		}
-
-		public function loadLogicStr(str:String):void {
-			logicBlock = new LogicBlock(str.split(" "), this);
+		
+		// Adds or changes a String, to add new 
+		public function changeString(str:String):void {
+			if (section == 0 && !logicBlock) {
+				logicBlock = new LogicBlock(str.split(" "),this);
+			}
 		}
 
 		// At some point effects may act on something other than walls then we'll need
@@ -78,6 +86,7 @@ package
 		// and attaches the walls in effects
 		// Make sure this is run after the walls have been added to the world 
 		public function attachSwitches(world:LoadableWorld):Boolean {
+			world = world;
 			if (!logicBlock || logicBlock.attachSwitches(world)) {
 				state = true;
 			} else {

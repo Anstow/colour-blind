@@ -4,6 +4,7 @@ package
 
 	public interface Parent
 	{
+		function changeString(str:String):void;
 		function addData(data:Array):void;
 		function moveSelection(d:int):Parent;
 		function toggled():void;
