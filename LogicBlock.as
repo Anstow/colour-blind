@@ -24,59 +24,18 @@ package
 		public var operation : int  = 0; // The operation this should be NORMAL, AND, OR or NOT
 		public var currentState:Boolean;
 
-		private var section:int = 0;
+		private var world:LoadableWorld;
+		private var section:int;
 
-		public function LogicBlock(data:Array, parentBlock:Parent, leftChild:LogicBlock = null, rightChild:LogicBlock = null, but:int = -1) {
-			var operationType : int;
-			if (!data || data.length <= 0) {
-				operation = NORMAL;
-			}
-			switch(data[0]) {
-				case AND_S:
-					operationType = AND;
-					break;
-				case OR_S:
-					operationType = OR;
-					break;
-				case NOT_S:
-					operationType = NOT;
-					break;
-				default:
-					// If the element is a button number we add the button
-					var tempStr : String= data[0].slice(1);
-					if (tempStr) { // Check if there is an element to add
-						var switchIndex : int = Number(tempStr);
-						if (tempStr == "0" || switchIndex > 0) {
-							button = switchIndex;
-						}
-					}
-			}
-			// Add the data
-			data = data.slice(1);
-			operation = operationType;
-
-			if (operation != 0 && data.length > 0) {
-				// Add left child
-				leftChild = new LogicBlock( data, this);
-				if (operationType != 1 && data.length > 0)				{
-					rightChild = new LogicBlock(data, this);
-				}
-			}
-			
+		public function LogicBlock(data:Array, parentBlock:Parent) {
+			section = 0;
+			addData(data);
 			this.parentBlock = parentBlock;
-			
-			if (operation == 0 && but !=  -1) {
-				button = but;
-			} else if (leftChild) {
-				this.leftChild = leftChild;
-				if (rightChild) {
-					this.rightChild = rightChild;
-				}
-			}
 		}
 
 		// Checks whether this is currently true or false and attaches the switches
 		public function attachSwitches(world:LoadableWorld):Boolean {
+			this.world = world;
 			var left:Boolean = false;
 			var right:Boolean = false;
 			switch (operation)
@@ -146,10 +105,8 @@ package
 			switch (d) {
 				case DESCEND:
 					if (section == 1 && leftChild) {
-						trace("DESCEND left");
 						return leftChild;
 					} else if (section == 2 && rightChild) {
-						trace("DESCEND right");
 						return rightChild;
 					}
 					break;
@@ -184,7 +141,6 @@ package
 
 		// Converts the logic block into a string
 		public function toString(l:Parent = null):String {
-			if (this == l) { trace(operation); };
 			switch (operation) {
 				case AND:
 					if (this == l) {
@@ -249,14 +205,95 @@ package
 			}
 		}
 
-		// Changes the left block to a block of type blockType
-		public function changeLeftBlockTo(blockType:int=0):void {
-			leftChild = new LogicBlock([ blockType.toString() ], this, leftChild ? leftChild.leftChild : null, leftChild ? leftChild.rightChild : null, leftChild ? leftChild.button : null);
-		}
+		// This adds data to the selected element
+		public function addData(data:Array):void {
+			switch (section)
+			{ 
+				case 1:
+					if (leftChild) {
+						leftChild.addData(data);
+					} else {
+						leftChild = new LogicBlock(data, this);
+						if (world) {
+							leftChild.attachSwitches(world);
+						}
+					}
+				case 2:
+					if (rightChild) {
+						rightChild.addData(data);
+					} else {
+						rightChild = new LogicBlock(data, this);
+						if (world) {
+							rightChild.attachSwitches(world);
+						}
+					}
+				default:
+					removed();
+					section = 0;
+					var operationType : int;
+					if (!data || data.length <= 0) {
+						operation = NORMAL;
+					}
+					switch(data[0]) {
+						case AND_S:
+							operationType = AND;
+							break;
+						case OR_S:
+							operationType = OR;
+							break;
+						case NOT_S:
+							operationType = NOT;
+							break;
+						default:
+							// If the element is a button number we add the button
+							var tempStr : String= data[0].slice(1);
+							if (tempStr) { // Check if there is an element to add
+								var switchIndex : int = Number(tempStr);
+								if (tempStr == "0" || switchIndex > 0) {
+									button = switchIndex;
+								}
+							}
+					}
+					// Add the data
+					data = data.slice(1);
+					operation = operationType;
 
-		// Changes the right block to a block of type blockType
-		public function changeRightBlockTo(blockType:int=0):void {
-			rightChild = new LogicBlock([ blockType.toString() ], this, rightChild ? rightChild.leftChild : null, rightChild ? rightChild.rightChild : null, rightChild ? rightChild.button : null);
+					if (operation != 0 && data.length > 0) {
+						// Add left child
+						leftChild = new LogicBlock( data, this);
+						if (operationType != 1 && data.length > 0) {
+							rightChild = new LogicBlock(data, this);
+						}
+					}
+					if (world) {
+						attachSwitches(world);
+					}
+					break;
+			}
+		}
+		
+		// Updates the number of the switch
+		public function updateSwitchNumber(n:int):void {
+			button = n;
+		}
+		
+		// LogicBlock removed
+		public function removed():void {
+			if (leftChild) {
+				leftChild.removed();
+			}
+			if (rightChild) {
+				rightChild.removed();
+			}
+			if (button >= 0 && world) {
+				if (button < world.switches.length)
+				{
+					world.switches[button].parentsAffected.filter(
+						function(obj:Object,index:int,array:Array):Boolean {
+							return !(obj as LogicBlock == this);
+						});
+				}
+			}
 		}
 	}
 }

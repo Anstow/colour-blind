@@ -12,7 +12,6 @@ package
 		public var parentsAffected:Array = []; 
 		/*public var walls:Array;//*/
 		public var player:int;
-		public var inverted:Boolean;
 		public var isOn:Boolean = false;
 		[Embed(source = 'assets/switch1.png')] private const SWITCH1:Class;
 		[Embed(source = 'assets/switch2.png')] private const SWITCH2:Class;
@@ -86,26 +85,10 @@ package
 		public override function removed():void
 		{
 			super.removed();
-			/* Depricated
-			if ((world as LoadableWorld).editting)
-			{
-				for each (var w:Wall in walls)
-				{
-					w.removeLink(this);
-				}
+			for each (var p:LogicBlock in parentsAffected) {
+				p.updateSwitchNumber(-1);
 			}
-			//*/
 		}
-
-		/* Depricated
-		public function removeLink(w: Wall):void
-		{
-			if (walls.indexOf(w) >= 0)
-			{
-				walls.splice(walls.indexOf(w),1);
-			}			
-		}
-		//*/
 	}
 }
 

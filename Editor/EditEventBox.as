@@ -11,10 +11,10 @@ package Editor
 	 */
 	public class EditEventBox extends Entity
 	{
-		public var events:Array = [];
+		private var events:Array = [];
 		private var lastX:int;
 		private var lastY:int;
-		public var currentEvent:EditEvent;
+		private var currentEvent:EditEvent;
 
 		public function EditEventBox(events:Array) {
 			super();
@@ -93,7 +93,6 @@ package Editor
 			lastX = -1;
 			lastY = -1;
 		}
-
 	}
 }
 

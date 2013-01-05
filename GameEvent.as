@@ -16,7 +16,7 @@ package
 		public function GameEvent(data:Object) {
 			// logicBlock
 			if (data.logicBlock !== undefined && data.logicBlock != "") {
-				logicBlock = new LogicBlock(data.logicBlock.split(" "), this);
+				addData(data.logicBlock.split(" "));
 			}
 			if (data.effects !== undefined && data.effects != "") {
 				for each (var a:Array in data.effects) {
@@ -30,6 +30,14 @@ package
 					}
 				}
 			}
+		}
+
+		// Adds the logicBlock data
+		public function addData(data:Array):void {
+			if (logicBlock) {
+				logicBlock.removed();
+			}
+			logicBlock = new LogicBlock(data, this);
 		}
 
 		public function loadLogicStr(str:String):void {
@@ -75,7 +83,6 @@ package
 			} else {
 				state = false;
 			}
-			trace("here", effects.length);
 			
 			effects.filter(function(obj:Object,index:int,array:Array):Boolean {
 					var elt:Array = obj as Array;
@@ -100,11 +107,6 @@ package
 					return false;
 				} 
 			);
-			trace("effects");
-			for each (var a:Array in effects)
-			{
-				trace(a[0],a[1]);
-			}
 			return state;
 		}
 

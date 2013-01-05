@@ -57,11 +57,9 @@ package Editor
 		public function moveSelection(d:int):void {
 			if (clickedOn) {
 				currentBlock = currentBlock.moveSelection(d);
-				trace(currentBlock);
 				text.text = event.toString(world as LoadableWorld, currentBlock);
 			}
 		}
-
 	}
 }
 
