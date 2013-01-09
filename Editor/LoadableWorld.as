@@ -14,7 +14,7 @@ package Editor
 	 * ...
 	 * @author David
 	 */
-	public class LoadableWorld extends World 
+	public class LoadableWorld extends World
 	{
 		public var currentMap : Map; // I also think it would be useful to have a handle to my level
 		protected var data:Object;
