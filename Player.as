@@ -89,10 +89,6 @@ package
 		
 		override public function moveCollideY (e:Entity):Boolean {
 			if (vel[1] >= 0) {
-				// on ground check
-				if (!(e is Player) || (e as Player).onGround) {
-					onGround = true;
-				}
 				// stop moving
 				vel[1] = 0;
 			}
@@ -178,6 +174,10 @@ package
 			if (wasOnTop != 0) {
 				moveBy(wasOnTop, 0, colTypes);
 				wasOnTop = 0;
+			}
+			// on ground check
+			if (collideTypes(colTypes, x, y + 1)) {
+				onGround = true;
 			}
 			var cols:Array = [];
 			// target
