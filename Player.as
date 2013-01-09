@@ -88,18 +88,22 @@ package
 		}
 		
 		override public function moveCollideY (e:Entity):Boolean {
+			if (vel[1] >= 0) {
+				// on ground check
+				if (!(e is Player) || (e as Player).onGround) {
+					onGround = true;
+				}
+				// stop moving
+				vel[1] = 0;
+			}
 			// friction
 			if (e is Player && y < e.y) {
 				wasOnTop = (e as Player).vel[0];
 			}
 			// bounce off ceilings
-			else if (vel[1] <= 0) {
+			else if (vel[1] < 0) {
 				vel[1] = Math.max(1, -vel[1]);
 				isJumping = false;
-			}
-			// on ground check
-			if (vel[1] > 0 && (!(e is Player) || (e as Player).onGround)) {
-				onGround = true;
 			}
 			return true;
 		}
@@ -110,6 +114,8 @@ package
 				var v:Number = (vel[0] + (e as Player).vel[0]) / 2;
 				vel[0] = v;
 				(e as Player).vel[0] = v;
+			} else {
+				vel[0] = 0;
 			}
 			return true;
 		}

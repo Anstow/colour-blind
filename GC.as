@@ -27,14 +27,14 @@ package
 		[Embed(source = 'assets/gridpic.png')] public static const GRID:Class;
 		public static var wallColours:Array = [0xcf4759, 0x5dd368, 0x38c9d1];
 		
-		public static var gravity:Number = .7;
-		public static var playerDamp:Array = [.7, .9]; //Damping when onGround
-		public static var playerAirDamp:Array = [.9, .9]; //Damping when !onGround
+		public static var gravity:Number = 1.3;
+		public static var playerDamp:Array = [.7, .75]; //Damping when onGround
+		public static var playerAirDamp:Array = [.9, .75]; //Damping when !onGround
 		public static var littleJump:Number = 9;
 		public static var moveSpeed:Number = 1.5;
 		public static var airSpeed:Number = .5;
-		public static var littleJumpSpeed:Number = 2;
-		public static var jumpSpeed:Number = 8;
+		public static var littleJumpSpeed:Number = 3.1;
+		public static var jumpSpeed:Number = 13;
 		
 		public static var moveKeys:Array = [
 			{

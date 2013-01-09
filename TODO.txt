@@ -5,6 +5,8 @@ Bugs:
 1 Switch editing doesn't work:
 Make the editor work again in the new way
 
+error on finishing step_stone
+
 Features:
 
 2 Remove deprecated wall code, we'll only every needed it if we decide that the new way isn't good, in which case well need to make a lot of changes
@@ -22,6 +24,13 @@ Features:
 9 Implement timing, should be doable using the LogicBlock class 
 
 10 Graphics
+	make mouths less wide?
+
+blindfolds
+
+pressure pads
+
+inverted switches
 
 Done:
 
