@@ -50,6 +50,10 @@ package {
 			for each (var p:Player in players) {
 				(p.mouth as Spritemap).setAnimFrame("anim", i);
 			}
+			// reset key
+			if (Input.pressed(Key.R) || Input.pressed(Key.P)) {
+				FP.world = new Level(ident, generateData());
+			}
 			// This enables the editor it should be removed in the final version
 			if (Input.released(Key.F2))
 			{

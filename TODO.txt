@@ -15,8 +15,6 @@ Features:
 
 6 Add a level select (we should probably think about a way of naming the levels).
 
-7 Add a restart button (I don't think this is done yet)
-
 8 Add a disable music/sound button
 
 9 Implement timing, should be doable using the LogicBlock class 
@@ -28,8 +26,12 @@ blindfolds
 
 pressure pads
 
-inverted switches
+draw numbers on walls and switches in the editor
 
 Done:
 
 4 Change the wall toggling to be contained in a new class called an event, (this should let us do more stuff, I hope)
+
+short jump followed by immediate full jump is higher than 4 tiles
+
+Add a restart button (I don't think this is done yet)
