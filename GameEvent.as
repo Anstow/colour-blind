@@ -6,7 +6,7 @@ package
 	public class GameEvent implements Parent
 	{
 		public static const W_TOGGLE : int = 0;
-		public static const W_TOGGLE_INVENT : int = 1;
+		public static const W_TOGGLE_INVERT : int = 1;
 
 		public var logicBlock:LogicBlock;
 		private var effects:Array = [];
@@ -24,7 +24,7 @@ package
 				for each (var a:Array in data.effects) {
 					switch (a[0]) {
 						case W_TOGGLE:
-						case W_TOGGLE_INVENT:
+						case W_TOGGLE_INVERT:
 							if (a[1] !== undefined) {
 								effects.push([a[0], a[1]]);
 							}
@@ -60,7 +60,7 @@ package
 				case W_TOGGLE:
 					w.toggle(state);
 					break;
-				case W_TOGGLE_INVENT:
+				case W_TOGGLE_INVERT:
 					w.toggle(!state);
 					break;
 			}
@@ -75,7 +75,7 @@ package
 					case W_TOGGLE:
 						a[1].toggle(state);
 						break;
-					case W_TOGGLE_INVENT:
+					case W_TOGGLE_INVERT:
 						a[1].toggle(!state);
 						break;
 				}
@@ -97,7 +97,7 @@ package
 					var elt:Array = obj as Array;
 					switch (elt[0]) {
 						case W_TOGGLE:
-						case W_TOGGLE_INVENT:
+						case W_TOGGLE_INVERT:
 							if (elt[1] < 0 || !world.walls[elt[1]]) {
 								return false;
 							}
@@ -151,7 +151,7 @@ package
 					for (var i:int = 0; i < effects.length; i++) {
 						switch (effects[i][0]) {
 							case W_TOGGLE:
-							case W_TOGGLE_INVENT:
+							case W_TOGGLE_INVERT:
 								var index : int = world.walls.indexOf(effects[i][1]);
 								if (index >= 0) {
 									if (l == this) {
@@ -178,7 +178,7 @@ package
 							return  "logicBlock: (" + logicBlock.toString(l) + "), effects: " + eA;
 						}
 					}
-					return  "logicBlock: " + logicBlock.toString(l) + ", effects: " + eA;
+					return  "logicBlock: " + logicBlock.toString(l) + ", affects: " + eA;
 				} else {
 					return logicBlock.toString(l);
 				}
@@ -193,7 +193,7 @@ package
 				for each (var e:Array in effects) {
 					switch (e[0]) {
 						case W_TOGGLE:
-						case W_TOGGLE_INVENT:
+						case W_TOGGLE_INVERT:
 							var index : int = world.walls.indexOf(e[1]);
 							if (index >= 0) {
 								eA.push([e[0], index]);
