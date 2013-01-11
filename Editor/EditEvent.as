@@ -37,8 +37,8 @@ package Editor
 			if (currentBlock) {
 				currentBlock.changeString(str);
 			}
+			text.text = event.toString(world as LoadableWorld, currentBlock);
 		}
-
 		
 		public function updatePos(x_diff:int,y_diff:int):void {
 			x += x_diff;

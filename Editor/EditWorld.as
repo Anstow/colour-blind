@@ -87,6 +87,7 @@ package Editor
 			if (Input.released(Key.CONTROL)) {
 				if (selected == 11) {
 					eventBox.stopped();
+					eventBox.loadEvents(this);
 					eventBox.setVisibility(false);
 				}
 				selected = -1;

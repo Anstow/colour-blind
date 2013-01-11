@@ -182,6 +182,11 @@ package Editor
 			lastX = -1;
 			lastY = -1;
 		}
+		
+		// Adds the events to the world 
+		public function loadEvents(world:LoadableWorld):void{
+			world.events = this.events;
+		}
 	}
 }
 

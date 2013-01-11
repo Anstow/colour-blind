@@ -63,11 +63,13 @@ package
 						leftChild.removed();
 					}
 					leftChild = new LogicBlock(str.split(" "), this);
+					break;
 				case 2:
 					if (rightChild) {
 						rightChild.removed();
 					}
 					rightChild = new LogicBlock(str.split(" "), this);
+					break;
 			}
 		}
 					
@@ -246,8 +248,7 @@ package
 
 		// This adds data to the selected element
 		public function addData(data:Array):void {
-			switch (section)
-			{ 
+			switch (section) {
 				case 1:
 					if (leftChild) {
 						leftChild.addData(data);
@@ -257,6 +258,7 @@ package
 							leftChild.attachSwitches(world);
 						}
 					}
+					break;
 				case 2:
 					if (rightChild) {
 						rightChild.addData(data);
@@ -266,6 +268,7 @@ package
 							rightChild.attachSwitches(world);
 						}
 					}
+					break;
 				default:
 					removed();
 					section = 0;

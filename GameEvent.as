@@ -12,6 +12,7 @@ package
 		private var effects:Array = [];
 		public var state:Boolean = false;
 		private var section:int = 0;
+		private var subSection:int=0;
 		private var world:LoadableWorld;
 
 		public function GameEvent(data:Object) {
@@ -47,8 +48,17 @@ package
 		
 		// Adds or changes a String, to add new 
 		public function changeString(str:String):void {
-			if (section == 0 && !logicBlock) {
-				logicBlock = new LogicBlock(str.split(" "),this);
+			if (section == 0) {
+				// We want to add the data to the first element
+				if (!logicBlock) {
+					logicBlock = new LogicBlock(str.split(" "),this);
+				}
+			} else {
+				if (subSection == 0) {
+					effects[section - 1][0] = 0;
+					// TODO: Make this actually do something
+				} else {
+				}
 			}
 		}
 
@@ -124,22 +134,36 @@ package
 				case LogicBlock.DESCEND:
 					if (section == 0 && logicBlock) {
 						return logicBlock;
+					} else if (subSection > 0) {
+						// Else we are in a subSection and want to move left within it
+						subSection -= 1;
 					}
 					break;
 				case LogicBlock.ASSCEND:
+					if (section > 0 && subSection + 1 < effects[section - 1].length) {
+						// We are in a subSection and want to move right within it 
+						subSection++;
+					}
 					break;
 				case LogicBlock.LEFT:
 					if (section > 0) {
+						// We want to move our section left
 						section--;
 					}
 					break;
 				case LogicBlock.RIGHT:
-					if (section < effects.length * 2) {
+					if (section < effects.length) {
+						// We want to move our section right
 						section++;
+						subSection=0;
+					} else if (effects.length == 0 || effects[effects.length - 1][0] != -1) {
+						// We want to add a new section and move to it
+						section=effects.length;
+						subSection=0;
+						effects.push([-1]);
 					}
 					break;
 			}
-
 			return this;
 		}
 
@@ -153,35 +177,41 @@ package
 							case W_TOGGLE:
 							case W_TOGGLE_INVENT:
 								var index : int = world.walls.indexOf(effects[i][1]);
-								if (index >= 0) {
-									if (l == this) {
-										if (2*i + 1 == section) {
-											eA += "[{" + effects[i][0] + "}, (" +  index  + ")]";
-										} else if (2*i + 2 == section) {
-											eA += "[(" + effects[i][0] + "), {" +  index  + "}]";
-										} else {
-											eA += "[(" + effects[i][0] + "), (" +  index  + ")]";
-										}
+								if (l == this) {
+									if (i + 1 == section && subSection == 0) {
+										eA += "[{" + effects[i][0] + "}, (" +  index  + ")], ";
+									} else if (i + 1 == section && subSection == 0) {
+										eA += "[(" + effects[i][0] + "), {" +  index  + "}], ";
 									} else {
-										eA += "[" + effects[i][0] + ", " +  index  + "]";
+										eA += "[(" + effects[i][0] + "), (" +  index  + ")], ";
 									}
+								} else {
+									eA += "[" + effects[i][0] + ", " +  index  + "], ";
+								}
+								break;
+							case -1:
+								index = world.walls.indexOf(effects[i][1]);
+								if (l == this) {
+									if (i + 1 == section && subSection == 0) {
+										eA += "[{" + effects[i][0] + "}]";
+									} else {
+										eA += "[(" + effects[i][0] + ")], ";
+									}
+								} else {
+									eA += "[" + effects[i][0] + "], ";
 								}
 								break;
 						}
 					}
 				}
-				if (eA.length > 0) {
-					if (l == this) {
-						if (section == 0) {
-							return  "logicBlock: {" + logicBlock.toString(l) + "}, effects: " + eA;
-						} else {
-							return  "logicBlock: (" + logicBlock.toString(l) + "), effects: " + eA;
-						}
+				if (l == this) {
+					if (section == 0) {
+						return  "logicBlock: {" + logicBlock.toString(l) + "}, effects: " + eA;
+					} else {
+						return  "logicBlock: (" + logicBlock.toString(l) + "), effects: " + eA;
 					}
-					return  "logicBlock: " + logicBlock.toString(l) + ", effects: " + eA;
-				} else {
-					return logicBlock.toString(l);
 				}
+				return  "logicBlock: " + logicBlock.toString(l) + ", effects: " + eA;
 			} 
 			return "";
 		}
