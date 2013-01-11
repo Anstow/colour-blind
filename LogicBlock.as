@@ -223,12 +223,12 @@ package
 				default:
 					if (this == l) {
 						if (section == 0) {
-							return "{ b" + button + " }";
+							return "{ B" + button + " }";
 						} else {
-							return "( b" + button + " )";
+							return "( B" + button + " )";
 						}
 					}
-					return "b" + button;
+					return "B" + button;
 			}
 		}
 
@@ -242,7 +242,7 @@ package
 				case NOT:
 					return "(" + NOT_S + " " + (leftChild ? leftChild.toStringH() : "b-1 ") + ") "; 
 				default:
-					return (button ? "b" + button + " " : "b-1 ")
+					return (button ? "B" + button + " " : "b-1 ")
 			}
 		}
 

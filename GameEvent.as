@@ -5,8 +5,23 @@ package
 	
 	public class GameEvent implements Parent
 	{
+		public static const NONE : int = -1;
 		public static const W_TOGGLE : int = 0;
+		public static const W_TOGGLE_STR : String = "WT";
 		public static const W_TOGGLE_INVERT : int = 1;
+		public static const W_TOGGLE_INVERT_STR : String = "WTI";	
+
+		public static function getAffectStr(affect:int):String {
+			switch (affect) {
+				case W_TOGGLE:
+					return W_TOGGLE_STR;
+				case W_TOGGLE_INVERT:
+					return W_TOGGLE_INVERT_STR;
+				case NONE:
+				default:
+					return "-1";
+			}
+		}
 
 		public var logicBlock:LogicBlock;
 		private var affects:Array = [];
@@ -55,6 +70,8 @@ package
 				}
 			} else {
 				if (subSection == 0) {
+					// Change the type of affect
+					var tempType:int = Number(str);
 					affects[section - 1][0] = 0;
 					// TODO: Make this actually do something
 				} else {
@@ -74,6 +91,10 @@ package
 					w.toggle(!state);
 					break;
 			}
+		}
+
+		// Change affect type of the affect
+		public function changeAffect(newAffect:int):void {
 		}
 
 		public function toggled():void {
@@ -108,6 +129,7 @@ package
 					switch (elt[0]) {
 						case W_TOGGLE:
 						case W_TOGGLE_INVERT:
+							elt[1] = Number(elt[1].slice(1));
 							if (elt[1] < 0 || !world.walls[elt[1]]) {
 								return false;
 							}
@@ -147,20 +169,36 @@ package
 					break;
 				case LogicBlock.LEFT:
 					if (section > 0) {
+						if (affects[section - 1][0] == NONE) {
+							// if the section we've moved from is empty remove it
+							affects = affects.filter(function(item:Object, index:int, array:Array):Boolean {
+										return (index != section - 1);
+									});
+						}
 						// We want to move our section left
 						section--;
+						subSection=0;
 					}
 					break;
 				case LogicBlock.RIGHT:
 					if (section < affects.length) {
-						// We want to move our section right
-						section++;
+						// We want to move our section right or remove the section
+						if (section > 0 && affects[section - 1][0] == NONE) {
+							// If the section moved from is empty removed it
+							affects = affects.filter(function(item:Object, index:int, array:Array):Boolean {
+										return index != section - 1;
+									});
+						} else {
+							// If the section moved from isn't empty move to the next section
+							section++;
+						}
 						subSection=0;
-					} else if (affects.length == 0 || affects[affects.length - 1][0] != -1) {
+					}
+				   	else if (affects.length == 0 || affects[affects.length - 1][0] != NONE) {
 						// We want to add a new section and move to it
-						section=affects.length;
+						section=affects.length + 1;
 						subSection=0;
-						affects.push([-1]);
+						affects.push([NONE]);
 					}
 					break;
 			}
@@ -179,23 +217,23 @@ package
 								var index : int = world.walls.indexOf(affects[i][1]);
 								if (l == this) {
 									if (i + 1 == section && subSection == 0) {
-										eA += "[{" + affects[i][0] + "}, (" +  index  + ")], ";
+										eA += "([{" + getAffectStr(affects[i][0]) + "}, W" +  index  + "]), ";
 									} else if (i + 1 == section && subSection == 0) {
-										eA += "[(" + affects[i][0] + "), {" +  index  + "}], ";
+										eA += "([" + getAffectStr(affects[i][0]) + ", {W" +  index  + "}]), ";
 									} else {
-										eA += "[(" + affects[i][0] + "), (" +  index  + ")], ";
+										eA += "([" + getAffectStr(affects[i][0]) + ", W" +  index  + "]), ";
 									}
 								} else {
-									eA += "[" + affects[i][0] + ", " +  index  + "], ";
+									eA += "[" + getAffectStr(affects[i][0]) + ", W" +  index  + "], ";
 								}
 								break;
-							case -1:
+							case NONE:
 								index = world.walls.indexOf(affects[i][1]);
 								if (l == this) {
 									if (i + 1 == section && subSection == 0) {
-										eA += "[{" + affects[i][0] + "}]";
+										eA += "([{" + affects[i][0] + "}])";
 									} else {
-										eA += "[(" + affects[i][0] + ")], ";
+										eA += "([" + affects[i][0] + "]), ";
 									}
 								} else {
 									eA += "[" + affects[i][0] + "], ";
@@ -226,7 +264,7 @@ package
 						case W_TOGGLE_INVERT:
 							var index : int = world.walls.indexOf(e[1]);
 							if (index >= 0) {
-								eA.push([e[0], index]);
+								eA.push([e[0], "W" + index]);
 							}
 							break;
 					}

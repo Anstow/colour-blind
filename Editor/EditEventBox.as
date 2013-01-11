@@ -59,14 +59,32 @@ package Editor
 					}
 				}
 			} else if (mode == EDITING) {
-				if (Input.released(Key.A) && Input.check(Key.SHIFT)) {
-					currentStr += LogicBlock.AND_S;
+				if (Input.released(Key.A)) {
+					currentStr += "A";
 					textToAdd.text = "Edit: " + currentStr + "_";
-				} else if (Input.released(Key.O) && Input.check(Key.SHIFT)) {
-					currentStr += LogicBlock.OR_S;
+				} else if (Input.released(Key.B)) {
+					currentStr += "B";
 					textToAdd.text = "Edit: " + currentStr + "_";
-				} else if (Input.released(Key.O) && Input.check(Key.SHIFT)) {
-					currentStr += LogicBlock.NOT_S;
+				} else if (Input.released(Key.D)) {
+					currentStr += "D";
+					textToAdd.text = "Edit: " + currentStr + "_";
+				} else if (Input.released(Key.I)) {
+					currentStr += "I";
+					textToAdd.text = "Edit: " + currentStr + "_";
+				} else if (Input.released(Key.N)) {
+					currentStr += "N"
+					textToAdd.text = "Edit: " + currentStr + "_";
+				} else if (Input.released(Key.O)) {
+					currentStr += "O";
+					textToAdd.text = "Edit: " + currentStr + "_";
+				} else if (Input.released(Key.R)) {
+					currentStr += "R";
+					textToAdd.text = "Edit: " + currentStr + "_";
+				} else if (Input.released(Key.T)) {
+					currentStr += "T";
+					textToAdd.text = "Edit: " + currentStr + "_";
+				} else if (Input.released(Key.W)) {
+					currentStr += "W";
 					textToAdd.text = "Edit: " + currentStr + "_";
 				} else if (Input.released(Key.DIGIT_0)) {
 					currentStr += "0";
@@ -101,11 +119,11 @@ package Editor
 				} else if (Input.released(Key.BACKSPACE) && currentStr.length > 0) {
 					currentStr = currentStr.slice(0,currentStr.length - 1);
 					textToAdd.text = "Edit: " + currentStr + "_";
-				} else if (Input.released(Key.B)) {
-					currentStr += "b";
-					textToAdd.text = "Edit: " + currentStr + "_";
 				} else if (Input.released(Key.SPACE)) {
 					currentStr += " ";
+					textToAdd.text = "Edit: " + currentStr + "_";
+				} else if (Input.released(45)) {
+					currentStr += "-";
 					textToAdd.text = "Edit: " + currentStr + "_";
 				}
 			}
