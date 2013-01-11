@@ -35,7 +35,8 @@ package Editor
 			editting = true;
 		}
 		
-		override public function begin():void {
+		override public function begin():void 
+		{
 			super.begin();
 			EditorConstants.init();
 			
@@ -69,7 +70,8 @@ package Editor
 			}
 		}
 		
-		override public function update():void {
+		override public function update():void
+		{
 			if (tempLevel != null) {
 				FP.world = new EditWorld(ident, com.adobe.serialization.json.JSON.decode(tempLevel) as Object);
 				tempLevel = null;
@@ -104,7 +106,8 @@ package Editor
 
 				}
 			}
-			if (Input.released(Key.CONTROL)) {
+			if (Input.released(Key.SHIFT))
+			{
 				if (selected == 11) {
 					eventBox.stopped();
 					eventBox.setVisibility(false);
@@ -114,25 +117,33 @@ package Editor
 				y1 = -1;
 				tileOpts.visible = true;
 				tileOpts.collidable = true;
-			} else if (Input.released(Key.F2)) {
+			}
+			else if (Input.released(Key.F2))
+			{
 				editting = false;
 				currentMap.updateCollisions();
 				FP.world = new Level(ident, generateData());
 				removeAll();
-			} else if (Input.released(Key.F3)) {
+			}
+			else if (Input.released(Key.F3))
+			{
 				save();
-			} else if (Input.released(Key.F4)) {
+			}
+			else if (Input.released(Key.F4))
+			{
 				load();
 			}
 			
-			if (EditorConstants.scrollOn) {
+			if (EditorConstants.scrollOn)
+			{
 				scrollHorizontal(EditorConstants.halfWidth * 2);
 				scrollVertical(EditorConstants.halfHeight * 2);
 			}
 			super.update();
 		}
 
-		private function mousePress():void {
+		private function mousePress():void
+		{
 			if (x1 != -1 && y1 != -1)
 			{
 				var leftSide : int;
@@ -186,10 +197,10 @@ package Editor
 					tileOpts.collidable = true;
 					break;
 				case 2:
-				case 3:
-				case 4:
 					// Lava hacked
+				case 3:
 					// Color 0 hacked
+				case 4:
 					// Color 1 hacked
 					if (x1 != -1 && y1 != -1)
 					{
@@ -211,8 +222,8 @@ package Editor
 					}
 					break;
 				case 5:
-				case 6:
 					// Player 0 target position hacked
+				case 6:
 					// Player 1 target position hacked
 					ent = FP.world.collidePoint("target" + (selected - 5), mouseX, mouseY);
 					if (ent) // Clicked on a target
@@ -232,8 +243,8 @@ package Editor
 					}
 					break;
 				case 7:
-				case 8:
 					// Player 0 start position hacked
+				case 8:
 					// Player 1 start position hacked
 					playersStart[selected - 7] = [currentMap.getTileX(mouseX), currentMap.getTileY(mouseY)];
 

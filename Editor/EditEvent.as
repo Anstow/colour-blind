@@ -32,13 +32,6 @@ package Editor
 			text = new Text(event.toString(world as LoadableWorld));
 			addGraphic(text);
 		}
-
-		public function addString(str:String):void {
-			if (currentBlock) {
-				currentBlock.changeString(str);
-			}
-		}
-
 		
 		public function updatePos(x_diff:int,y_diff:int):void {
 			x += x_diff;
