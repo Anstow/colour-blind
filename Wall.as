@@ -12,6 +12,7 @@ package
 		public var pressedButtons:Array = [];
 		private var exists:Boolean = true;
 		public var ident:int;
+		private var numText:EditorNumber;
 		[Embed(source = 'assets/wall0.png')] private const WALL0:Class;
 		[Embed(source = 'assets/GreenCheck.png')] private const WALL1:Class;
 		[Embed(source = 'assets/BlueCheck.png')] private const WALL2:Class;
@@ -30,6 +31,15 @@ package
 				graphic = new TiledImage(WALL2, r[2] * GC.tileWidth, r[3] * GC.tileHeight);
 			}
 			type = "wall" + ident;
+		}
+
+		public function addText ():void {
+			numText = new EditorNumber(ident, (FP.world as LoadableWorld).walls.indexOf(this), x, y);
+			FP.world.add(numText);
+		}
+
+		public function rmText ():void {
+			world.remove(numText);
 		}
 		
 		public override function removed():void {

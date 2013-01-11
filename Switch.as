@@ -1,10 +1,11 @@
 package
 {
 	import net.flashpunk.Entity;
+	import net.flashpunk.FP;
 	import net.flashpunk.graphics.Image;
 	import net.flashpunk.Sfx;
 	import Editor.LoadableWorld;
-	import net.flashpunk.utils.Draw
+	import net.flashpunk.utils.Draw;
 
 	public class Switch extends Entity
 	{
@@ -13,6 +14,7 @@ package
 		/*public var walls:Array;//*/
 		public var player:int;
 		public var isOn:Boolean = false;
+		private var numText:EditorNumber;
 		[Embed(source = 'assets/switch1.png')] private const SWITCH1:Class;
 		[Embed(source = 'assets/switch2.png')] private const SWITCH2:Class;
 		[Embed(source = 'assets/switch1on.png')] private const SWITCH1ON:Class;
@@ -43,6 +45,15 @@ package
 			type = "switch" + player;
 			// Set the graphics layer
 			layer = -1;
+		}
+
+		public function addText ():void {
+			numText = new EditorNumber(ident, (FP.world as LoadableWorld).switches.indexOf(this), x, y);
+			FP.world.add(numText);
+		}
+
+		public function rmText ():void {
+			world.remove(numText);
 		}
 
 		public function toggle ():void {

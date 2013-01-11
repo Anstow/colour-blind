@@ -33,8 +33,8 @@ package
 		public static var littleJump:Number = 9;
 		public static var moveSpeed:Number = 1.5;
 		public static var airSpeed:Number = .5;
-		public static var littleJumpSpeed:Number = 2;
-		public static var jumpSpeed:Number = 8;
+		public static var littleJumpSpeed:Number = 1.6;
+		public static var jumpSpeed:Number = 6;
 		
 		public static var moveKeys:Array = [
 			{
@@ -51,6 +51,8 @@ package
 		];
 		
 		// Editor stuff
+		public static var numTextSize:int = tileHeight / 2;
+		public static var numTextColour:int = 0x000000;
 		// The scrolling constants
 		public static var scrollOn : Boolean; // Whether the scrolling is on or not
 		public static var scrollSpeed : Number; // Pixels per frame.

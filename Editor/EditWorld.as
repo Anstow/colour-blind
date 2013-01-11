@@ -47,6 +47,26 @@ package Editor
 			eventBox = new EditEventBox(events);
 			eventBox.setVisibility(false);
 			add(eventBox);
+
+			addNumbers();
+		}
+		
+		public function addNumbers ():void {
+			for each (var w:Wall in walls) {
+				w.addText();
+			}
+			for each (var s:Switch in switches) {
+				s.addText();
+			}
+		}
+		
+		public function rmNumbers ():void {
+			for each (var w:Wall in walls) {
+				w.rmText();
+			}
+			for each (var s:Switch in switches) {
+				s.rmText();
+			}
 		}
 		
 		override public function update():void {
@@ -150,15 +170,16 @@ package Editor
 				{
 					if (walls.indexOf(ent) >= 0)
 					{
+						rmNumbers();
 						FP.world.remove(ent);
 						walls.splice(walls.indexOf(ent), 1);
+						addNumbers();
 						return;
 					}
 				}
 			}
 
 			var tmpArray:Array = new Array();
-
 			switch(selected)
 			{
 				case -1:
@@ -172,11 +193,13 @@ package Editor
 					// Color 0 hacked
 					// Color 1 hacked
 					if (x1 != -1 && y1 != -1)
-					{						
-						// Set the tiles 
-						var tmp :Wall = new Wall({type: selected-3, rect: [leftSide, topSide, tmpW, tmpH]});
+					{
+						// Set the tiles
+						rmNumbers();
+						var tmp:Wall = new Wall({type: selected-3, rect: [leftSide, topSide, tmpW, tmpH]});
 						walls.push(tmp);
 						FP.world.add(tmp);
+						addNumbers();
 						
 						// Set the original position back to -1, -1.
 						x1 = -1;
@@ -229,18 +252,22 @@ package Editor
 					ent = FP.world.collidePoint("switch" + (selected - 9), mouseX, mouseY);
 					if (ent) // Clicked on a switch
 					{
-						// Removes the switches 
+						// Removes the switches
 						if (switches.indexOf(ent) >= 0)
 						{
+							rmNumbers();
 							FP.world.remove(ent);
 							switches.splice(switches.indexOf(ent),1);
+							addNumbers();
 						}
 					}
 					else // Not clicked on a switch
 					{
+						rmNumbers();
 						var tmpSwitch:Switch = new Switch(GC.highestSwitchId + 1, {type:(selected - 9), pos:[currentMap.getTileX(mouseX), currentMap.getTileY(mouseY)]});
 						switches.push(tmpSwitch);
 						FP.world.add(tmpSwitch);
+						addNumbers();
 					}
 					break;
 				case 11:

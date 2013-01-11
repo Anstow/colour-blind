@@ -50,6 +50,15 @@ package {
 			for each (var p:Player in players) {
 				(p.mouth as Spritemap).setAnimFrame("anim", i);
 			}
+			// reset key
+			if (Input.pressed(Key.R) || Input.pressed(Key.P)) {
+				reset();
+			}
+			// mute key
+			if (Input.pressed(Key.M)) {
+				if (FP.volume == 0) FP.volume = 1;
+				else FP.volume = 0;
+			}
 			// This enables the editor it should be removed in the final version
 			if (Input.released(Key.F2))
 			{

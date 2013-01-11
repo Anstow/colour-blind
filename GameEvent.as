@@ -6,10 +6,10 @@ package
 	public class GameEvent implements Parent
 	{
 		public static const W_TOGGLE : int = 0;
-		public static const W_TOGGLE_INVENT : int = 1;
+		public static const W_TOGGLE_INVERT : int = 1;
 
 		public var logicBlock:LogicBlock;
-		private var effects:Array = [];
+		private var affects:Array = [];
 		public var state:Boolean = false;
 		private var section:int = 0;
 		private var subSection:int=0;
@@ -21,13 +21,13 @@ package
 			if (data.logicBlock !== undefined && data.logicBlock != "") {
 				addData(data.logicBlock.split(" "));
 			}
-			if (data.effects !== undefined && data.effects != "") {
-				for each (var a:Array in data.effects) {
+			if (data.affects !== undefined && data.affects != "") {
+				for each (var a:Array in data.affects) {
 					switch (a[0]) {
 						case W_TOGGLE:
-						case W_TOGGLE_INVENT:
+						case W_TOGGLE_INVERT:
 							if (a[1] !== undefined) {
-								effects.push([a[0], a[1]]);
+								affects.push([a[0], a[1]]);
 							}
 							break;
 					}
@@ -55,22 +55,22 @@ package
 				}
 			} else {
 				if (subSection == 0) {
-					effects[section - 1][0] = 0;
+					affects[section - 1][0] = 0;
 					// TODO: Make this actually do something
 				} else {
 				}
 			}
 		}
 
-		// At some point effects may act on something other than walls then we'll need
+		// At some point affects may act on something other than walls then we'll need
 		// a new fuction to add that type of effect.
 		public function newWallEffect(w:Wall,effect:int = W_TOGGLE):void {
-			effects.push([effect, w]);
+			affects.push([effect, w]);
 			switch (effect) {
 				case W_TOGGLE:
 					w.toggle(state);
 					break;
-				case W_TOGGLE_INVENT:
+				case W_TOGGLE_INVERT:
 					w.toggle(!state);
 					break;
 			}
@@ -79,13 +79,13 @@ package
 		public function toggled():void {
 			state = !state;
 			// Deal with the walls
-			for each (var a:Array in effects) {
+			for each (var a:Array in affects) {
 				switch (a[0])
 				{
 					case W_TOGGLE:
 						a[1].toggle(state);
 						break;
-					case W_TOGGLE_INVENT:
+					case W_TOGGLE_INVERT:
 						a[1].toggle(!state);
 						break;
 				}
@@ -93,7 +93,7 @@ package
 		}
 
 		// Fuction that attaches the switches to the logicBlock,
-		// and attaches the walls in effects
+		// and attaches the walls in affects
 		// Make sure this is run after the walls have been added to the world 
 		public function attachSwitches(world:LoadableWorld):Boolean {
 			world = world;
@@ -103,11 +103,11 @@ package
 				state = false;
 			}
 			
-			effects.filter(function(obj:Object,index:int,array:Array):Boolean {
+			affects.filter(function(obj:Object,index:int,array:Array):Boolean {
 					var elt:Array = obj as Array;
 					switch (elt[0]) {
 						case W_TOGGLE:
-						case W_TOGGLE_INVENT:
+						case W_TOGGLE_INVERT:
 							if (elt[1] < 0 || !world.walls[elt[1]]) {
 								return false;
 							}
@@ -140,7 +140,7 @@ package
 					}
 					break;
 				case LogicBlock.ASSCEND:
-					if (section > 0 && subSection + 1 < effects[section - 1].length) {
+					if (section > 0 && subSection + 1 < affects[section - 1].length) {
 						// We are in a subSection and want to move right within it 
 						subSection++;
 					}
@@ -152,15 +152,15 @@ package
 					}
 					break;
 				case LogicBlock.RIGHT:
-					if (section < effects.length) {
+					if (section < affects.length) {
 						// We want to move our section right
 						section++;
 						subSection=0;
-					} else if (effects.length == 0 || effects[effects.length - 1][0] != -1) {
+					} else if (affects.length == 0 || affects[affects.length - 1][0] != -1) {
 						// We want to add a new section and move to it
-						section=effects.length;
+						section=affects.length;
 						subSection=0;
-						effects.push([-1]);
+						affects.push([-1]);
 					}
 					break;
 			}
@@ -172,33 +172,33 @@ package
 			if (logicBlock) {
 				var eA : String = "";
 				if (world) {
-					for (var i:int = 0; i < effects.length; i++) {
-						switch (effects[i][0]) {
+					for (var i:int = 0; i < affects.length; i++) {
+						switch (affects[i][0]) {
 							case W_TOGGLE:
-							case W_TOGGLE_INVENT:
-								var index : int = world.walls.indexOf(effects[i][1]);
+							case W_TOGGLE_INVERT:
+								var index : int = world.walls.indexOf(affects[i][1]);
 								if (l == this) {
 									if (i + 1 == section && subSection == 0) {
-										eA += "[{" + effects[i][0] + "}, (" +  index  + ")], ";
+										eA += "[{" + affects[i][0] + "}, (" +  index  + ")], ";
 									} else if (i + 1 == section && subSection == 0) {
-										eA += "[(" + effects[i][0] + "), {" +  index  + "}], ";
+										eA += "[(" + affects[i][0] + "), {" +  index  + "}], ";
 									} else {
-										eA += "[(" + effects[i][0] + "), (" +  index  + ")], ";
+										eA += "[(" + affects[i][0] + "), (" +  index  + ")], ";
 									}
 								} else {
-									eA += "[" + effects[i][0] + ", " +  index  + "], ";
+									eA += "[" + affects[i][0] + ", " +  index  + "], ";
 								}
 								break;
 							case -1:
-								index = world.walls.indexOf(effects[i][1]);
+								index = world.walls.indexOf(affects[i][1]);
 								if (l == this) {
 									if (i + 1 == section && subSection == 0) {
-										eA += "[{" + effects[i][0] + "}]";
+										eA += "[{" + affects[i][0] + "}]";
 									} else {
-										eA += "[(" + effects[i][0] + ")], ";
+										eA += "[(" + affects[i][0] + ")], ";
 									}
 								} else {
-									eA += "[" + effects[i][0] + "], ";
+									eA += "[" + affects[i][0] + "], ";
 								}
 								break;
 						}
@@ -206,12 +206,12 @@ package
 				}
 				if (l == this) {
 					if (section == 0) {
-						return  "logicBlock: {" + logicBlock.toString(l) + "}, effects: " + eA;
+						return  "logicBlock: {" + logicBlock.toString(l) + "}, affects: " + eA;
 					} else {
-						return  "logicBlock: (" + logicBlock.toString(l) + "), effects: " + eA;
+						return  "logicBlock: (" + logicBlock.toString(l) + "), affects: " + eA;
 					}
 				}
-				return  "logicBlock: " + logicBlock.toString(l) + ", effects: " + eA;
+				return  "logicBlock: " + logicBlock.toString(l) + ", affects: " + eA;
 			} 
 			return "";
 		}
@@ -220,10 +220,10 @@ package
 		public function getData(world:LoadableWorld):Object {
 			if (logicBlock) {
 				var eA : Array = [];
-				for each (var e:Array in effects) {
+				for each (var e:Array in affects) {
 					switch (e[0]) {
 						case W_TOGGLE:
-						case W_TOGGLE_INVENT:
+						case W_TOGGLE_INVERT:
 							var index : int = world.walls.indexOf(e[1]);
 							if (index >= 0) {
 								eA.push([e[0], index]);
@@ -233,7 +233,7 @@ package
 				}
 				if (eA.length > 0) {
 					return {
-						effects: eA,
+						affects: eA,
 						logicBlock: logicBlock.toString()
 					};
 				}
