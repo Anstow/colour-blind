@@ -49,7 +49,7 @@ Code   |   Meaning                             | Following componentents
 -1     |   no affect                           |   none
 WT     |   wall toggle (on if true)            |   "w" followed by the number
        |                                       |   of a wall to affect
-WTI    |   wall toggle invert (on if false)    |   "w" followed by the number 
+WTI    |   wall toggle inverted (on if false)  |   "w" followed by the number 
        |                                       |   of a wall to affect
 
 
@@ -58,7 +58,7 @@ What happens if you actually want to change things?
 To select an event click on it, by default this will put you at the top level
 of the logic block, but what does that mean?
 
-e.g. if you clicked on the block in the above example you would see something
+e.g. If you clicked on the block in the above example you would see something
 like this 
 
 LogicBlock: {NOT b1}, affects: ([WT, w0]), ([-1])
@@ -82,8 +82,26 @@ So how do you make changes?
 Press enter.
 
 If you've got an event selected, this let you add some text to the currently
-selected element. There isn't terific error checking so keep your inputs sane.
+selected element. There isn't terrific error checking so keep your inputs sane.
 Press enter again will make the change. Note empty cancels.
 
 If you've not got an selected this will create a new block with the entered
 text. Note empty cancels.
+
+Allowed items to enter
+
+Code    |   Meaning
+----------------------------------------------------------
+        |                                   
+""      |   Do nothing
+        |  
+NOT     |   create NOT block
+AND     |   create AND block
+OR      |   create OR block
+Bn      |   block to get the state of switch n
+B       |   set it to get no switch data
+        |   
+WT      |   set the affect type to wall toggle
+WTI     |   set the affect type to wall toggle inverted
+Wn      |   set it to affect wall n (n is an integer)
+W       |   set it to affect no wall
