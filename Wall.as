@@ -10,7 +10,6 @@ package
 	{
 		public var allButtons:Array = [];
 		public var pressedButtons:Array = [];
-		private var exists:Boolean = true;
 		public var ident:int;
 		private var numText:EditorNumber;
 		[Embed(source = 'assets/wall0.png')] private const WALL0:Class;
@@ -47,19 +46,6 @@ package
 			{
 				allButtons.splice(allButtons.indexOf(s),1);
 			}			
-		}
-
-		// Sets the state of the Wall
-		public function toggle(state:Boolean):void {
-			if (state) {
-				visible = true;
-				collidable = true;
-				exists = true;
-			} else {
-				visible = false;
-				collidable = false;
-				exists = false;
-			}
 		}
 	}
 }

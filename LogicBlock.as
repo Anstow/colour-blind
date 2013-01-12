@@ -155,6 +155,7 @@ package
 					currentState = !left;
 					break;
 				default: // NORMAL
+					trace("add button", button);
 					if (world.switches[button]) {
 						currentState = world.switches[button].isOn;
 						world.switches[button].parentsAffected.push(this);
