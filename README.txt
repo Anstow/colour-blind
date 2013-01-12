@@ -44,7 +44,7 @@ data of the block. In the above example either * = "WT, w0" or * = "-1". The fir
 component is from the folling list
 
 Code   |   Meaning                             | Following componentents
------------------------------------------------|--------------------------
+-------|---------------------------------------|--------------------------
        |                                       |
 -1     |   no affect                           |   none
 WT     |   wall toggle (on if true)            |   "w" followed by the number
@@ -91,7 +91,7 @@ text. Note empty cancels.
 Allowed items to enter
 
 Code    |   Meaning
-----------------------------------------------------------
+--------|-------------------------------------------------
         |                                   
 ""      |   Do nothing
         |  
