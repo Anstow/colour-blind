@@ -69,11 +69,7 @@ package
 				else             graphic = new Image(SWITCH2ON);
 				isOn = true;
 			}
-			/* I've introduced a new way of doing this
-			for each (var w:Wall in walls) {
-				w.toggle(this);
-			}
-			//*/
+				trace("here");
 			for each (var p:Parent in parentsAffected) {
 				p.toggled();
 			}

@@ -73,7 +73,7 @@ package Editor
 					if (mainStr != "") {
 						var tempEvent : GameEvent = new GameEvent({logicBlock: mainStr});
 						tempEvent.attachSwitches(this);
-						tempEvent.newWallEffect(tempWall,GameEvent.W_TOGGLE);
+						tempEvent.newEntityEffect(tempWall,GameEvent.TOGGLE);
 						events.push(tempEvent);
 					}
 				}

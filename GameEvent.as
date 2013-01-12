@@ -2,21 +2,22 @@ package
 {
 	import Editor.LoadableWorld;
 	import flash.utils.getQualifiedClassName;
+	import net.flashpunk.Entity;
 	
 	public class GameEvent implements Parent
 	{
 		public static const NONE : int = -1;
-		public static const W_TOGGLE : int = 0;
-		public static const W_TOGGLE_STR : String = "WT";
-		public static const W_TOGGLE_INVERT : int = 1;
-		public static const W_TOGGLE_INVERT_STR : String = "WTI";	
+		public static const TOGGLE : int = 0;
+		public static const TOGGLE_STR : String = "WT";
+		public static const TOGGLE_INVERT : int = 1;
+		public static const TOGGLE_INVERT_STR : String = "WTI";	
 
 		public static function getAffectStr(affect:int):String {
 			switch (affect) {
-				case W_TOGGLE:
-					return W_TOGGLE_STR;
-				case W_TOGGLE_INVERT:
-					return W_TOGGLE_INVERT_STR;
+				case TOGGLE:
+					return TOGGLE_STR;
+				case TOGGLE_INVERT:
+					return TOGGLE_INVERT_STR;
 				case NONE:
 				default:
 					return "-1";
@@ -39,8 +40,8 @@ package
 			if (data.affects !== undefined && data.affects != "") {
 				for each (var a:Array in data.affects) {
 					switch (a[0]) {
-						case W_TOGGLE:
-						case W_TOGGLE_INVERT:
+						case TOGGLE:
+						case TOGGLE_INVERT:
 							if (a[1] !== undefined) {
 								affects.push([a[0], a[1]]);
 							}
@@ -81,14 +82,16 @@ package
 
 		// At some point affects may act on something other than walls then we'll need
 		// a new fuction to add that type of effect.
-		public function newWallEffect(w:Wall,effect:int = W_TOGGLE):void {
+		public function newEntityEffect(w:Entity,effect:int = TOGGLE):void {
 			affects.push([effect, w]);
 			switch (effect) {
-				case W_TOGGLE:
-					w.toggle(state);
+				case TOGGLE:
+					w.visible = state;
+					w.collidable = state;
 					break;
-				case W_TOGGLE_INVERT:
-					w.toggle(!state);
+				case TOGGLE_INVERT:
+					w.visible = !state;
+					w.collidable = !state;
 					break;
 			}
 		}
@@ -97,17 +100,25 @@ package
 		public function changeAffect(newAffect:int):void {
 		}
 
+		// Change wall affected
+		public function changeEntity(newEntity:int):void {
+		}
+
 		public function toggled():void {
 			state = !state;
 			// Deal with the walls
 			for each (var a:Array in affects) {
 				switch (a[0])
 				{
-					case W_TOGGLE:
-						a[1].toggle(state);
+					case TOGGLE:
+						a[1].visible = state;
+						a[1].collidable = state;
+						trace("toggle");
 						break;
-					case W_TOGGLE_INVERT:
-						a[1].toggle(!state);
+					case TOGGLE_INVERT:
+						a[1].visible = !state;
+						a[1].collidable = !state;
+						trace("i toggle");
 						break;
 				}
 			}
@@ -124,25 +135,31 @@ package
 				state = false;
 			}
 			
+			// Add the affected
 			affects.filter(function(obj:Object,index:int,array:Array):Boolean {
 					var elt:Array = obj as Array;
 					switch (elt[0]) {
-						case W_TOGGLE:
-						case W_TOGGLE_INVERT:
-							elt[1] = Number(elt[1].slice(1));
-							if (elt[1] < 0 || !world.walls[elt[1]]) {
-								return false;
-							}
-							if (getQualifiedClassName(elt[1]) == "Wall") {
+						case TOGGLE:
+						case TOGGLE_INVERT:
+							if (getQualifiedClassName(elt[1]) != "String") {
 								return true;
 							}
-							elt[1] = world.walls[elt[1]];
-							if (elt[0] == W_TOGGLE) {
-								elt[1].toggle(state);
-							} else {
-								elt[1].toggle(!state);
+							switch (elt[1].charAt()) {
+								case 'W':
+									elt[1] = Number(elt[1].slice(1));
+									if (elt[1] < 0 || !world.walls[elt[1]]) {
+										return false;
+									}
+									elt[1] = world.walls[elt[1]];
+									if (elt[0] == TOGGLE) {
+										elt[1].visible = state;
+										elt[1].collidable = state;
+									} else {
+										elt[1].visible = !state;
+										elt[1].collidable = !state;
+									}
+									return true;
 							}
-							return true;
 					}
 					return false;
 				} 
@@ -211,8 +228,8 @@ package
 				if (world) {
 					for (var i:int = 0; i < affects.length; i++) {
 						switch (affects[i][0]) {
-							case W_TOGGLE:
-							case W_TOGGLE_INVERT:
+							case TOGGLE:
+							case TOGGLE_INVERT:
 								var index : int = world.walls.indexOf(affects[i][1]);
 								if (l == this) {
 									if (i + 1 == section && subSection == 0) {
@@ -241,9 +258,7 @@ package
 						}
 					}
 				}
-				trace(l == this);
 				if (l == this) {
-					trace("here");
 					if (section == 0) {
 						return  "logicBlock: {" + logicBlock.toString(l) + "}, affects: " + eA;
 					} else {
@@ -261,9 +276,13 @@ package
 				var eA : Array = [];
 				for each (var e:Array in affects) {
 					switch (e[0]) {
-						case W_TOGGLE:
-						case W_TOGGLE_INVERT:
-							var index : int = world.walls.indexOf(e[1]);
+						case TOGGLE:
+						case TOGGLE_INVERT:
+							if (e[1].type.substr(0,4) == "wall") {
+								var index : int = world.walls.indexOf(e[1]);
+							} else {
+								index = -1;
+							}
 							if (index >= 0) {
 								eA.push([e[0], "W" + index]);
 							}
