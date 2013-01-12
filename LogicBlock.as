@@ -33,6 +33,53 @@ package
 			this.parentBlock = parentBlock;
 		}
 
+		// This adds data to the selected element
+		public function addData(data:Array):void {
+			switch (section) {
+				case 1:
+					if (leftChild) {
+						leftChild.addData(data);
+					} else {
+						leftChild = new LogicBlock(data, this);
+						if (world) {
+							leftChild.attachSwitches(world);
+						}
+					}
+					break;
+				case 2:
+					if (rightChild) {
+						rightChild.addData(data);
+					} else {
+						rightChild = new LogicBlock(data, this);
+						if (world) {
+							rightChild.attachSwitches(world);
+						}
+					}
+					break;
+				default:
+					removed();
+					section = 0;
+					if (!data || data.length <= 0) {
+						operation = NORMAL;
+						return;
+					}
+					changeString(data[0]);
+					// Add the data
+					data.splice(0,1);
+					if (operation != 0 && data.length > 0) {
+						// Add left child
+						leftChild = new LogicBlock(data, this);
+						if (operation != 1 && data.length > 0) {
+							rightChild = new LogicBlock(data, this);
+						}
+					}
+					if (world) {
+						attachSwitches(world);
+					}
+					break;
+			}
+		}
+		
 		public function changeString(str:String):void {
 			switch (section) {
 				case 0:
@@ -72,7 +119,6 @@ package
 					break;
 			}
 		}
-					
 
 		// Checks whether this is currently true or false and attaches the switches
 		public function attachSwitches(world:LoadableWorld):Boolean {
@@ -196,6 +242,7 @@ package
 						}
 					}
 					return AND_S + " " + (leftChild ? leftChild.toString(l) : "b-1") + " " + (rightChild ? rightChild.toString(l) : "b-1");
+					break;
 				case OR:
 					if (this == l) {
 						if (section == 0) {
@@ -209,6 +256,7 @@ package
 						}
 					}
 					return OR_S + " " + (leftChild ? leftChild.toString(l) : "b-1") + " " + (rightChild ? rightChild.toString(l) : "b-1 ");
+					break;
 				case NOT:
 					if (this == l) {
 						if (section == 0) {
@@ -246,53 +294,6 @@ package
 			}
 		}
 
-		// This adds data to the selected element
-		public function addData(data:Array):void {
-			switch (section) {
-				case 1:
-					if (leftChild) {
-						leftChild.addData(data);
-					} else {
-						leftChild = new LogicBlock(data, this);
-						if (world) {
-							leftChild.attachSwitches(world);
-						}
-					}
-					break;
-				case 2:
-					if (rightChild) {
-						rightChild.addData(data);
-					} else {
-						rightChild = new LogicBlock(data, this);
-						if (world) {
-							rightChild.attachSwitches(world);
-						}
-					}
-					break;
-				default:
-					removed();
-					section = 0;
-					if (!data || data.length <= 0) {
-						operation = NORMAL;
-						return;
-					}
-					changeString(data[0]);
-					// Add the data
-					data = data.slice(1);
-					if (operation != 0 && data.length > 0) {
-						// Add left child
-						leftChild = new LogicBlock(data, this);
-						if (operation != 1 && data.length > 0) {
-							rightChild = new LogicBlock(data, this);
-						}
-					}
-					if (world) {
-						attachSwitches(world);
-					}
-					break;
-			}
-		}
-		
 		// Updates the number of the switch
 		public function updateSwitchNumber(n:int):void {
 			button = n;

@@ -202,8 +202,12 @@ package Editor
 		}
 		
 		// Adds the events to the world 
-		public function loadEvents(world:LoadableWorld):void{
-			world.events = this.events;
+		public function loadEvents():Array{
+			var rEvents:Array = [];
+			for each (var e:EditEvent in events) {
+				rEvents.push(e.event);
+			}
+			return rEvents;
 		}
 	}
 }
