@@ -211,18 +211,9 @@ package Editor
 			data.events = es;
 			var ss:Array = [];
 			for each (var s:Switch in switches) {
-				/* Depricated
-				ws = [];
-				for (i = 0; i < s.walls.length; i++) {
-					ws.push(walls.indexOf(s.walls[i]));
-				}
-				//*/
 				ss.push({
 					type: s.player,
 					pos: [s.x / GC.tileWidth, s.y / GC.tileHeight]
-					/* Depricated
-					,walls: ws
-					//*/
 				});
 			}
 			data.switches = ss;

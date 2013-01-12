@@ -82,15 +82,6 @@ package
 		public override function render():void
 		{
 			super.render();
-			/* Depricated
-			if ((world as LoadableWorld).editting)
-			{
-				for each (var w :Wall in walls)
-				{
-					Draw.line(x,y, w.x, w.y);
-				}
-			}
-			//*/
 		}
 
 		public override function removed():void

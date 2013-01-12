@@ -1,15 +1,16 @@
 This is a todo list for the game. If anyone else is working on it that is.
 
+--------------------------------------------------------------------------------
 Bugs:
 
 1 Switch editing doesn't work:
 Make the editor work again in the new way
+- Events editable 70%
 
+--------------------------------------------------------------------------------
 Features:
 
-2 Remove deprecated wall code, we'll only every needed it if we decide that the new way isn't good, in which case well need to make a lot of changes
-
-3 Update the levels to contain the logicBlock statement, this should be a simple matter of loading the level and resaving it. (Perhaps checking they still work would be useful)
+3 Update the levels to contain the logicBlock statement, this should be a simple matter of loading the level and resaving it. (Perhaps checking they still work would be useful) and re-linking them.
 
 5 Add a title screen.
 
@@ -20,10 +21,11 @@ Features:
 10 Graphics
 	make mouths less wide?
 
-blindfolds
+11 blindfolds
 
-pressure pads
+12 pressure pads
 
+--------------------------------------------------------------------------------
 Done:
 
 4 Change the wall toggling to be contained in a new class called an event, (this should let us do more stuff, I hope)
@@ -35,3 +37,6 @@ Add a restart button (I don't think this is done yet)
 draw numbers on walls and switches in the editor
 
 8 Add a disable music/sound button
+
+2 Remove deprecated wall code, we'll only every needed it if we decide that the new way isn't good, in which case well need to make a lot of changes (I think this is done now).
+

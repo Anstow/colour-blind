@@ -41,22 +41,6 @@ package
 		public function rmText ():void {
 			world.remove(numText);
 		}
-		
-		public override function removed():void {
-			super.removed();
-			/* Depricated
-			if ((world as LoadableWorld).editting)
-			{
-				for each (var ss:Array in allButtons)
-				{
-					for each (var s:Switch in ss)
-					{
-						s.removeLink(this);
-					}
-				}
-			}
-			//*/
-		}
 
 		public function removeLink(s: Switch):void {
 			if (allButtons.indexOf(s) >= 0)
