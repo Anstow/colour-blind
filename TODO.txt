@@ -3,9 +3,7 @@ This is a todo list for the game. If anyone else is working on it that is.
 --------------------------------------------------------------------------------
 Bugs:
 
-1 Switch editing doesn't work:
-Make the editor work again in the new way
-- Events editable 70%
+None that we've found
 
 --------------------------------------------------------------------------------
 Features:
@@ -25,6 +23,12 @@ Features:
 
 12 pressure pads
 
+13 Editor copy facility
+
+14 Editor multisubsection affect adding
+
+15 timers
+
 --------------------------------------------------------------------------------
 Done:
 
@@ -40,3 +44,5 @@ draw numbers on walls and switches in the editor
 
 2 Remove deprecated wall code, we'll only every needed it if we decide that the new way isn't good, in which case well need to make a lot of changes (I think this is done now).
 
+1 Switch editing doesn't work:
+Make the editor work again in the new way

@@ -12,6 +12,7 @@ package
 		public static const TOGGLE_INVERT : int = 1;
 		public static const TOGGLE_INVERT_STR : String = "WTI";	
 
+		// gets the affect string from the affect int 
 		public static function getAffectStr(affect:int):String {
 			switch (affect) {
 				case TOGGLE:
@@ -21,6 +22,30 @@ package
 				case NONE:
 				default:
 					return "-1";
+			}
+		}
+		// gets the affect int from the affect string
+		public static function getAffect(affectStr:String):int {
+			switch (affectStr) {
+				case TOGGLE_STR:
+					return TOGGLE;
+				case TOGGLE_INVERT_STR:
+					return TOGGLE_INVERT;
+				case "-1":
+				default:
+					return NONE;
+			}
+		}
+		// gets the affect string from the affect int 
+		public static function getAffectTemplatete(affect:String):Array {
+			switch (affect) {
+				case TOGGLE_STR:
+					return [TOGGLE, -1];
+				case TOGGLE_INVERT_STR:
+					return [TOGGLE_INVERT_STR, -1];
+				case "-1":
+				default:
+					return [-1];
 			}
 		}
 
@@ -71,11 +96,24 @@ package
 				}
 			} else {
 				if (subSection == 0) {
-					// Change the type of affect
-					var tempType:int = Number(str);
-					affects[section - 1][0] = 0;
-					// TODO: Make this actually do something
+					trace(str);
+					affects[section - 1] = getAffectTemplatete(str);
 				} else {
+					switch (affects[section - 1][0]) {
+						case NONE:
+							// You shouldn't be able to get here
+							subSection = 0;
+							break;
+						case TOGGLE:
+						case TOGGLE_INVERT:
+							if (subSection > 1) {
+								// You shouldn't be able to get here either
+								subSection = 1;
+								break;
+							}
+							affects[section-1][1]= getEntity(str);
+							break;
+					}	
 				}
 			}
 		}
@@ -96,12 +134,20 @@ package
 			}
 		}
 
-		// Change affect type of the affect
-		public function changeAffect(newAffect:int):void {
-		}
-
-		// Change wall affected
-		public function changeEntity(newEntity:int):void {
+		// gets the entity from the string code returns null if no entity
+		public function getEntity(newEntity:String):Entity {
+			if (world) {
+				switch (newEntity.charAt()) {
+					case 'W':
+						var entNum :int = Number(newEntity.slice(1));
+						trace(entNum);
+						if (entNum < 0 || !world.walls[entNum]) {
+							return null;
+						}
+						return world.walls[entNum];
+				}
+			}
+			return null;
 		}
 
 		public function toggled():void {
@@ -128,7 +174,7 @@ package
 		// and attaches the walls in affects
 		// Make sure this is run after the walls have been added to the world 
 		public function attachSwitches(world:LoadableWorld):Boolean {
-			world = world;
+			this.world = world;
 			if (!logicBlock || logicBlock.attachSwitches(world)) {
 				state = true;
 			} else {
@@ -141,25 +187,23 @@ package
 					switch (elt[0]) {
 						case TOGGLE:
 						case TOGGLE_INVERT:
-							if (getQualifiedClassName(elt[1]) != "String") {
+							if (!elt[1]) {
+								return false;
+							} else if (getQualifiedClassName(elt[1]) != "String") {
 								return true;
 							}
-							switch (elt[1].charAt()) {
-								case 'W':
-									elt[1] = Number(elt[1].slice(1));
-									if (elt[1] < 0 || !world.walls[elt[1]]) {
-										return false;
-									}
-									elt[1] = world.walls[elt[1]];
-									if (elt[0] == TOGGLE) {
-										elt[1].visible = state;
-										elt[1].collidable = state;
-									} else {
-										elt[1].visible = !state;
-										elt[1].collidable = !state;
-									}
-									return true;
+							elt[1] = getEntity(elt[1]);
+							if (elt[1]) {
+								if (elt[0] == TOGGLE) {
+									elt[1].visible = state;
+									elt[1].collidable = state;
+								} else {
+									elt[1].visible = !state;
+									elt[1].collidable = !state;
+								}
+								return true;
 							}
+							return false;
 					}
 					return false;
 				} 
@@ -234,7 +278,7 @@ package
 								if (l == this) {
 									if (i + 1 == section && subSection == 0) {
 										eA += "([{" + getAffectStr(affects[i][0]) + "}, W" +  index  + "]), ";
-									} else if (i + 1 == section && subSection == 0) {
+									} else if (i + 1 == section && subSection == 1) {
 										eA += "([" + getAffectStr(affects[i][0]) + ", {W" +  index  + "}]), ";
 									} else {
 										eA += "([" + getAffectStr(affects[i][0]) + ", W" +  index  + "]), ";
