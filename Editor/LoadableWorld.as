@@ -57,14 +57,14 @@ package Editor
 							for (i = 0; i < bs.length; i++) {
 								if (bs[i] != -1) {
 									if (subStr != "") {
-										subStr = "AND " + subStr + "NOT b" + bs[i] + " ";
+										subStr = "OR " + subStr + "NOT b" + bs[i] + " ";
 									} else {
 										subStr = "NOT b" + bs[i] + " ";
 									}
 								}
 							}
 							if (mainStr != "") {
-								mainStr = "OR " + mainStr + subStr;
+								mainStr = "AND " + mainStr + subStr;
 							} else {
 								mainStr = subStr;
 							}

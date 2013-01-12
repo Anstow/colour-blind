@@ -30,7 +30,8 @@ package Editor
 
 		public override function added():void {
 			text = new Text(event.toString(world as LoadableWorld));
-			addGraphic(text);
+			graphic = text;
+			//addGraphic(text);
 		}
 
 		public function addString(str:String):void {
@@ -38,6 +39,7 @@ package Editor
 				currentBlock.changeString(str);
 			}
 			text.text = event.toString(world as LoadableWorld, currentBlock);
+			graphic = text;
 		}
 		
 		public function updatePos(x_diff:int,y_diff:int):void {
@@ -48,15 +50,25 @@ package Editor
 		public function setVisibility(visibility:Boolean):void {
 			visible = visibility;
 			collidable = visibility;
+			if (visibility) {
+				text = new Text(event.toString(world as LoadableWorld));
+				graphic = text;
+				trace(collidable);
+			}
 		}
 		
 		// Select this Event to edit
 		public function setClickedOn(clickedOn:Boolean):void {
 			this.clickedOn = clickedOn;
+			trace("edit event swap");
 			if (clickedOn) {
+				trace(currentBlock);
 				text.text = event.toString(world as LoadableWorld, currentBlock);
+				graphic = text;
+				trace(text.text);
 			} else {
 				text.text = event.toString(world as LoadableWorld);
+				graphic = text;
 			}
 		}
 
@@ -65,6 +77,7 @@ package Editor
 			if (clickedOn) {
 				currentBlock = currentBlock.moveSelection(d);
 				text.text = event.toString(world as LoadableWorld, currentBlock);
+				graphic = text;
 			}
 		}
 	}

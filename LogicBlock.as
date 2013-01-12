@@ -118,6 +118,9 @@ package
 					rightChild = new LogicBlock(str.split(" "), this);
 					break;
 			}
+			if (world) { 
+				attachSwitches(world);
+			}
 		}
 
 		// Checks whether this is currently true or false and attaches the switches
@@ -157,6 +160,7 @@ package
 						world.switches[button].parentsAffected.push(this);
 					} else {
 						currentState = false;
+						button = -1;
 					}
 			}
 			return currentState;
@@ -232,42 +236,42 @@ package
 				case AND:
 					if (this == l) {
 						if (section == 0) {
-							return "{ " + AND_S + " } ( " + (leftChild ? leftChild.toString(l) : "b-1") + " ) ( " + (rightChild ? rightChild.toString(l) : "b-1") + " )";
+							return "{ " + AND_S + " } ( " + (leftChild ? leftChild.toString(l) : "B-1") + " ) ( " + (rightChild ? rightChild.toString(l) : "B-1") + " )";
 						} else if (section == 1) {
-							return "( " + AND_S + " ) { " + (leftChild ? leftChild.toString(l) : "b-1") + " } ( " + (rightChild ? rightChild.toString(l) : "b-1") + " )";
+							return "( " + AND_S + " ) { " + (leftChild ? leftChild.toString(l) : "B-1") + " } ( " + (rightChild ? rightChild.toString(l) : "B-1") + " )";
 						} else if (section == 2) {
-							return "( " + AND_S + " ) ( " + (leftChild ? leftChild.toString(l) : "b-1") + " ) { " + (rightChild ? rightChild.toString(l) : "b-1") + " }";
+							return "( " + AND_S + " ) ( " + (leftChild ? leftChild.toString(l) : "B-1") + " ) { " + (rightChild ? rightChild.toString(l) : "B-1") + " }";
 						} else {
-							return "( " + AND_S + " ) ( " + (leftChild ? leftChild.toString(l) : "b-1") + " ) ( " + (rightChild ? rightChild.toString(l) : "b-1") + " )";
+							return "( " + AND_S + " ) ( " + (leftChild ? leftChild.toString(l) : "B-1") + " ) ( " + (rightChild ? rightChild.toString(l) : "B-1") + " )";
 						}
 					}
-					return AND_S + " " + (leftChild ? leftChild.toString(l) : "b-1") + " " + (rightChild ? rightChild.toString(l) : "b-1");
+					return AND_S + " " + (leftChild ? leftChild.toString(l) : "B-1") + " " + (rightChild ? rightChild.toString(l) : "B-1");
 					break;
 				case OR:
 					if (this == l) {
 						if (section == 0) {
-							return "{ " + OR_S + " } ( " + (leftChild ? leftChild.toString(l) : "b-1") + " ) ( " + (rightChild ? rightChild.toString(l) : "b-1") + " )";
+							return "{ " + OR_S + " } ( " + (leftChild ? leftChild.toString(l) : "B-1") + " ) ( " + (rightChild ? rightChild.toString(l) : "B-1") + " )";
 						} else if (section == 1) {
-							return "( " + OR_S + " ) { " + (leftChild ? leftChild.toString(l) : "b-1") + " } ( " + (rightChild ? rightChild.toString(l) : "b-1") + " )";
+							return "( " + OR_S + " ) { " + (leftChild ? leftChild.toString(l) : "B-1") + " } ( " + (rightChild ? rightChild.toString(l) : "B-1") + " )";
 						} else if (section == 2) {
-							return "( " + OR_S + " ) ( " + (leftChild ? leftChild.toString(l) : "b-1") + " ) { " + (rightChild ? rightChild.toString(l) : "b-1") + " }";
+							return "( " + OR_S + " ) ( " + (leftChild ? leftChild.toString(l) : "B-1") + " ) { " + (rightChild ? rightChild.toString(l) : "B-1") + " }";
 						} else {
-							return "( " + OR_S + " ) ( " + (leftChild ? leftChild.toString(l) : "b-1") + " ) ( " + (rightChild ? rightChild.toString(l) : "b-1") + " )";
+							return "( " + OR_S + " ) ( " + (leftChild ? leftChild.toString(l) : "B-1") + " ) ( " + (rightChild ? rightChild.toString(l) : "B-1") + " )";
 						}
 					}
-					return OR_S + " " + (leftChild ? leftChild.toString(l) : "b-1") + " " + (rightChild ? rightChild.toString(l) : "b-1 ");
+					return OR_S + " " + (leftChild ? leftChild.toString(l) : "B-1") + " " + (rightChild ? rightChild.toString(l) : "B-1 ");
 					break;
 				case NOT:
 					if (this == l) {
 						if (section == 0) {
-							return "{ " + NOT_S + " } ( " + (leftChild ? leftChild.toString(l) : "b-1") + " )";
+							return "{ " + NOT_S + " } ( " + (leftChild ? leftChild.toString(l) : "B-1") + " )";
 						} else if (section == 1) {
-							return "( " + NOT_S + " ) { " + (leftChild ? leftChild.toString(l) : "b-1") + " }";
+							return "( " + NOT_S + " ) { " + (leftChild ? leftChild.toString(l) : "B-1") + " }";
 						} else {
-							return "( " + NOT_S + " ) ( " + (leftChild ? leftChild.toString(l) : "b-1") + " )";
+							return "( " + NOT_S + " ) ( " + (leftChild ? leftChild.toString(l) : "B-1") + " )";
 						}
 					}
-					return NOT_S + " " + (leftChild ? leftChild.toString(l) : "b-1"); 
+					return NOT_S + " " + (leftChild ? leftChild.toString(l) : "B-1"); 
 				default:
 					if (this == l) {
 						if (section == 0) {
@@ -284,13 +288,13 @@ package
 		public function toStringH():String {
 			switch (operation) {
 				case AND:
-					return "(" + (leftChild ? leftChild.toStringH() : "b-1 ") + AND_S + " " + (rightChild ? rightChild.toStringH() : "b-1 ") + ") ";
+					return "(" + (leftChild ? leftChild.toStringH() : "B-1 ") + AND_S + " " + (rightChild ? rightChild.toStringH() : "B-1 ") + ") ";
 				case OR:
-					return "(" + (leftChild ? leftChild.toStringH() : "b-1 ") + OR_S + " " + (rightChild ? rightChild.toStringH() : "b-1 ") + ") ";
+					return "(" + (leftChild ? leftChild.toStringH() : "B-1 ") + OR_S + " " + (rightChild ? rightChild.toStringH() : "B-1 ") + ") ";
 				case NOT:
-					return "(" + NOT_S + " " + (leftChild ? leftChild.toStringH() : "b-1 ") + ") "; 
+					return "(" + NOT_S + " " + (leftChild ? leftChild.toStringH() : "B-1 ") + ") "; 
 				default:
-					return (button ? "B" + button + " " : "b-1 ")
+					return (button ? "B" + button + " " : "B-1 ")
 			}
 		}
 

@@ -242,6 +242,7 @@ package
 						}
 					}
 				}
+				trace(l == this);
 				if (l == this) {
 					if (section == 0) {
 						return  "logicBlock: {" + logicBlock.toString(l) + "}, affects: " + eA;

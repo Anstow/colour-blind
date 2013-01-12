@@ -95,13 +95,8 @@ package Editor
 					if (collidePoint("EventBox",mouseX,mouseY)) {
 						eventBox.moving(mouseX, mouseY);
 					} else {
-						var tempEvent:EditEvent = collidePoint("Event",mouseX,mouseY) as EditEvent;
-						if (tempEvent) {
-							eventBox.clickedOn(tempEvent);
-						}
 						eventBox.stopped();
 					}
-
 				}
 			}
 			if (Input.released(Key.CONTROL)) {
@@ -271,7 +266,12 @@ package Editor
 					}
 					break;
 				case 11:
-					// Switch-wall conection hacked
+					// Edit events
+					trace("Clicked");
+					var tempEvent:EditEvent = collidePoint("Event",mouseX,mouseY) as EditEvent;
+					if (tempEvent) {
+						eventBox.clickedOn(tempEvent);
+					}
 					break;
 				default: // I.e. 0 No walls OR 1 Walls
 					if (x1 != -1 && y1 != -1)
