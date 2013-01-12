@@ -27,8 +27,6 @@ Features:
 
 14 Editor multisubsection affect adding
 
-15 timers
-
 --------------------------------------------------------------------------------
 Done:
 
