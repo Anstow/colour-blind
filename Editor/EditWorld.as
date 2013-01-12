@@ -99,7 +99,7 @@ package Editor
 					}
 				}
 			}
-			if (Input.released(Key.CONTROL)) {
+			if (Input.released(Key.ESCAPE)) {
 				if (selected == 11) {
 					eventBox.stopped();
 					events = eventBox.loadEvents();
@@ -267,7 +267,6 @@ package Editor
 					break;
 				case 11:
 					// Edit events
-					trace("Clicked");
 					var tempEvent:EditEvent = collidePoint("Event",mouseX,mouseY) as EditEvent;
 					if (tempEvent) {
 						eventBox.clickedOn(tempEvent);

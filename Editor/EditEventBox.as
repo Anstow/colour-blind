@@ -145,7 +145,6 @@ package Editor
 								if (world) {
 									tempEvent.attachSwitches(world as LoadableWorld);
 								}
-								trace("here");
 								events.push(new EditEvent(tempEvent, x, y+20+20*events.length));
 								graphic = null;
 								addGraphic(Image.createRect(400, 20 + events.length * 20, 0x4b4b40));
@@ -162,7 +161,6 @@ package Editor
 		}
 
 		public function clickedOn(e:EditEvent):void {
-			trace("Event");
 			if (currentEvent) {
 				currentEvent.setClickedOn(false);
 			}

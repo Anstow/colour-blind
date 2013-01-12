@@ -37,7 +37,7 @@ LogicBlock: NOT b1, affects: [WT, w0], [-1]
 The are 3 logical operators AND, OR and NOT, with the obvious meanings. The
 notation for switches is b (for button) and the switch number this will be
 written on the switch. The logic is in reverse Polish notation separated by
-spaces. All buttons start off.
+spaces. All buttons start off false.
 
 Each affect of the event will have will be of the form [*], where star is the
 data of the block. In the above example either * = "WT, w0" or * = "-1". The first 

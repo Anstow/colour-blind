@@ -53,19 +53,15 @@ package Editor
 			if (visibility) {
 				text = new Text(event.toString(world as LoadableWorld));
 				graphic = text;
-				trace(collidable);
 			}
 		}
 		
 		// Select this Event to edit
 		public function setClickedOn(clickedOn:Boolean):void {
 			this.clickedOn = clickedOn;
-			trace("edit event swap");
 			if (clickedOn) {
-				trace(currentBlock);
 				text.text = event.toString(world as LoadableWorld, currentBlock);
 				graphic = text;
-				trace(text.text);
 			} else {
 				text.text = event.toString(world as LoadableWorld);
 				graphic = text;

@@ -163,6 +163,7 @@ package
 						button = -1;
 					}
 			}
+			trace(toString(), currentState);
 			return currentState;
 		}
 
@@ -187,6 +188,7 @@ package
 
 			if (newState != currentState) {
 				currentState = newState;
+				trace(toString(), currentState);
 				parentBlock.toggled();
 			}
 		}

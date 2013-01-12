@@ -133,8 +133,7 @@ package
 							if (elt[1] < 0 || !world.walls[elt[1]]) {
 								return false;
 							}
-							if (getQualifiedClassName(elt[1]) == "Wall")
-							{
+							if (getQualifiedClassName(elt[1]) == "Wall") {
 								return true;
 							}
 							elt[1] = world.walls[elt[1]];
@@ -244,6 +243,7 @@ package
 				}
 				trace(l == this);
 				if (l == this) {
+					trace("here");
 					if (section == 0) {
 						return  "logicBlock: {" + logicBlock.toString(l) + "}, affects: " + eA;
 					} else {
