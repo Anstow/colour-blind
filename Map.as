@@ -2,7 +2,6 @@ package
 {
 	import Editor.EditorConstants;
 	import net.flashpunk.Entity;
-	import net.flashpunk.FP;
 	import net.flashpunk.graphics.Tilemap;
 	import net.flashpunk.masks.Grid;
 	
@@ -90,27 +89,27 @@ package
 				if (speed > 0) 
 				{
 					// Moving right
-					if (FP.camera.x + speed >= tiles.width - boundRight)
+					if (world.camera.x + speed >= tiles.width - boundRight)
 					{
 						// If the movement would move us outside the allowed area limit it to the allowed area
-						FP.camera.x = tiles.width - boundRight;
+						world.camera.x = tiles.width - boundRight;
 					}
 					else
 					{
-						FP.camera.x += speed;
+						world.camera.x += speed;
 					}
 				}
 				else if (speed < 0)
 				{
 					// Moving left
-					if (FP.camera.x + speed <= 0)
+					if (world.camera.x + speed <= 0)
 					{
 						// If the movement would take us outside the left bound limmit it to 0
-						FP.camera.x = 0;
+						world.camera.x = 0;
 					}
 					else
 					{
-						FP.camera.x += speed;
+						world.camera.x += speed;
 					}
 				}
 			}
@@ -123,27 +122,27 @@ package
 				if (speed > 0) 
 				{
 					// Moving down
-					if (FP.camera.y + speed >= tiles.height - boundBot)
+					if (world.camera.y + speed >= tiles.height - boundBot)
 					{
 						// If the movement would move us outside the allowed area limit it to the allowed area
-						FP.camera.y = tiles.height - boundBot;
+						world.camera.y = tiles.height - boundBot;
 					}
 					else
 					{
-						FP.camera.y += speed;
+						world.camera.y += speed;
 					}
 				}
 				else if (speed < 0)
 				{
 					// Moving up
-					if (FP.camera.y + speed <= 0)
+					if (world.camera.y + speed <= 0)
 					{
 						// If the movement would take us outside the left bound limmit it to 0
-						FP.camera.y = 0;
+						world.camera.y = 0;
 					}
 					else
 					{
-						FP.camera.y += speed;
+						world.camera.y += speed;
 					}
 				}
 			}

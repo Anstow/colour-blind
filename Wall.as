@@ -1,7 +1,6 @@
 package
 {
 	import net.flashpunk.Entity;
-	import net.flashpunk.FP;
 	import net.flashpunk.graphics.Image;
 	import net.flashpunk.graphics.TiledImage;
 	import Editor.LoadableWorld;
@@ -33,8 +32,10 @@ package
 		}
 
 		public function addText ():void {
-			numText = new EditorNumber(ident, (FP.world as LoadableWorld).walls.indexOf(this), x, y);
-			FP.world.add(numText);
+			if (world) {
+				numText = new EditorNumber(ident, (world as LoadableWorld).walls.indexOf(this), x, y);
+				world.add(numText);
+			}
 		}
 
 		public function rmText ():void {
