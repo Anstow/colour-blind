@@ -15,7 +15,8 @@ package
 			super(GC.windowWidth, GC.windowHeight, GC.FPS, true);
 			music = new Sfx(MUSIC);
 			music.loop();
-			FP.world = new Level(0, GC.levelData[0]);
+			FP.world = new TitleScreen();
+			//FP.world = new Level(0, GC.levelData[0]);
 		}
 	}
 }

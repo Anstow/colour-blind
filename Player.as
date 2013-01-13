@@ -40,8 +40,7 @@ package
 		private var isJumping:Boolean = false;
 		private var jumpCounter:Number = 0;
 		
-		public function Player(ident:int, pos:Array)
-		{
+		public function Player(ident:int, pos:Array) {
 			this.ident = ident;
 			if (ident == 0) {
 				addGraphic(new Image(PLAYER1));
@@ -116,8 +115,7 @@ package
 			return true;
 		}
 		
-		override public function update():void
-		{
+		override public function update():void {
 			super.update();
 
 			//Horizontal
@@ -212,8 +210,7 @@ package
 			}
 		}
 
-		public function blink():void
-		{
+		public function blink():void {
 			if (blinked)
 			{
 				eyes.setAnimFrame("anim", 0);
@@ -230,8 +227,7 @@ package
 			blinked = !blinked;
 		}
 
-		public function wink():void
-		{
+		public function wink():void {
 			if (winked)
 			{
 				eyes.setAnimFrame("anim",0);
@@ -248,3 +244,5 @@ package
 		}
 	}
 }
+
+// vim: foldmethod=indent:cindent

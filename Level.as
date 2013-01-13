@@ -1,4 +1,5 @@
-package {
+package
+{
 	import net.flashpunk.World;
 	import Editor.LoadableWorld;
 	import Editor.EditWorld;

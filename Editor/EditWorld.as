@@ -259,7 +259,7 @@ package Editor
 					else // Not clicked on a switch
 					{
 						rmNumbers();
-						var tmpSwitch:Switch = new Switch(GC.highestSwitchId + 1, {type:(selected - 9), pos:[currentMap.getTileX(mouseX), currentMap.getTileY(mouseY)]});
+						var tmpSwitch:Switch = new Switch({type:(selected - 9), pos:[currentMap.getTileX(mouseX), currentMap.getTileY(mouseY)]});
 						switches.push(tmpSwitch);
 						FP.world.add(tmpSwitch);
 						addNumbers();

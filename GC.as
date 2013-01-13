@@ -16,6 +16,9 @@ package
 		public static var levelData:Array;
 		private static var isLoaded:Boolean = false;
 
+		// Hopefulling this is only temorary
+		[Embed(source = 'assets/titleScreen.png')] public static const TITLE_SCREEN:Class;
+
 		public static var windowHeight:int = 540;
 		public static var windowWidth:int = 960;
 		public static var FPS:int = 60;
@@ -89,7 +92,7 @@ package
 			
 		}
 
-		// Stores the highestSwtichId of all the switches in the game sofar.
+/*		// Stores the highestSwtichId of all the switches in the game sofar.
 		public static var highestSwitchId : int = 0;
 		// Checks the switch id and set highestSwtichId if higher.
 		public static function checkSwitchId(id:int):void
@@ -98,7 +101,7 @@ package
 			{
 				highestSwitchId = id;
 			}
-		}
+		} */
 
 		public static function loadLevelData():void {
 			if (!isLoaded) {

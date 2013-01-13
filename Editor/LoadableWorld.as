@@ -43,7 +43,7 @@ package Editor
 				playersStart.push(data.players[i]);
 			}
 			for (i = 0; i < data.switches.length; i++) {
-				switches.push(new Switch(i, data.switches[i]));
+				switches.push(new Switch(data.switches[i]));
 			}
 			for each (var wData:Object in data.walls) {
 				var tempWall:Wall = new Wall(wData);

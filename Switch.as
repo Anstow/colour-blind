@@ -9,10 +9,9 @@ package
 
 	public class Switch extends Entity
 	{
-		public var ident : int;
+		//public var ident : int;
 		public var parentsAffected:Array = []; 
-		/*public var walls:Array;//*/
-		public var player:int;
+		public var ident:int;
 		public var isOn:Boolean = false;
 		private var numText:EditorNumber;
 		[Embed(source = 'assets/switch1.png')] private const SWITCH1:Class;
@@ -24,13 +23,13 @@ package
 		private var on:Sfx;
 		private var off:Sfx;
 
-		public function Switch (ident:int, data:Object):void {
+		public function Switch (/*ident:int,*/ data:Object):void {
 			// Set the identity of the switch and player to affect
-			this.ident = ident;
-			GC.checkSwitchId(ident);
-			player = data.type;
+			//this.ident = ident;
+			//GC.checkSwitchId(ident);
+			ident = data.type;
 			// Graphics
-			if (player == 0) {
+			if (ident == 0) {
 				graphic = new Image(SWITCH1);
 			} else {
 				graphic = new Image(SWITCH2);
@@ -42,14 +41,16 @@ package
 			x = data.pos[0] * GC.tileWidth;
 			y = data.pos[1] * GC.tileHeight;
 			setHitbox(GC.tileWidth, GC.tileHeight);
-			type = "switch" + player;
+			type = "switch" + ident;
 			// Set the graphics layer
 			layer = -1;
 		}
 
 		public function addText ():void {
-			numText = new EditorNumber(ident, (FP.world as LoadableWorld).switches.indexOf(this), x, y);
-			FP.world.add(numText);
+			if (world) {
+				numText = new EditorNumber(ident, (FP.world as LoadableWorld).switches.indexOf(this), x, y);
+				FP.world.add(numText);
+			}
 		}
 
 		public function rmText ():void {
@@ -59,24 +60,19 @@ package
 		public function toggle ():void {
 			if (isOn) {
 				off.play();
-				if (player == 0) graphic = new Image(SWITCH1);
+				if (ident == 0) graphic = new Image(SWITCH1);
 				else             graphic = new Image(SWITCH2);
 				isOn = false;
 				}
 			else {
 				on.play();
-				if (player == 0) graphic = new Image(SWITCH1ON);
+				if (ident == 0) graphic = new Image(SWITCH1ON);
 				else             graphic = new Image(SWITCH2ON);
 				isOn = true;
 			}
 			for each (var p:Parent in parentsAffected) {
 				p.toggled();
 			}
-		}
-
-		public override function render():void
-		{
-			super.render();
 		}
 
 		public override function removed():void
