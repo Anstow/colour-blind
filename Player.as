@@ -4,8 +4,6 @@ package
 	import net.flashpunk.FP;
 	import net.flashpunk.graphics.Image;
 	import net.flashpunk.graphics.Spritemap;
-	import net.flashpunk.utils.Input;
-	import net.flashpunk.utils.Key;
 	import net.flashpunk.Sfx;
 	import flash.utils.getQualifiedClassName;
 	
@@ -25,6 +23,9 @@ package
 		[Embed(source = 'assets/P2_smile_spritemap.png')] private const MOUTH2:Class;
 		[Embed(source = 'assets/P1_wink_spritemap.png')] private const EYES1:Class;
 		[Embed(source = 'assets/P2_wink_spritemap.png')] private const EYES2:Class;
+		public var mouth:Spritemap;
+		public var eyes:Spritemap;
+
 		[Embed(source = 'sfx/jump1.mp3')] private const JUMP1:Class;
 		[Embed(source = 'sfx/jump2.mp3')] private const JUMP2:Class;
 		[Embed(source = 'sfx/win.mp3')] private const WIN:Class;
@@ -32,8 +33,7 @@ package
 		private var jump:Sfx;
 		private var win:Sfx = new Sfx(WIN);
 		private var die:Sfx = new Sfx(DIE);
-		public var mouth:Spritemap;
-		public var eyes:Spritemap;
+		private var muted:Boolean; // This is for when being rendered to a buffer and we don't want sound
 
 		// Blinking and winking variables
 		private var blinked:Boolean;
@@ -42,7 +42,7 @@ package
 		private var isJumping:Boolean = false;
 		private var jumpCounter:Number = 0;
 		
-		public function Player(ident:int, pos:Array, inp:GameInput) {
+		public function Player(ident:int, pos:Array, inp:GameInput, muted:Boolean) {
 			this.ident = ident;
 			if (ident == 0) {
 				addGraphic(new Image(PLAYER1));
@@ -70,6 +70,7 @@ package
 			y = pos[1] * GC.tileHeight + 1;
 
 			input = inp;
+			this.muted = muted;
 
 			setHitbox(18, 38);
 			type = "player" + ident;
@@ -140,7 +141,9 @@ package
 					jumpCounter = 0;
 					isJumping = true;
 					vel[1] -= GC.jumpSpeed;
-					jump.play();
+					if (!muted) {
+						jump.play();
+					}
 				}
 			}
 			else if(input.check("up"+ident)) {
@@ -182,7 +185,9 @@ package
 			collideTypesInto(["target" + ident], x, y, cols);
 			for each (var t:Target in cols) {
 				world.remove(t);
-				win.play();
+				if (!muted) {
+					win.play();
+				}
 				// check for remaining targets
 				var nLeft:int = 0;
 				var ts:Array;
@@ -197,7 +202,9 @@ package
 			cols = [];
 			collideTypesInto(["wall-1"], x, y, cols);
 			for each (var w:Wall in cols) {
-				die.play();
+				if (!muted) {
+					die.play();
+				}
 				(world as Level).reset();
 			}
 			// pushing switches
@@ -205,7 +212,7 @@ package
 			if (input.pressed("down"+ident)) {
 				collideTypesInto(["switch" + ident], x, y, cols);
 				for each (var s:Entity in cols) {
-					(s as Switch).toggle();
+					(s as Switch).toggle(muted);
 				}
 			}
 		}

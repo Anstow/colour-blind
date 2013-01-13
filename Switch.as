@@ -1,7 +1,6 @@
 package
 {
 	import net.flashpunk.Entity;
-	import net.flashpunk.FP;
 	import net.flashpunk.graphics.Image;
 	import net.flashpunk.Sfx;
 	import Editor.LoadableWorld;
@@ -23,7 +22,7 @@ package
 		private var on:Sfx;
 		private var off:Sfx;
 
-		public function Switch (/*ident:int,*/ data:Object):void {
+		public function Switch (data:Object):void {
 			// Set the identity of the switch and player to affect
 			//this.ident = ident;
 			//GC.checkSwitchId(ident);
@@ -48,8 +47,8 @@ package
 
 		public function addText ():void {
 			if (world) {
-				numText = new EditorNumber(ident, (FP.world as LoadableWorld).switches.indexOf(this), x, y);
-				FP.world.add(numText);
+				numText = new EditorNumber(ident, (world as LoadableWorld).switches.indexOf(this), x, y);
+				world.add(numText);
 			}
 		}
 
@@ -57,15 +56,20 @@ package
 			world.remove(numText);
 		}
 
-		public function toggle ():void {
+		// Toggles the switch the muted is incase we want the switch to be locally muted
+		public function toggle (muted:Boolean):void {
 			if (isOn) {
-				off.play();
+				if (!muted) {
+					off.play();
+				}
 				if (ident == 0) graphic = new Image(SWITCH1);
 				else             graphic = new Image(SWITCH2);
 				isOn = false;
 				}
 			else {
-				on.play();
+				if (!muted) {
+					on.play();
+				}
 				if (ident == 0) graphic = new Image(SWITCH1ON);
 				else             graphic = new Image(SWITCH2ON);
 				isOn = true;
