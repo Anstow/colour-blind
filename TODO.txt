@@ -3,12 +3,10 @@ This is a todo list for the game. If anyone else is working on it that is.
 --------------------------------------------------------------------------------
 Bugs:
 
-None that we've found
+18 Hitting a both targets at the same time doesn't move the level on
 
 --------------------------------------------------------------------------------
 Features:
-
-3 Update the levels to contain the logicBlock statement, this should be a simple matter of loading the level and resaving it. (Perhaps checking they still work would be useful) and re-linking them.
 
 5 Add a title screen.
 
@@ -27,6 +25,12 @@ Features:
 
 14 Editor multisubsection affect adding
 
+15 Add description text to levels.
+
+16 display links between swtiches and walls
+
+17 implement a vrs mode
+
 --------------------------------------------------------------------------------
 Done:
 
@@ -44,3 +48,6 @@ draw numbers on walls and switches in the editor
 
 1 Switch editing doesn't work:
 Make the editor work again in the new way
+
+3 Update the levels to contain the logicBlock statement, this should be a simple matter of loading the level and resaving it. (Perhaps checking they still work would be useful) and re-linking them.
+
