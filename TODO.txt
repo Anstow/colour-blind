@@ -16,6 +16,7 @@ Features:
 
 10 Graphics
 	make mouths less wide?
+	improve lava sprite (perhaps use a sprite map to animate it)
 
 11 blindfolds
 

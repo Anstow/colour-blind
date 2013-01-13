@@ -48,35 +48,6 @@ package Editor
 			for each (var wData:Object in data.walls) {
 				var tempWall:Wall = new Wall(wData);
 				walls.push(tempWall);
-				if (wData.buttons)
-				{
-					mainStr = "";
-					if (wData.buttons !== undefined) {
-						for each (var bs:Array in wData.buttons) {
-							subStr = "";
-							for (i = 0; i < bs.length; i++) {
-								if (bs[i] != -1) {
-									if (subStr != "") {
-										subStr = "OR " + subStr + "NOT b" + bs[i] + " ";
-									} else {
-										subStr = "NOT b" + bs[i] + " ";
-									}
-								}
-							}
-							if (mainStr != "") {
-								mainStr = "AND " + mainStr + subStr;
-							} else {
-								mainStr = subStr;
-							}
-						}
-					}
-					if (mainStr != "") {
-						var tempEvent : GameEvent = new GameEvent({logicBlock: mainStr});
-						tempEvent.attachSwitches(this);
-						tempEvent.newEntityEffect(tempWall,GameEvent.TOGGLE);
-						events.push(tempEvent);
-					}
-				}
 			}
 			for each (var target:Object in data.targets) {
 				targets.push(new Target(target));
