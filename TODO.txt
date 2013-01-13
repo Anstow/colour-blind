@@ -13,14 +13,12 @@ moving within affect blocks should probably be down = right, left = up (seems to
 
 make the event box background (the blue and grey bit) stretch across the whole screen
 
-can't seem to enter 'WTI' in an affect block
-
 --------------------------------------------------------------------------------
 Features:
 
-make it possible to remove a logic block
+add move obvious way of removing a logic block 
 
-5 Add a title screen.
+improve title screen (its a little rubbish at the moment, I'm [David Watson] currently working on this)
 
 6 Add a level select (we should probably think about a way of naming the levels).
 
@@ -63,4 +61,8 @@ draw numbers on walls and switches in the editor
 Make the editor work again in the new way
 
 3 Update the levels to contain the logicBlock statement, this should be a simple matter of loading the level and resaving it. (Perhaps checking they still work would be useful) and re-linking them.
+
+5 Add a title screen. 
+
+can't seem to enter 'WTI' in an affect block
 

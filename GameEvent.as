@@ -42,7 +42,7 @@ package
 				case TOGGLE_STR:
 					return [TOGGLE, -1];
 				case TOGGLE_INVERT_STR:
-					return [TOGGLE_INVERT_STR, -1];
+					return [TOGGLE_INVERT, -1];
 				case "-1":
 				default:
 					return [-1];

@@ -106,3 +106,6 @@ WT      |   set the affect type to wall toggle
 WTI     |   set the affect type to wall toggle inverted
 Wn      |   set it to affect wall n (n is an integer)
 W       |   set it to affect no wall
+
+If you leave the affects of an event blank when you leave the editor the event
+block will automatially be removed.
