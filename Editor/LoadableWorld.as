@@ -183,7 +183,7 @@ package Editor
 			var ss:Array = [];
 			for each (var s:Switch in switches) {
 				ss.push({
-					type: s.player,
+					type: s.ident,
 					pos: [s.x / GC.tileWidth, s.y / GC.tileHeight]
 				});
 			}
