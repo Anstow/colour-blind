@@ -96,7 +96,6 @@ package
 				}
 			} else {
 				if (subSection == 0) {
-					trace(str);
 					affects[section - 1] = getAffectTemplatete(str);
 				} else {
 					switch (affects[section - 1][0]) {
@@ -140,7 +139,6 @@ package
 				switch (newEntity.charAt()) {
 					case 'W':
 						var entNum :int = Number(newEntity.slice(1));
-						trace(entNum);
 						if (entNum < 0 || !world.walls[entNum]) {
 							return null;
 						}
@@ -159,12 +157,10 @@ package
 					case TOGGLE:
 						a[1].visible = state;
 						a[1].collidable = state;
-						trace("toggle");
 						break;
 					case TOGGLE_INVERT:
 						a[1].visible = !state;
 						a[1].collidable = !state;
-						trace("i toggle");
 						break;
 				}
 			}

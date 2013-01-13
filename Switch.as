@@ -69,7 +69,6 @@ package
 				else             graphic = new Image(SWITCH2ON);
 				isOn = true;
 			}
-				trace("here");
 			for each (var p:Parent in parentsAffected) {
 				p.toggled();
 			}
