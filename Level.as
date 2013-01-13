@@ -14,12 +14,17 @@ package
 		public var players:Array = [];
 		private var savedData:Array;
 		private var winning:Boolean = false;
+		public var input:GameInput;
 
-		public function Level (id:int, data:Object) {
+		public function Level (id:int, data:Object, mode:int=0) {
 			super(id, data);
+			// The game input is defined here 0 is the normal mode
+			input = new GameInput(mode);
+			add(input);
+
 			var p:Player;
 			for (var i:int = 0; i < 2; i++) {
-				p = new Player(i, playersStart[i]);
+				p = new Player(i, playersStart[i],input);
 				add(p);
 				players.push(p);
 			}
@@ -52,16 +57,16 @@ package
 				(p.mouth as Spritemap).setAnimFrame("anim", i);
 			}
 			// reset key
-			if (Input.pressed(Key.R) || Input.pressed(Key.P)) {
+			if (input.pressed("restart")) {
 				reset();
 			}
 			// mute key
-			if (Input.pressed(Key.M)) {
+			if (input.pressed("mute")) {
 				if (FP.volume == 0) FP.volume = 1;
 				else FP.volume = 0;
 			}
 			// This enables the editor it should be removed in the final version
-			if (Input.released(Key.F2))
+			if (input.released("editor"))
 			{
 				removeAll();
 				FP.world = new EditWorld(ident, data);

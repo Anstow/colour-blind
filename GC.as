@@ -39,19 +39,22 @@ package
 		public static var littleJumpSpeed:Number = 1.6;
 		public static var jumpSpeed:Number = 6;
 		
-		public static var moveKeys:Array = [
-			{
-				up: [Key.W, 188],
-				left: [Key.A],
-				down: [Key.S, Key.O],
-				right: [Key.D, Key.E]
-			}, {
-				up: [Key.UP],
-				left: [Key.LEFT],
-				down: [Key.DOWN],
-				right: [Key.RIGHT]
-			}
-		];
+		public static var inputKeys:Object = {
+			// The keys for player 0
+			up0: [Key.W, 188],
+			left0: [Key.A],
+			down0: [Key.S, Key.O],
+			right0: [Key.D, Key.E],
+			// The keys for player 1
+			up1: [Key.UP],
+			left1: [Key.LEFT],
+			down1: [Key.DOWN],
+			right1: [Key.RIGHT],
+			// Other used keys
+			restart: [Key.R, Key.P],
+			editor: [Key.F2],
+			mute: [Key.M]
+		};
 		
 		// Editor stuff
 		public static var numTextSize:int = tileHeight / 2;
@@ -91,17 +94,6 @@ package
 		{
 			
 		}
-
-/*		// Stores the highestSwtichId of all the switches in the game sofar.
-		public static var highestSwitchId : int = 0;
-		// Checks the switch id and set highestSwtichId if higher.
-		public static function checkSwitchId(id:int):void
-		{
-			if (highestSwitchId < id)
-			{
-				highestSwitchId = id;
-			}
-		} */
 
 		public static function loadLevelData():void {
 			if (!isLoaded) {

@@ -14,9 +14,11 @@ package
 		private var ident:int;
 		private var vel:Array = [0, 0];
 		private var onGround:Boolean = false;
-		private var input:Object;
 		private var colTypes:Array;
 		private var wasOnTop:Number = 0;
+
+		private var input:GameInput;
+
 		[Embed(source = 'assets/P1.png')] private const PLAYER1:Class;
 		[Embed(source = 'assets/P2.png')] private const PLAYER2:Class;
 		[Embed(source = 'assets/P1_smile_spritemap.png')] private const MOUTH1:Class;
@@ -40,7 +42,7 @@ package
 		private var isJumping:Boolean = false;
 		private var jumpCounter:Number = 0;
 		
-		public function Player(ident:int, pos:Array) {
+		public function Player(ident:int, pos:Array, inp:GameInput) {
 			this.ident = ident;
 			if (ident == 0) {
 				addGraphic(new Image(PLAYER1));
@@ -66,11 +68,9 @@ package
 			addGraphic(eyes);
 			x = pos[0] * GC.tileWidth + 1;
 			y = pos[1] * GC.tileHeight + 1;
-			input = GC.moveKeys[ident];
-			for (var key:String in input) {
-				Input.define.apply(null, [key+ident].concat(input[key]));
-			}
-			
+
+			input = inp;
+
 			setHitbox(18, 38);
 			type = "player" + ident;
 			layer = -2;
@@ -119,31 +119,31 @@ package
 			super.update();
 
 			//Horizontal
-			if (Input.check("left" + ident)) {
+			if (input.check("left" + ident)) {
 				if (onGround) {
 					vel[0] -= GC.moveSpeed;
 				} else {
 					vel[0] -= GC.airSpeed;
 				}
 			}
-			if (Input.check("right"+ident)) {
+			if (input.check("right"+ident)) {
 				if (onGround) {
 					vel[0] += GC.moveSpeed;
 				} else {
 					vel[0] += GC.airSpeed;
 				}
 			}
-			
+
 			//**Jumping**
 			if(!isJumping) {
-				if (onGround && Input.pressed("up"+ident)) {
+				if (onGround && input.pressed("up"+ident)) {
 					jumpCounter = 0;
 					isJumping = true;
 					vel[1] -= GC.jumpSpeed;
 					jump.play();
 				}
 			}
-			else if(Input.check("up"+ident)) {
+			else if(input.check("up"+ident)) {
 				jumpCounter++;
 				if (jumpCounter <= GC.littleJump) {
 					vel[1] -= GC.littleJumpSpeed;
@@ -155,7 +155,7 @@ package
 			else {
 				isJumping = false;
 			}
-			
+
 			vel[1] += GC.gravity;
 			if (onGround) {
 				vel[0] *= GC.playerDamp[0];
@@ -202,7 +202,7 @@ package
 			}
 			// pushing switches
 			cols = [];
-			if (Input.pressed("down"+ident)) {
+			if (input.pressed("down"+ident)) {
 				collideTypesInto(["switch" + ident], x, y, cols);
 				for each (var s:Entity in cols) {
 					(s as Switch).toggle();
