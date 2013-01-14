@@ -61,6 +61,11 @@ package
 				add(p);
 				players.push(p);
 			}
+			
+			// Sets the entities to what they should be
+			for each (var e:GameEvent in events) {
+				e.toggleEntities();
+			}
 		}
 
 		public function win():void {

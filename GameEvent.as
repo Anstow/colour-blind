@@ -121,16 +121,6 @@ package
 		// a new fuction to add that type of effect.
 		public function newEntityEffect(w:Entity,effect:int = TOGGLE):void {
 			affects.push([effect, w]);
-			switch (effect) {
-				case TOGGLE:
-					w.visible = state;
-					w.collidable = state;
-					break;
-				case TOGGLE_INVERT:
-					w.visible = !state;
-					w.collidable = !state;
-					break;
-			}
 		}
 
 		// gets the entity from the string code returns null if no entity
@@ -150,20 +140,7 @@ package
 
 		public function toggled():void {
 			state = !state;
-			// Deal with the walls
-			for each (var a:Array in affects) {
-				switch (a[0])
-				{
-					case TOGGLE:
-						a[1].visible = state;
-						a[1].collidable = state;
-						break;
-					case TOGGLE_INVERT:
-						a[1].visible = !state;
-						a[1].collidable = !state;
-						break;
-				}
-			}
+			toggleEntities();
 		}
 
 		// Fuction that attaches the switches to the logicBlock,
@@ -190,13 +167,6 @@ package
 							}
 							elt[1] = getEntity(elt[1]);
 							if (elt[1]) {
-								if (elt[0] == TOGGLE) {
-									elt[1].visible = state;
-									elt[1].collidable = state;
-								} else {
-									elt[1].visible = !state;
-									elt[1].collidable = !state;
-								}
 								return true;
 							}
 							return false;
@@ -205,6 +175,23 @@ package
 				} 
 			);
 			return state;
+		}
+
+		// This toggles the entities if they've been loaded
+		public function toggleEntities():void {
+			for each (var a:Array in affects) {
+				switch (a[0])
+				{
+					case TOGGLE:
+						a[1].visible = state;
+						a[1].collidable = state;
+						break;
+					case TOGGLE_INVERT:
+						a[1].visible = !state;
+						a[1].collidable = !state;
+						break;
+				}
+			}
 		}
 
 		public function moveSelection(d:int):Parent {

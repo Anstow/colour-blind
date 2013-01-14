@@ -22,7 +22,7 @@ package Editor
 		public var playersStart: Array = new Array();
 		public var switches:Array = new Array();
 		public var targets:Array = new Array();
-		public var events:Array = new Array();
+		public var events:Vector.<GameEvent> = new Vector.<GameEvent>();
 		protected var tempLevel:String = null;
 		public var editting :Boolean = false;
 

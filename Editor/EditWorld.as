@@ -55,8 +55,9 @@ package Editor
 			for each (var w:Wall in walls) {
 				w.addText(this);
 			}
-			for each (var s:Switch in switches) {
-				s.addText(this);
+			for (var i:int = 0; i < switches.length; i++) {
+				switches[i].updateSwitchNumbers(i);
+				switches[i].addText(this);
 			}
 		}
 		
@@ -129,37 +130,28 @@ package Editor
 		}
 
 		private function mousePress():void {
-			if (x1 != -1 && y1 != -1)
-			{
+			if (x1 != -1 && y1 != -1) {
 				var leftSide : int;
 				var topSide : int;
 				var tmpW : int;
 				var tmpH : int;
 
-				if (x1 > currentMap.getTileX(mouseX))
-				{
+				if (x1 > currentMap.getTileX(mouseX)) {
 					leftSide = currentMap.getTileX(mouseX);
 					tmpW =  x1 - leftSide + 1;
-				}
-				else
-				{
+				} else {
 					leftSide = x1;
 					tmpW = currentMap.getTileX(mouseX) - leftSide + 1;
 				}
 				
-				if (y1 > currentMap.getTileY(mouseY))
-				{
+				if (y1 > currentMap.getTileY(mouseY)) {
 					topSide = currentMap.getTileY(mouseY);
 					tmpH = y1 - topSide + 1;
-				}
-				else
-				{
+				} else {
 					topSide = y1;
 					tmpH = currentMap.getTileY(mouseY) - topSide + 1;
 				}
-			}
-			else
-			{
+			} else {
 				var ent:Entity = FP.world.collidePoint("wall" + (selected - 3), mouseX, mouseY);
 				if (ent)
 				{
@@ -175,8 +167,7 @@ package Editor
 			}
 
 			var tmpArray:Array = new Array();
-			switch(selected)
-			{
+			switch(selected) {
 				case -1:
 					tileOpts.visible = true;
 					tileOpts.collidable = true;
@@ -187,8 +178,7 @@ package Editor
 					// Lava hacked
 					// Color 0 hacked
 					// Color 1 hacked
-					if (x1 != -1 && y1 != -1)
-					{
+					if (x1 != -1 && y1 != -1) {
 						// Set the tiles
 						rmNumbers();
 						var tmp:Wall = new Wall({type: selected-3, rect: [leftSide, topSide, tmpW, tmpH]});
@@ -211,17 +201,14 @@ package Editor
 					// Player 0 target position hacked
 					// Player 1 target position hacked
 					ent = FP.world.collidePoint("target" + (selected - 5), mouseX, mouseY);
-					if (ent) // Clicked on a target
-					{
+					if (ent) { // Clicked on a target
 						FP.world.remove(ent);
 						// Removes the target 
 						if (targets.indexOf(ent) >= 0)
 						{
 							targets.splice(targets.indexOf(ent),1);
 						}
-					}
-					else // Not clicked on a target
-					{
+					} else { // Not clicked on a target
 						var tmpTarget:Target = new Target({type:(selected - 5), pos:[currentMap.getTileX(mouseX), currentMap.getTileY(mouseY)]});
 						targets.push(tmpTarget);
 						FP.world.add(tmpTarget);
@@ -235,8 +222,7 @@ package Editor
 
 					tmpArray;
 					FP.world.getType("startplayer" + (selected - 7),tmpArray);
-					if (tmpArray.length >=0)
-					{
+					if (tmpArray.length >=0) {
 						tmpArray[0].updateXY([currentMap.getTileX(mouseX), currentMap.getTileY(mouseY)]);
 					}
 					break;
@@ -247,15 +233,13 @@ package Editor
 					ent = FP.world.collidePoint("switch" + (selected - 9), mouseX, mouseY);
 					if (ent) {// Clicked on a switch
 						// Removes the switches
-						if (switches.indexOf(ent) >= 0)
-						{
+						if (switches.indexOf(ent) >= 0) {
 							rmNumbers();
 							FP.world.remove(ent);
 							switches.splice(switches.indexOf(ent),1);
 							addNumbers();
 						}
-					}
-					else {// Not clicked on a switch
+					} else {// Not clicked on a switch
 						rmNumbers();
 						var tmpSwitch:Switch = new Switch({type:(selected - 9), pos:[currentMap.getTileX(mouseX), currentMap.getTileY(mouseY)]});
 						switches.push(tmpSwitch);
@@ -271,17 +255,14 @@ package Editor
 					}
 					break;
 				default: // I.e. 0 No walls OR 1 Walls
-					if (x1 != -1 && y1 != -1)
-					{
+					if (x1 != -1 && y1 != -1) {
 						// Set the tiles 
 						currentMap.setTiles(x1, y1, currentMap.getTileX(mouseX), currentMap.getTileY(mouseY), selected);
 						
 						// Set the original position back to -1, -1.
 						x1 = -1;
 						y1 = -1;
-					}
-					else
-					{
+					} else {
 						x1 = currentMap.getTileX(mouseX);
 						y1 = currentMap.getTileY(mouseY);
 					}
