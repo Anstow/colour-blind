@@ -45,7 +45,7 @@ package
 			layer = -1;
 		}
 
-		public function addText ():void {
+		public function addText (world : LoadableWorld):void {
 			if (world) {
 				numText = new EditorNumber(ident, (world as LoadableWorld).switches.indexOf(this), x, y);
 				world.add(numText);
@@ -53,7 +53,9 @@ package
 		}
 
 		public function rmText ():void {
-			world.remove(numText);
+			if (numText) {
+				world.remove(numText);
+			}
 		}
 
 		// Toggles the switch the muted is incase we want the switch to be locally muted
@@ -79,9 +81,11 @@ package
 			}
 		}
 
-		public override function removed():void
-		{
+		public override function removed():void {
 			super.removed();
+			if (numText) {
+				world.remove(numText);
+			}
 			for each (var p:LogicBlock in parentsAffected) {
 				p.updateSwitchNumber(-1);
 			}

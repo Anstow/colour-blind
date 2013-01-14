@@ -31,7 +31,7 @@ package
 			type = "wall" + ident;
 		}
 
-		public function addText ():void {
+		public function addText (world:LoadableWorld):void {
 			if (world) {
 				numText = new EditorNumber(ident, (world as LoadableWorld).walls.indexOf(this), x, y);
 				world.add(numText);
@@ -39,7 +39,9 @@ package
 		}
 
 		public function rmText ():void {
-			world.remove(numText);
+			if (numText) {
+				world.remove(numText);
+			}
 		}
 
 		public function removeLink(s: Switch):void {

@@ -3,11 +3,10 @@ This is a todo list for the game. If anyone else is working on it that is.
 --------------------------------------------------------------------------------
 Bugs:
 
-adding or removing switches in the editor when a switch already exists causes an error
-this is due to the addTxt and rmTxt numbering system.
+Switch removal should update the numbering in a logic block
 
 multiple targets can be added in the editor
-this is a feature, you asked me to put it in towards the end of the 48 hour competition
+	this is a feature, you asked me to put it in towards the end of the 48 hour competition
 
 18 Hitting a both targets at the same time doesn't move the level on
 
@@ -67,4 +66,7 @@ Make the editor work again in the new way
 5 Add a title screen. 
 
 can't seem to enter 'WTI' in an affect block
+
+adding or removing switches in the editor when a switch already exists causes an error
+this is due to the addTxt and rmTxt numbering system.
 

@@ -53,10 +53,10 @@ package Editor
 		
 		public function addNumbers ():void {
 			for each (var w:Wall in walls) {
-				w.addText();
+				w.addText(this);
 			}
 			for each (var s:Switch in switches) {
-				s.addText();
+				s.addText(this);
 			}
 		}
 		
@@ -245,8 +245,7 @@ package Editor
 					// Player 0 switch hacked
 					// Player 1 switch hacked
 					ent = FP.world.collidePoint("switch" + (selected - 9), mouseX, mouseY);
-					if (ent) // Clicked on a switch
-					{
+					if (ent) {// Clicked on a switch
 						// Removes the switches
 						if (switches.indexOf(ent) >= 0)
 						{
@@ -256,8 +255,7 @@ package Editor
 							addNumbers();
 						}
 					}
-					else // Not clicked on a switch
-					{
+					else {// Not clicked on a switch
 						rmNumbers();
 						var tmpSwitch:Switch = new Switch({type:(selected - 9), pos:[currentMap.getTileX(mouseX), currentMap.getTileY(mouseY)]});
 						switches.push(tmpSwitch);
