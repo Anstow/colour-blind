@@ -27,7 +27,7 @@ Each entry in the wall will look something like this
    notation.               block         |
               |               |          |
             --+---           -+------  --+-
-LogicBlock: NOT b1, affects: [WT, w0], [-1]
+LogicBlock: NOT B1, affects: [WT, W0], [-1]
             -+- -+            +-  +-    -+
              |   |            |   |      |
              | Switch      Affect |      |
@@ -48,9 +48,9 @@ Code   |   Meaning                             | Following componentents
 -------|---------------------------------------|--------------------------
        |                                       |
 -1     |   no affect                           |   none
-WT     |   wall toggle (on if true)            |   "w" followed by the number
+WT     |   wall toggle (on if true)            |   "W" followed by the number
        |                                       |   of a wall to affect
-WTI    |   wall toggle inverted (on if false)  |   "w" followed by the number 
+WTI    |   wall toggle inverted (on if false)  |   "W" followed by the number 
        |                                       |   of a wall to affect
 
 
@@ -62,9 +62,9 @@ of the logic block, but what does that mean?
 e.g. If you clicked on the block in the above example you would see something
 like this
 
-LogicBlock: {NOT b1}, affects: ([WT, w0]), ([-1])
+LogicBlock: {NOT B1}, affects: ([WT, W0]), ([-1])
 
-The braces around the "NOT b1" signifies that it is the currently selected
+The braces around the "NOT B1" signifies that it is the currently selected
 item. (As pretty much everything has braces around it you are on the top
 level.) To move across the level press left and right, you will notice that
 moving right, once you've reached the end, a new affect block will be added.
