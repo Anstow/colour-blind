@@ -14,7 +14,7 @@ package Editor
 	{
 		public static const SELECTING:int = 0;
 		public static const EDITING:int = 1;
-		private var events:Array = [];
+		private var events:Vector.<EditEvent> = new Vector.<EditEvent>();
 		private var lastX:int;
 		private var lastY:int;
 		private var currentEvent:EditEvent;
@@ -23,7 +23,7 @@ package Editor
 		private var textToAdd:Text;
 		private var lowerRect:Image;
 
-		public function EditEventBox(events:Array) {
+		public function EditEventBox(events:Vector.<GameEvent>) {
 			super();
 			setHitbox(400,20);
 			for (var i:int = 0; i < events.length; i++) {
@@ -203,8 +203,8 @@ package Editor
 		}
 		
 		// Adds the events to the world 
-		public function loadEvents():Array{
-			var rEvents:Array = [];
+		public function loadEvents():Vector.<GameEvent> {
+			var rEvents:Vector.<GameEvent> = new Vector.<GameEvent>();
 			for each (var e:EditEvent in events) {
 				rEvents.push(e.event);
 			}

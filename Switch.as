@@ -9,7 +9,7 @@ package
 	public class Switch extends Entity
 	{
 		//public var ident : int;
-		public var parentsAffected:Array = []; 
+		public var parentsAffected:Vector.<LogicBlock> = new Vector.<LogicBlock>();
 		public var ident:int;
 		public var isOn:Boolean = false;
 		private var numText:EditorNumber;
@@ -43,6 +43,14 @@ package
 			type = "switch" + ident;
 			// Set the graphics layer
 			layer = -1;
+		}
+		
+		// Updates the events attached to the switch has to be done
+	   	// through this as this has the list of switches
+		public function updateSwitchNumbers(i:int):void {
+			for each (var par:LogicBlock in parentsAffected) {
+				par.updateSwitchNumber(i);
+			}
 		}
 
 		public function addText (world : LoadableWorld):void {
