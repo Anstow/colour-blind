@@ -13,7 +13,6 @@ package
 		private var vel:Array = [0, 0];
 		private var onGround:Boolean = false;
 		private var colTypes:Array;
-		private var wasOnTop:Number = 0;
 
 		private var input:GameInput;
 
@@ -92,10 +91,6 @@ package
 				// stop moving
 				vel[1] = 0;
 			}
-			// friction
-			if (e is Player && y < e.y) {
-				wasOnTop = (e as Player).vel[0];
-			}
 			// bounce off ceilings
 			else if (vel[1] < 0) {
 				vel[1] = Math.max(1, -vel[1]);
@@ -172,16 +167,20 @@ package
 			// move
 			onGround = false;
 			moveBy(vel[0], vel[1], colTypes);
-			if (wasOnTop != 0) {
-				moveBy(wasOnTop, 0, colTypes);
-				wasOnTop = 0;
-			}
 			// on ground check
-			if (collideTypes(colTypes, x, y + 1)) {
-				onGround = true;
-			}
 			var cols:Array = [];
+			collideTypesInto(colTypes, x, y + 1, cols);
+			if (cols) {
+				onGround = true;
+				for each (var e:Entity in cols) {
+					// friction
+					if (e is Player) {
+						moveBy((e as Player).vel[0], 0, colTypes);
+					}
+				}
+			}
 			// target
+			cols = [];
 			collideTypesInto(["target" + ident], x, y, cols);
 			for each (var t:Target in cols) {
 				world.remove(t);
@@ -196,6 +195,7 @@ package
 					world.getType("target" + i, ts);
 					nLeft += ts.length;
 				}
+				// target currently colliding with doesn't get removed until next frame
 				if (nLeft == 1) (world as Level).win();
 			}
 			// red wall
