@@ -28,7 +28,8 @@ package Editor
 
 		public var ident:int = 0;
 		
-		public function LoadableWorld(id:int, data:Object) {
+		public function LoadableWorld(id:int, data:Object)
+		{
 			EditorConstants.init();
 			ident = id;
 			init(data);
@@ -77,7 +78,8 @@ package Editor
 		}
 		
 		//{ Scroll Functions
-		public function scrollHorizontal(bound : Number):Boolean {
+		public function scrollHorizontal(bound : Number):Boolean
+		{
 			// The extra FP.camera.x terms are becase mouseX is based on the camera location 
 			if (mouseX - FP.camera.x > 0 && mouseX - FP.camera.x <= FP.width)
 			{
@@ -103,7 +105,9 @@ package Editor
 			return false;
 		}
 		
-		public function scrollVertical(bound : Number):Boolean {
+
+		public function scrollVertical(bound : Number):Boolean
+		{
 			// The extra FP.camera.y terms are becase mouseY is based on the camera location 
 			if (mouseY - FP.camera.y > 0 && mouseY - FP.camera.y <= FP.height)
 			{
@@ -128,9 +132,11 @@ package Editor
 			
 			return false;
 		}
+		
 		//} Scroll functions
-
-		public function load():void {
+		
+		public function load():void
+		{
 			var file : FileReference = new FileReference();
 			
 			file.addEventListener(Event.SELECT, fileSelect);
