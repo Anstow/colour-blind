@@ -58,6 +58,7 @@ package Editor
 			for each (var s:Switch in switches) {
 				s.addText(this);
 			}
+			updateSwitchNumbers();			
 		}
 		
 		public function rmNumbers ():void {
@@ -66,6 +67,12 @@ package Editor
 			}
 			for each (var s:Switch in switches) {
 				s.rmText();
+			}
+		}
+		
+		public function updateSwitchNumbers():void {
+			for (var i:int = 0; i < switches.length; i++) {
+				switches[i].updateSwitchNumber(i);
 			}
 		}
 		
@@ -247,8 +254,7 @@ package Editor
 					ent = FP.world.collidePoint("switch" + (selected - 9), mouseX, mouseY);
 					if (ent) {// Clicked on a switch
 						// Removes the switches
-						if (switches.indexOf(ent) >= 0)
-						{
+						if (switches.indexOf(ent) >= 0) {
 							rmNumbers();
 							FP.world.remove(ent);
 							switches.splice(switches.indexOf(ent),1);

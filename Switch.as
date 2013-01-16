@@ -24,8 +24,6 @@ package
 
 		public function Switch (data:Object):void {
 			// Set the identity of the switch and player to affect
-			//this.ident = ident;
-			//GC.checkSwitchId(ident);
 			ident = data.type;
 			// Graphics
 			if (ident == 0) {
@@ -81,11 +79,17 @@ package
 			}
 		}
 
+		public function updateSwitchNumber(i:int):void {
+			if (world) {
+				for each (var p:LogicBlock in parentsAffected) {
+					p.updateSwitchNumber(i);
+				}
+			}
+		}
+
 		public override function removed():void {
 			super.removed();
-			if (numText) {
-				world.remove(numText);
-			}
+			rmText();
 			for each (var p:LogicBlock in parentsAffected) {
 				p.updateSwitchNumber(-1);
 			}
