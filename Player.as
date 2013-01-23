@@ -170,7 +170,7 @@ package
 			// on ground check
 			var cols:Array = [];
 			collideTypesInto(colTypes, x, y + 1, cols);
-			if (cols) {
+			if (cols.length > 0) {
 				onGround = true;
 				for each (var e:Entity in cols) {
 					// friction
