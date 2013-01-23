@@ -3,9 +3,6 @@ This is a todo list for the game. If anyone else is working on it that is.
 --------------------------------------------------------------------------------
 Bugs:
 
-multiple targets can be added in the editor
-	this is a feature, you asked me to put it in towards the end of the 48 hour competition
-
 18 Hitting a both targets at the same time doesn't move the level on
 
 moving within affect blocks should probably be down = right, left = up (seems to be the other way round now)
