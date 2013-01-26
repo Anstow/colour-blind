@@ -23,6 +23,7 @@ package
 
 		public var nPlayers:int = 2;
 		public var players:Array = [];
+		public var nTargets:int;
 		private var savedData:Array;
 		private var winning:Boolean = false;
 		private var input:GameInput;
@@ -33,6 +34,7 @@ package
 
 		public function Level (id:int, data:Object, mode:int=M_NORMAL, loadLevelCallback:Function = null) {
 			super(id, data);
+			nTargets = targets.length;
 			// The game input is defined here 0 is the normal mode
 			this.mode = mode;
 			switch (mode) {

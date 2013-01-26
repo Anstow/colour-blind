@@ -184,19 +184,13 @@ package
 			collideTypesInto(["target" + ident], x, y, cols);
 			for each (var t:Target in cols) {
 				world.remove(t);
+				(world as Level).nTargets -= 1;
 				if (!muted) {
 					win.play();
 				}
-				// check for remaining targets
-				var nLeft:int = 0;
-				var ts:Array;
-				for (var i:int = 0; i < (world as Level).nPlayers; i++) {
-					ts = [];
-					world.getType("target" + i, ts);
-					nLeft += ts.length;
-				}
-				// target currently colliding with doesn't get removed until next frame
-				if (nLeft == 1) (world as Level).win();
+			}
+			if ((world as Level).nTargets == 0) {
+				(world as Level).win();
 			}
 			// red wall
 			cols = [];
