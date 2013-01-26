@@ -7,6 +7,8 @@ moving within affect blocks should probably be down = right, left = up (seems to
 
 make the event box background (the blue and grey bit) stretch across the whole screen
 
+I think the pit swap level should go back to 1-wide pits - it's less tricky, and with 2, the trick pit doesn't work quite the same
+
 --------------------------------------------------------------------------------
 Features:
 

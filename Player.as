@@ -90,9 +90,8 @@ package
 			if (vel[1] >= 0) {
 				// stop moving
 				vel[1] = 0;
-			}
-			// bounce off ceilings
-			else if (vel[1] < 0) {
+			} else if (vel[1] < 0) {
+				// bounce off ceiling
 				vel[1] = Math.max(1, -vel[1]);
 				isJumping = false;
 			}
@@ -100,12 +99,13 @@ package
 		}
 		
 		override public function moveCollideX (e:Entity):Boolean {
-			// other player
 			if (e is Player) {
+				// push other player
 				var v:Number = (vel[0] + (e as Player).vel[0]) / 2;
 				vel[0] = v;
 				(e as Player).vel[0] = v;
 			} else {
+				// stop moving
 				vel[0] = 0;
 			}
 			return true;
