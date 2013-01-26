@@ -3,10 +3,12 @@ Joe/1.json
 l/lv2_ledge-climb.level
 l/lv3_step_stone.level
 l/lv4_switch_train.level
+Joe/6.json
 l/lv5_pit_swap.level
 Joe/3.json
 l/timeswitch.level
 Joe/4.json
 Joe/2.json
 t/1.json
+Joe/5.json
 l/closescreen_fall.level
