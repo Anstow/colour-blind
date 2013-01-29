@@ -6,9 +6,11 @@ l/lv4_switch_train.level
 Joe/6.json
 l/lv5_pit_swap.level
 Joe/3.json
+# Joe/7.json (doesn't work one way on my keyboard - can't do up, left and O/S at the same time.  It's also horrible.)
 l/timeswitch.level
 Joe/4.json
 Joe/2.json
 t/1.json
+Joe/8.json
 Joe/5.json
 l/closescreen_fall.level
