@@ -34,13 +34,11 @@ package
 		private var loadLevelCallback:Function;
 
 		public function Level (id:int, data:Object, mode:int=M_NORMAL, loadLevelCallback:Function = null) {
-			super(id, data);
-			nTargets = targets.length;
 			// The game input is defined here 0 is the normal mode
 			this.mode = mode;
 			switch (mode) {
 				case M_BUFFER:
-					input = new GameInput(GameInput.PLAYBACK);
+					input = new GameInput(GameInput.GAME_PLAY);
 					worldBuffer = new BitmapData(FP.width, FP.height, false, 0xFF202020);
 					break;
 				case M_RECORD:
@@ -61,13 +59,15 @@ package
 					input = new GameInput(GameInput.GAME_PLAY);
 					break;
 			}
+			super(id, data);
+			nTargets = targets.length;
 			add(input);
 
 			this.loadLevelCallback = loadLevelCallback;	
 
 			var p:Player;
 			for (var i:int = 0; i < 2; i++) {
-				p = new Player(i, playersStart[i],input, mode == M_BUFFER_MUTED);
+				p = new Player(i, playersStart[i], input, mode == M_BUFFER_MUTED);
 				add(p);
 				players.push(p);
 			}
@@ -85,7 +85,7 @@ package
 			if (ident < GC.levelData.length - 1) {
 				i = ident + 1;
 			} else {
-				//**Make last level win screen :)**
+				// TODO: go back to title screen
 				i = 0;
 			}
 			if (mode == M_NORMAL) {
