@@ -77,7 +77,7 @@ package
 			if (ident < GC.levelData.length - 1) {
 				i = ident + 1;
 			} else {
-				//**Make last level win screen :)**
+				// TODO: go back to title screen
 				i = 0;
 			}
 			if (mode == M_NORMAL || mode == M_RECORD) {

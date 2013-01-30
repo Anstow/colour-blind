@@ -1,4 +1,4 @@
-package 
+package
 {
 	import net.flashpunk.utils.Input;
 	import net.flashpunk.Entity;

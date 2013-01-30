@@ -2,8 +2,6 @@ package
 {
 	import net.flashpunk.World;
 	import net.flashpunk.FP;
-	import net.flashpunk.utils.Input;
-	import net.flashpunk.utils.Key;
 	import net.flashpunk.graphics.Image;
 	
 	public class TitleScreen extends World
@@ -18,16 +16,7 @@ package
 			graphic = (addGraphic(new Image(level.worldBuffer)).graphic as Image);
 		}
 
-		public function menu():void {
-			// TODO: implement a menu and move to it
-			removeAll();
-			FP.world = new Level(0, GC.levelData[0]);
-		}
-
 		override public function update():void {
-			if (Input.pressed(Key.SPACE)) {
-				menu();
-			}
 			level.update();
 			level.updateLists();
 			level.render();
@@ -35,6 +24,3 @@ package
 		}
 	}
 }
-				
-
-// vim: foldmethod=indent:cindent
