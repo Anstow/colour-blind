@@ -315,8 +315,8 @@ package
 				if (button < world.switches.length)
 				{
 					world.switches[button].parentsAffected.filter(
-						function(obj:Object,index:int,array:Array):Boolean {
-							return !(obj as LogicBlock == this);
+						function(obj:LogicBlock,index:int,array:Vector.<LogicBlock>):Boolean {
+							return !(obj == this);
 						});
 				}
 			}
