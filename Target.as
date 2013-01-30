@@ -27,5 +27,9 @@ package
 			x = pos[0] * GC.tileWidth;
 			y = pos[1] * GC.tileHeight;
 		}
+
+		override public function render ():void {
+			return super.render();
+		}
 	}
 }

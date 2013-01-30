@@ -33,8 +33,6 @@ package
 		private var loadLevelCallback:Function;
 
 		public function Level (id:int, data:Object, mode:int=M_NORMAL, loadLevelCallback:Function = null) {
-			super(id, data);
-			nTargets = targets.length;
 			// The game input is defined here 0 is the normal mode
 			this.mode = mode;
 			switch (mode) {
@@ -53,13 +51,15 @@ package
 					input = new GameInput(GameInput.GAME_PLAY);
 					break;
 			}
+			super(id, data);
+			nTargets = targets.length;
 			add(input);
 
 			this.loadLevelCallback = loadLevelCallback;	
 
 			var p:Player;
 			for (var i:int = 0; i < 2; i++) {
-				p = new Player(i, playersStart[i],input, mode == M_BUFFER_MUTED);
+				p = new Player(i, playersStart[i], input, mode == M_BUFFER_MUTED);
 				add(p);
 				players.push(p);
 			}
