@@ -1,7 +1,8 @@
 #! /usr/bin/env python3
 
 with open('lvls.txt') as f:
-	lvls = [s.strip() for s in f.readlines() if s.strip()]
+	lvls = [s.strip() for s in f.readlines()
+            if s.strip() and not s.strip().startswith('#')]
 lvl_data = []
 for lvl in lvls:
 	with open(lvl) as f:

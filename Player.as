@@ -90,9 +90,8 @@ package
 			if (vel[1] >= 0) {
 				// stop moving
 				vel[1] = 0;
-			}
-			// bounce off ceilings
-			else if (vel[1] < 0) {
+			} else if (vel[1] < 0) {
+				// bounce off ceiling
 				vel[1] = Math.max(1, -vel[1]);
 				isJumping = false;
 			}
@@ -100,12 +99,13 @@ package
 		}
 		
 		override public function moveCollideX (e:Entity):Boolean {
-			// other player
 			if (e is Player) {
+				// push other player
 				var v:Number = (vel[0] + (e as Player).vel[0]) / 2;
 				vel[0] = v;
 				(e as Player).vel[0] = v;
 			} else {
+				// stop moving
 				vel[0] = 0;
 			}
 			return true;
@@ -170,7 +170,7 @@ package
 			// on ground check
 			var cols:Array = [];
 			collideTypesInto(colTypes, x, y + 1, cols);
-			if (cols) {
+			if (cols.length > 0) {
 				onGround = true;
 				for each (var e:Entity in cols) {
 					// friction
@@ -184,19 +184,13 @@ package
 			collideTypesInto(["target" + ident], x, y, cols);
 			for each (var t:Target in cols) {
 				world.remove(t);
+				(world as Level).nTargets -= 1;
 				if (!muted) {
 					win.play();
 				}
-				// check for remaining targets
-				var nLeft:int = 0;
-				var ts:Array;
-				for (var i:int = 0; i < (world as Level).nPlayers; i++) {
-					ts = [];
-					world.getType("target" + i, ts);
-					nLeft += ts.length;
-				}
-				// target currently colliding with doesn't get removed until next frame
-				if (nLeft == 1) (world as Level).win();
+			}
+			if ((world as Level).nTargets == 0) {
+				(world as Level).win();
 			}
 			// red wall
 			cols = [];

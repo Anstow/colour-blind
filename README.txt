@@ -101,7 +101,7 @@ AND     |   create AND block
 OR      |   create OR block
 Bn      |   block to get the state of switch n
 B       |   set it to get no switch data
-        |   
+        |
 WT      |   set the affect type to wall toggle
 WTI     |   set the affect type to wall toggle inverted
 Wn      |   set it to affect wall n (n is an integer)
