@@ -37,7 +37,7 @@ package
 			this.mode = mode;
 			switch (mode) {
 				case M_BUFFER:
-					input = new GameInput(GameInput.PLAYBACK);
+					input = new GameInput(GameInput.GAME_PLAY);
 					worldBuffer = new BitmapData(FP.width, FP.height, false, 0xFF202020);
 					break;
 				case M_RECORD:
