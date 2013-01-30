@@ -25,6 +25,7 @@ package Editor
 		public var events:Vector.<GameEvent> = new Vector.<GameEvent>();
 		protected var tempLevel:String = null;
 		public var editting :Boolean = false;
+		public var replayData:Object;
 
 		public var ident:int = 0;
 		
@@ -58,6 +59,9 @@ package Editor
 					e.attachSwitches(this);
 					events.push(e);
 				}
+			}
+			if (data.replay !== undefined) {
+				replayData = data.replay;
 			}
 
 			var mainStr:String = "";
@@ -188,6 +192,10 @@ package Editor
 				});
 			}
 			data.switches = ss;
+			if (replayData) {
+				trace("Data Saved: ", replayData);
+				data.replay = replayData;
+			}
 			return data;
 		}
 

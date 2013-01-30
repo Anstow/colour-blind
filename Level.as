@@ -20,11 +20,12 @@ package
 		public static const M_BUFFER_MUTED:int=3;
 		// For rendering to a buffer once
 		public static const M_ONCE:int=4;
+		// For normal rendering reading from a file
+		public static const M_PLAYBACK:int=5;
 
 		public var nPlayers:int = 2;
 		public var players:Array = [];
 		public var nTargets:int;
-		private var savedData:Array;
 		private var winning:Boolean = false;
 		private var input:GameInput;
 
@@ -48,8 +49,15 @@ package
 				case M_ONCE:
 					input = new GameInput(GameInput.FREEZE);
 					break;
+				case M_PLAYBACK:
+					trace("here");
+					input = new GameInput(GameInput.PLAYBACK);
+					if (data.replay !== undefined) {
+						input.loadPlaybackData(data.replay);
+					}
+					break;
 				case M_NORMAL:
-				defined:
+				default:
 					input = new GameInput(GameInput.GAME_PLAY);
 					break;
 			}
@@ -80,16 +88,30 @@ package
 				//**Make last level win screen :)**
 				i = 0;
 			}
-			if (mode == M_NORMAL || mode == M_RECORD) {
+			if (mode == M_NORMAL) {
 				FP.world = new Level(i, GC.levelData[i]);
+			} else if (mode == M_RECORD) {
+				if (input.getPlaybackData()) {
+					data.replay = input.getPlaybackData();
+				}
+				FP.world = new EditWorld(ident, data);
+			} else if (mode == M_PLAYBACK) {
+				FP.world = new EditWorld(ident, data);
 			} else if (loadLevelCallback != null) {
 				loadLevelCallback(new Level(i, GC.levelData[i]));
 			}
 		}
 
 		public function reset():void {
-			if (mode == M_NORMAL || mode == M_RECORD) {
+			if (mode == M_NORMAL) {
 				FP.world = new Level(ident, data);
+			} else if (mode == M_RECORD) {
+				if (input.getPlaybackData()) {
+					data.replay = input.getPlaybackData();
+				}
+				FP.world = new EditWorld(ident, data);
+			} else if (mode == M_PLAYBACK) {
+				FP.world = new EditWorld(ident, data);
 			} else if (loadLevelCallback != null) {
 				loadLevelCallback(new Level(ident, data));
 			}
