@@ -10,11 +10,10 @@ make the event box background (the blue and grey bit) stretch across the whole s
 --------------------------------------------------------------------------------
 Features:
 
-add more obvious way of removing a logic block
-
-improve title screen (its a little rubbish at the moment, I'm [David Watson] currently working on this)
-	continue to level select with a key
+continue from the title screen to level select with a key
 	show text saying ^this
+
+add more obvious way of removing a logic block
 
 6 Add a level select (we should probably think about a way of naming the levels).
 
@@ -40,6 +39,8 @@ improve title screen (its a little rubbish at the moment, I'm [David Watson] cur
 
 --------------------------------------------------------------------------------
 Done:
+
+improve title screen (its a little rubbish at the moment, I'm [David Watson] currently working on this)
 
 4 Change the wall toggling to be contained in a new class called an event, (this should let us do more stuff, I hope)
 
