@@ -10,18 +10,16 @@ package
 	
 	public class Level extends LoadableWorld
 	{
-		// For normal game play
-		public static const M_NORMAL:int=0;
-		// For recording gameplay
-		public static const M_RECORD:int=1;
-		// For rendering to a buffer
-		public static const M_BUFFER:int=2;
-		// For rendering to a buffer without sound
-		public static const M_BUFFER_MUTED:int=3;
-		// For rendering to a buffer once
-		public static const M_ONCE:int=4;
-		// For normal rendering reading from a file
-		public static const M_PLAYBACK:int=5;
+		// Muted
+		public static const M_MUTED:int = 1;
+		// Buffered
+		public static const M_BUFFERED:int = 2;
+		// ONCE
+		public static const M_ONCE:int = 4;
+		// Playback
+		public static const M_PLAYBACK:int = 8;
+		// Record
+		public static const M_RECORD:int = 16;
 
 		public var nPlayers:int = 2;
 		public var players:Array = [];
@@ -33,32 +31,23 @@ package
 		private var mode:int;
 		private var loadLevelCallback:Function;
 
-		public function Level (id:int, data:Object, mode:int=M_NORMAL, loadLevelCallback:Function = null) {
+		public function Level (id:int, data:Object, mode:int=0, loadLevelCallback:Function = null) {
 			// The game input is defined here 0 is the normal mode
 			this.mode = mode;
-			switch (mode) {
-				case M_BUFFER:
-					input = new GameInput(GameInput.GAME_PLAY);
-					worldBuffer = new BitmapData(FP.width, FP.height, false, 0xFF202020);
-					break;
-				case M_RECORD:
-					input = new GameInput(GameInput.RECORD);
-					break;
-				case M_ONCE:
-					input = new GameInput(GameInput.FREEZE);
-					break;
-				case M_PLAYBACK:
-					trace("here");
-					input = new GameInput(GameInput.PLAYBACK);
-					if (data.replay !== undefined) {
-						input.loadPlaybackData(data.replay);
-					}
-					break;
-				case M_NORMAL:
-				default:
-					input = new GameInput(GameInput.GAME_PLAY);
-					break;
+			if (mode & M_BUFFERED) {
+				worldBuffer = new BitmapData(FP.width, FP.height, false, 0xFF202020);
 			}
+			if (mode & M_PLAYBACK) {
+				input = new GameInput(GameInput.PLAYBACK);
+				if (data.replay !== undefined) {
+					input.loadPlaybackData(data.replay);
+				}
+			} else if (mode & M_RECORD) {
+				input = new GameInput(GameInput.RECORD);
+			} else {
+				input = new GameInput(GameInput.GAME_PLAY);
+			}
+
 			super(id, data);
 			nTargets = targets.length;
 			add(input);
@@ -67,7 +56,7 @@ package
 
 			var p:Player;
 			for (var i:int = 0; i < 2; i++) {
-				p = new Player(i, playersStart[i], input, mode == M_BUFFER_MUTED);
+				p = new Player(i, playersStart[i], input, 0 != (mode & M_MUTED));
 				add(p);
 				players.push(p);
 			}
@@ -86,34 +75,34 @@ package
 				i = ident + 1;
 			} else {
 				// TODO: go back to title screen
-				i = 0;
+				i = 1;
 			}
-			if (mode == M_NORMAL) {
-				FP.world = new Level(i, GC.levelData[i]);
-			} else if (mode == M_RECORD) {
+			if (mode & M_BUFFERED) {
+				loadLevelCallback(new Level(i, GC.levelData[i]));
+			} else if (mode & M_RECORD) {
 				if (input.getPlaybackData()) {
 					data.replay = input.getPlaybackData();
 				}
 				FP.world = new EditWorld(ident, data);
-			} else if (mode == M_PLAYBACK) {
+			} else if (mode & M_PLAYBACK) { // We're playing back but we're not buffered
 				FP.world = new EditWorld(ident, data);
-			} else if (loadLevelCallback != null) {
-				loadLevelCallback(new Level(i, GC.levelData[i]));
+			} else {
+				FP.world = new Level(i, GC.levelData[i]);
 			}
 		}
 
 		public function reset():void {
-			if (mode == M_NORMAL) {
-				FP.world = new Level(ident, data);
-			} else if (mode == M_RECORD) {
+			if (mode & M_BUFFERED) {
+				loadLevelCallback(new Level(ident, data));
+			} else if (mode & M_RECORD) {
 				if (input.getPlaybackData()) {
 					data.replay = input.getPlaybackData();
 				}
 				FP.world = new EditWorld(ident, data);
-			} else if (mode == M_PLAYBACK) {
+			} else if (mode & M_PLAYBACK) { // We're playing back but we're not buffered
 				FP.world = new EditWorld(ident, data);
-			} else if (loadLevelCallback != null) {
-				loadLevelCallback(new Level(ident, data));
+			} else {
+				FP.world = new Level(ident, data);
 			}
 		}
 
@@ -138,10 +127,17 @@ package
 			// This enables the editor it should be removed in the final version
 			if (input.released("editor")) {
 				removeAll();
-				if (mode == M_NORMAL || mode == M_RECORD) {
-					FP.world = new EditWorld(ident, data);
-				} else if (loadLevelCallback != null) {
+				if (mode & M_BUFFERED) {
 					loadLevelCallback(new EditWorld(ident, data));
+				} else if (mode & M_RECORD) {
+					if (input.getPlaybackData()) {
+						data.replay = input.getPlaybackData();
+					}
+					FP.world = new EditWorld(ident, data);
+				} else if (mode & M_PLAYBACK) { // We're playing back but we're not buffered
+					FP.world = new EditWorld(ident, data);
+				} else {
+					FP.world = new EditWorld(ident, data);
 				}
 			}
 		}

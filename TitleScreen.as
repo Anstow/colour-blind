@@ -12,8 +12,7 @@ package
 		private var graphic:Image;
 		
 		public function TitleScreen() {
-			// TODO: make a recorded level for the background
-			level = new Level(0, GC.levelData[0], Level.M_BUFFER);
+			level = new Level(0, GC.levelData[0], Level.M_BUFFERED | Level.M_PLAYBACK, resetLevel);
 			level.begin();
 			graphic = (addGraphic(new Image(level.worldBuffer)).graphic as Image);
 		}
@@ -21,8 +20,8 @@ package
 		public function menu():void {
 			// TODO: implement a menu and move to it
 			removeAll();
-// 			FP.world = new Level(0, GC.levelData[0]);
-			FP.world = new LevelSelect();
+ 			FP.world = new Level(1, GC.levelData[1]);
+			//FP.world = new LevelSelect();
 		}
 
 		override public function update():void {
@@ -33,6 +32,16 @@ package
 			level.updateLists();
 			level.render();
 			graphic.updateBuffer();
+		}
+
+		public function resetLevel(tmp:Level = null):void {
+			level.removeAll();
+			level.end();
+			level.updateLists();
+			level = new Level(0, GC.levelData[0], Level.M_BUFFERED | Level.M_PLAYBACK, resetLevel);
+			level.begin();
+			level.updateLists();
+			graphic = (addGraphic(new Image(level.worldBuffer)).graphic as Image);
 		}
 	}
 }

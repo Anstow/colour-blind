@@ -11,27 +11,27 @@ package
 		public function LevelSelect () {
 			var level:Level;
 			var thumb:Image;
-			level = new Level(0, GC.levelData[0], Level.M_BUFFER);
+			level = new Level(1, GC.levelData[1], Level.M_BUFFERED | Level.M_PLAYBACK | Level.M_MUTED);
 			level.begin();
 			thumb = addGraphic(new Image(level.worldBuffer)).graphic as Image;
 			thumb.scale = .5;
 			levels.push([level, thumb]);
 
-			level = new Level(1, GC.levelData[1], Level.M_BUFFER);
+			level = new Level(2, GC.levelData[2], Level.M_BUFFERED | Level.M_PLAYBACK | Level.M_MUTED);
 			level.begin();
 			thumb = addGraphic(new Image(level.worldBuffer)).graphic as Image;
 			thumb.scale = .5;
 			thumb.x = 960 / 2;
 			levels.push([level, thumb]);
 
-			level = new Level(2, GC.levelData[2], Level.M_BUFFER);
+			level = new Level(3, GC.levelData[3], Level.M_BUFFERED | Level.M_PLAYBACK | Level.M_MUTED);
 			level.begin();
 			thumb = addGraphic(new Image(level.worldBuffer)).graphic as Image;
 			thumb.scale = .5;
 			thumb.y = 540 / 2;
 			levels.push([level, thumb]);
 
-			level = new Level(3, GC.levelData[3], Level.M_BUFFER);
+			level = new Level(4, GC.levelData[4], Level.M_BUFFERED | Level.M_PLAYBACK | Level.M_MUTED);
 			level.begin();
 			thumb = addGraphic(new Image(level.worldBuffer)).graphic as Image;
 			thumb.scale = .5;
@@ -54,3 +54,5 @@ package
 		}
 	}
 }
+
+// vim: foldmethod=indent:cindent

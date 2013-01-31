@@ -1,4 +1,4 @@
-l/lv0_openscreen_smile.level
+t/titleScreen.json
 Joe/1.json
 l/lv2_ledge-climb.level
 l/lv3_step_stone.level

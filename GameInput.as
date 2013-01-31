@@ -2,6 +2,7 @@ package
 {
 	import net.flashpunk.utils.Input;
 	import net.flashpunk.Entity;
+	import mx.utils.ObjectUtil;
 
 	/**
 	 * Collecting all the input detection (for the game not the editor)
@@ -52,12 +53,15 @@ package
 				return;
 			} else if (mode == PLAYBACK) {
 				// Here we are in playback mode
-				trace("PLAYBACK");
-				if (data[frame]) {
-					// Update the lastControls
-					for each (var i:String in controls) {
-						lastControls[i] = controls[i];
+				// Update the lastControls
+				lastControls = ObjectUtil.copy(controls);
+				for each (var i:String in controls) {
+					lastControls[i] = controls[i];
+					if (i == "down0") {
+						trace (controls[i]);
 					}
+				}
+				if (data[frame]) {
 					var tempVec:Array = data[frame];
 					for each (var s:String in tempVec) {
 						controls[s] = !controls[s];
@@ -94,6 +98,9 @@ package
 		}
 
 		public function pressed(str:String):Boolean {
+			if (controls[str] && !lastControls[str]) {
+				trace(str, controls[str], !lastControls[str]);
+			}
 			return controls[str] && !lastControls[str];
 		}
 
