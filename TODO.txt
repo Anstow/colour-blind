@@ -13,6 +13,8 @@ Features:
 continue from the title screen to level select with a key
 	show text saying ^this
 
+escape (or something) should go back to level select
+
 mute key on title screen
 
 add more obvious way of removing a logic block

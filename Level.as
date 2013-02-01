@@ -115,6 +115,10 @@ package
 			for each (var p:Player in players) {
 				(p.mouth as Spritemap).setAnimFrame("anim", i);
 			}
+			// skip level key - remove in the final version
+			if (input.pressed("skip")) {
+				win();
+			}
 			// reset key
 			if (input.pressed("restart")) {
 				reset();
@@ -124,7 +128,7 @@ package
 				if (FP.volume == 0) FP.volume = 1;
 				else FP.volume = 0;
 			}
-			// This enables the editor it should be removed in the final version
+			// editor
 			if (input.released("editor")) {
 				removeAll();
 				if (mode & M_BUFFERED) {

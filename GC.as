@@ -51,6 +51,7 @@ package
 			down1: [Key.DOWN],
 			right1: [Key.RIGHT],
 			// Other used keys
+			skip: [191, 192],
 			restart: [Key.R, Key.P],
 			editor: [Key.F2],
 			mute: [Key.M]

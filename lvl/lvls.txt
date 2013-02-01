@@ -1,17 +1,33 @@
 t/titleScreen.json
+
+# techniques/devices levels use are marked to make ordering them easier
+# first instance is capitalised (that's the level that teaches the concept)
+# [h] jumping off the other player for height
+# [l] lava
+# [s] switches
+# [w] being transported on top of the other player
+# [a] doing something quickly while the you/the other player is in the air
+# [p] standing partially on a ledge, allowing for [h]
+# [e] embedding a player in a wall to keep him still
+
 Joe/1.json
-l/lv2_ledge-climb.level
-l/lv3_step_stone.level
-l/lv4_switch_train.level
-Joe/6.json
-l/lv5_pit_swap.level
-Joe/3.json
-# Joe/7.json (doesn't work one way on my keyboard - can't do up, left and O/S at the same time.  It's also horrible.)
-l/timeswitch.level
-Joe/4.json
-Joe/2.json
-Joe/9.json
-t/1.json
-Joe/8.json
-t/joe5improved.json
+l/lv2_ledge-climb.level # [H]
+l/lv3_step_stone.level # [hL]
+l/lv4_switch_train.level # [S]
+Joe/6.json # [ls]
+l/lv5_pit_swap.level # [hl]
+Joe/3.json # [lsW]
+Joe/4.json # [s]
+l/timeswitch.level # [sA]
+Joe/10.json # [hlw]
+Joe/11.json # [hlwa]
+Joe/2.json # [P]
+l/stuckInWall # [lsaE]
+l/jumpwall # [lsae]
+Joe/8.json # [lsae]
+t/1.json # [hlswa]
+Joe/9.json # [hsap]
+t/joe5improved.json # [lsa]
 l/closescreen_fall.level
+
+#Joe/7.json # [la] (doesn't work one way on my keyboard - can't do up, left and O/S at the same time.  It's also horrible.)
