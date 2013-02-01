@@ -13,6 +13,8 @@ Features:
 continue from the title screen to level select with a key
 	show text saying ^this
 
+mute key on title screen
+
 add more obvious way of removing a logic block
 
 6 Add a level select (we should probably think about a way of naming the levels).
