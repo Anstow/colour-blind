@@ -27,7 +27,7 @@ package
 			this.mode=mode;
 			frame=0;
 			updateControl();
-			trace(mode);
+// 			trace(mode);
 		}
 
 		public function loadPlaybackData(data:Object):void {
@@ -58,7 +58,7 @@ package
 				for each (var i:String in controls) {
 					lastControls[i] = controls[i];
 					if (i == "down0") {
-						trace (controls[i]);
+// 						trace (controls[i]);
 					}
 				}
 				if (data[frame]) {
@@ -99,7 +99,7 @@ package
 
 		public function pressed(str:String):Boolean {
 			if (controls[str] && !lastControls[str]) {
-				trace(str, controls[str], !lastControls[str]);
+// 				trace(str, controls[str], !lastControls[str]);
 			}
 			return controls[str] && !lastControls[str];
 		}
