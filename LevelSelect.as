@@ -13,6 +13,7 @@ package
 		private var levelGrid:Array = [];
 		
 		public function LevelSelect () {
+			FP.screen.color = 0x606060;
 			// organise in a grid
 			var nLevels:int = GC.levelData.length - 1;
 			var nCols:int = Math.ceil(Math.sqrt(nLevels));
