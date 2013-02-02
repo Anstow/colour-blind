@@ -15,7 +15,7 @@ continue from the title screen to level select with a key
 
 escape (or something) should go back to level select
 
-mute key on title screen
+mute key on title screen/level select
 
 add more obvious way of removing a logic block
 

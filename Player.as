@@ -171,7 +171,6 @@ package
 			var cols:Array = [];
 			collideTypesInto(colTypes, x, y + 1, cols);
 			if (cols.length > 0) {
-				trace(ident, "gd");
 				for each (var e:Entity in cols) {
 					// friction
 					if (e is Player) {

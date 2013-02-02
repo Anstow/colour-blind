@@ -20,8 +20,7 @@ package
 		public function menu():void {
 			// TODO: implement a menu and move to it
 			removeAll();
- 			FP.world = new Level(1, GC.levelData[1]);
-			//FP.world = new LevelSelect();
+			FP.world = new LevelSelect();
 		}
 
 		override public function update():void {

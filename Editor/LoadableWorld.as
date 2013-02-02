@@ -37,7 +37,6 @@ package Editor
 		}
 
 		public function init(data:Object):void {
-			trace("Loading Level");
 			this.data = data;
 			
 			for (var i:int = 0; i < 2; i++) {
