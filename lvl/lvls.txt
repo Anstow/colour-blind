@@ -22,7 +22,7 @@ l/timeswitch.level # [sA]
 Joe/10.json # [hlw]
 Joe/11.json # [hlwa]
 Joe/2.json # [P]
-l/stuckInWall # [lsaE]
+t/leapOfFaithImproved.json # [lsaE] previously l/stuckInWall 
 l/jumpwall # [lsae]
 Joe/8.json # [lsae]
 t/1.json # [hlswa]
