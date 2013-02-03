@@ -1,6 +1,7 @@
 package
 {
 	import net.flashpunk.graphics.Image;
+	import net.flashpunk.utils.Input;
 	import net.flashpunk.utils.Key;
 	import flash.utils.ByteArray;
 	import com.adobe.serialization.json.JSON;
@@ -76,6 +77,13 @@ package
 			if (!isLoaded) {
 				levelData = com.adobe.serialization.json.JSON.decode((new LEVELDATA() as ByteArray).toString()) as Array;
 				isLoaded = true;
+			}
+			// also sneakily define key aliases in here
+			for (var k:String in inputKeys) {
+				var args:Array = inputKeys[k].slice();
+				args.unshift(k);
+				Input.define.apply(null, args);
+				
 			}
 		}
 		
