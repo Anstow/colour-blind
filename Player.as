@@ -171,11 +171,14 @@ package
 			var cols:Array = [];
 			collideTypesInto(colTypes, x, y + 1, cols);
 			if (cols.length > 0) {
-				onGround = true;
+				trace(ident, "gd");
 				for each (var e:Entity in cols) {
 					// friction
 					if (e is Player) {
 						moveBy((e as Player).vel[0], 0, colTypes);
+						if ((e as Player).onGround) onGround = true;
+					} else {
+						onGround = true;
 					}
 				}
 			}

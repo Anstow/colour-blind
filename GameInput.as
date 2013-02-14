@@ -1,7 +1,8 @@
-package 
+package
 {
 	import net.flashpunk.utils.Input;
 	import net.flashpunk.Entity;
+	import mx.utils.ObjectUtil;
 
 	/**
 	 * Collecting all the input detection (for the game not the editor)
@@ -26,17 +27,24 @@ package
 			this.mode=mode;
 			frame=0;
 			updateControl();
+// 			trace(mode);
 		}
 
 		public function loadPlaybackData(data:Object):void {
 			this.data = data;
 		}
 
-		public override function update():void {
-			if (mode == GAME_PLAY) {
-				frame++;
-				updateControl();
+		public function getPlaybackData():Object {
+			if (mode == RECORD) {
+				return data;
+			} else {
+				return null;
 			}
+		}
+
+		public override function update():void {
+			frame++;
+			updateControl();
 		}
 
 		public function updateControl():void {
@@ -45,6 +53,14 @@ package
 				return;
 			} else if (mode == PLAYBACK) {
 				// Here we are in playback mode
+				// Update the lastControls
+				lastControls = ObjectUtil.copy(controls);
+				for each (var i:String in controls) {
+					lastControls[i] = controls[i];
+					if (i == "down0") {
+// 						trace (controls[i]);
+					}
+				}
 				if (data[frame]) {
 					var tempVec:Array = data[frame];
 					for each (var s:String in tempVec) {
@@ -55,16 +71,14 @@ package
 			} else {
 				tempVec = [];
 				// We are in RECORD or GAME_PLAY mode so 
-				for (var i:String in GC.inputKeys) {
-					lastControls[i] = controls[i];
+				for (i in GC.inputKeys) {
+					// The funny syntax here is to correct probelms with controls[i] being undefined
+					lastControls[i] = controls[i] ? true : false;
 					controls[i] = false;
 					var v:Array = GC.inputKeys[i];
 					for each (var k:int in v) {
 						if (Input.check(k)) {
 							controls[i] = true;
-							if (mode == RECORD) {
-								data[frame] = i;
-							}
 							break;
 						}
 					}
@@ -84,6 +98,9 @@ package
 		}
 
 		public function pressed(str:String):Boolean {
+			if (controls[str] && !lastControls[str]) {
+// 				trace(str, controls[str], !lastControls[str]);
+			}
 			return controls[str] && !lastControls[str];
 		}
 

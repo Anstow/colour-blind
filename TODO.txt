@@ -7,18 +7,21 @@ moving within affect blocks should probably be down = right, left = up (seems to
 
 make the event box background (the blue and grey bit) stretch across the whole screen
 
-I think the pit swap level should go back to 1-wide pits - it's less tricky, and with 2, the trick pit doesn't work quite the same
-
 --------------------------------------------------------------------------------
 Features:
 
-add move obvious way of removing a logic block 
+continue from the title screen to level select with a key
+	show text saying ^this
 
-improve title screen (its a little rubbish at the moment, I'm [David Watson] currently working on this)
+escape (or something) should go back to level select
+
+mute key on title screen
+
+add more obvious way of removing a logic block
 
 6 Add a level select (we should probably think about a way of naming the levels).
 
-9 Implement timing, should be doable using the LogicBlock class 
+9 Implement timing, should be doable using the LogicBlock class
 
 10 Graphics
 	make mouths less wide?
@@ -41,6 +44,8 @@ improve title screen (its a little rubbish at the moment, I'm [David Watson] cur
 --------------------------------------------------------------------------------
 Done:
 
+improve title screen (its a little rubbish at the moment, I'm [David Watson] currently working on this)
+
 4 Change the wall toggling to be contained in a new class called an event, (this should let us do more stuff, I hope)
 
 short jump followed by immediate full jump is higher than 4 tiles
@@ -58,7 +63,7 @@ Make the editor work again in the new way
 
 3 Update the levels to contain the logicBlock statement, this should be a simple matter of loading the level and resaving it. (Perhaps checking they still work would be useful) and re-linking them.
 
-5 Add a title screen. 
+5 Add a title screen.
 
 can't seem to enter 'WTI' in an affect block
 

@@ -120,7 +120,15 @@ package Editor
 				save();
 			} else if (Input.released(Key.F4)) {
 				load();
+			} else if (Input.released(Key.F1)) {
+				editting = false;
+				currentMap.updateCollisions();
+				FP.world = new Level(ident, generateData(), Level.M_RECORD);
+			} else if (Input.released(Key.F5)) {
+				FP.world = new Level(ident, generateData(), Level.M_PLAYBACK);
 			}
+
+
 			
 			if (EditorConstants.scrollOn) {
 				scrollHorizontal(EditorConstants.halfWidth * 2);
