@@ -23,7 +23,7 @@ Joe/10.json # [hlw]
 Joe/11.json # [hlwa]
 Joe/2.json # [P]
 t/leapOfFaithImproved.json # [lsaE] previously l/stuckInWall 
-l/jumpwall # [lsae]
+l/stuckInWall # [lsae]
 Joe/8.json # [lsae]
 t/1.json # [hlswa]
 Joe/9.json # [hsap]
